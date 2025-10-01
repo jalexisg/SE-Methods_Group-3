@@ -67,6 +67,7 @@ SE-Methods_Group-3/
 │                       └── Main.java    # Main application class
 ├── target/                    # Maven build output
 ├── .gitignore                # Git ignore rules
+├── Dockerfile                # Docker container configuration
 ├── pom.xml                   # Maven project configuration
 ├── Code of Conduct.docx      # Project guidelines
 └── README.md                 # This file
@@ -86,10 +87,11 @@ This project follows agile development principles with:
 
 ✅ **Completed:**
 - Initial project setup with Maven
-- Basic Java application structure
+- Basic Java application structure (Main.java)
 - GitHub Actions CI/CD pipeline configuration
-- Docker containerization setup
+- Docker containerization with Dockerfile
 - Git version control with proper .gitignore
+- Docker container entrypoint configured for Main class
 
 🔄 **In Progress:**
 - Population data management system design
@@ -128,20 +130,43 @@ This project follows agile development principles with:
    mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
    ```
 
-4. **Build Docker image** (optional)
+4. **Build and run with Docker**
    ```bash
+   # First compile the Java code
+   mvn compile
+   
+   # Build Docker image
    docker build -t devopsimage .
+   
+   # Run the container
    docker run --name devopscontainer -d devopsimage
+   
+   # View the application output
+   docker logs devopscontainer
    ```
 
 ## Usage
 
 Currently, the application runs a basic Java program that outputs "Boo yah!" to demonstrate the build system is working correctly.
 
-To run the application:
+### Running Locally:
 ```bash
 mvn compile
 mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
+```
+
+### Running with Docker:
+```bash
+# Compile and build
+mvn compile
+docker build -t devopsimage .
+
+# Run container
+docker run --name devopscontainer devopsimage
+
+# Or run in detached mode and check logs
+docker run --name devopscontainer -d devopsimage
+docker logs devopscontainer
 ```
 
 *Additional functionality will be documented as features are implemented.*
@@ -151,12 +176,23 @@ mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
 The project uses Maven for build management and includes:
 
 - **Build Verification:** Automated compilation through GitHub Actions
-- **Container Testing:** Docker image building and execution verification
+- **Container Testing:** Docker image building and execution verification through CI/CD
 - **Continuous Integration:** Automated testing on every push to repository
+- **Docker Integration:** Container builds and runs automatically in the pipeline
 
-### Running Tests
+### Running Tests Locally:
 ```bash
 mvn test  # (Once test cases are implemented)
+```
+
+### Testing Docker Container:
+```bash
+# Build and test the container locally
+mvn compile
+docker build -t devopsimage .
+docker run --name testcontainer devopsimage
+docker logs testcontainer
+docker rm testcontainer
 ```
 
 *Comprehensive testing documentation will be added as the test suite develops.*
