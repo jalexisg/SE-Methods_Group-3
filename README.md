@@ -1,7 +1,7 @@
 # Population Information System
 
 ## Course Information
-**Course:** Software Engineering Methods  
+**Module:** Software Engineering Methods  
 **Group:** 3  
 **Academic Year:** 2025/2026
 
@@ -44,53 +44,122 @@ This project involves designing and implementing a new system to provide easy ac
 
 ## Technology Stack
 
-*[To be filled based on implementation decisions]*
-
-- **Backend:** [e.g., Java, Python, Node.js]
-- **Frontend:** [e.g., React, Angular, Vue.js]
-- **Database:** [e.g., MySQL, PostgreSQL, MongoDB]
-- **Additional Tools:** [e.g., Testing frameworks, CI/CD tools]
+**Backend:** Java 17  
+**Build Tool:** Apache Maven  
+**CI/CD:** GitHub Actions  
+**Containerization:** Docker  
+**Development Environment:** IntelliJ IDEA
 
 ## Project Structure
 
 ```
 SE-Methods_Group-3/
-├── src/                    # Source code
-├── docs/                   # Documentation
-├── tests/                  # Test files
-├── database/               # Database scripts and schemas
-├── resources/              # Project resources
-├── Code of Conduct.docx    # Project guidelines
-└── README.md              # This file
+├── .github/
+│   └── workflows/
+│       └── main.yml           # GitHub Actions CI/CD pipeline
+├── .idea/                     # IntelliJ IDEA configuration
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── napier/
+│                   └── sem/
+│                       └── Main.java    # Main application class
+├── target/                    # Maven build output
+├── .gitignore                # Git ignore rules
+├── pom.xml                   # Maven project configuration
+├── Code of Conduct.docx      # Project guidelines
+└── README.md                 # This file
 ```
 
 ## Development Methodology
 
-This project follows agile development principles with regular sprints and iterative development cycles. We employ:
+This project follows agile development principles with:
 
-- Regular team meetings and stand-ups
-- Code reviews and pair programming
-- Test-driven development (TDD)
-- Continuous integration and deployment
-- Version control using Git
+- **Version Control:** Git with GitHub
+- **CI/CD Pipeline:** GitHub Actions for automated building and testing
+- **Containerization:** Docker for consistent deployment environments
+- **Build Management:** Maven for dependency management and build automation
+- **Code Quality:** Regular code reviews and collaborative development
+
+### Current Implementation Status
+
+✅ **Completed:**
+- Initial project setup with Maven
+- Basic Java application structure
+- GitHub Actions CI/CD pipeline configuration
+- Docker containerization setup
+- Git version control with proper .gitignore
+
+🔄 **In Progress:**
+- Population data management system design
+- Database integration
+- User interface development
+
+📋 **Planned:**
+- Database schema implementation
+- API development for data access
+- Frontend user interface
+- Comprehensive testing suite
 
 ## Installation and Setup
 
-*[To be completed during implementation]*
+### Prerequisites
+- Java 17 or later
+- Apache Maven 3.6+
+- Docker (for containerization)
+- Git
 
-1. Clone the repository
-2. Install dependencies
-3. Configure database connections
-4. Run initial setup scripts
-5. Start the application
+### Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/jalexisg/SE-Methods_Group-3.git
+   cd SE-Methods_Group-3
+   ```
+
+2. **Compile the project**
+   ```bash
+   mvn compile
+   ```
+
+3. **Run the application**
+   ```bash
+   mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
+   ```
+
+4. **Build Docker image** (optional)
+   ```bash
+   docker build -t devopsimage .
+   docker run --name devopscontainer -d devopsimage
+   ```
 
 ## Usage
 
-*[To be documented as features are implemented]*
+Currently, the application runs a basic Java program that outputs "Boo yah!" to demonstrate the build system is working correctly.
+
+To run the application:
+```bash
+mvn compile
+mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
+```
+
+*Additional functionality will be documented as features are implemented.*
 
 ## Testing
 
-*[Testing strategy and instructions to be added]*
+The project uses Maven for build management and includes:
+
+- **Build Verification:** Automated compilation through GitHub Actions
+- **Container Testing:** Docker image building and execution verification
+- **Continuous Integration:** Automated testing on every push to repository
+
+### Running Tests
+```bash
+mvn test  # (Once test cases are implemented)
+```
+
+*Comprehensive testing documentation will be added as the test suite develops.*
 
 ## Documentation
 
@@ -133,4 +202,4 @@ This project is developed as part of academic coursework. All rights reserved by
 
 ---
 
-*Last updated: September 29, 2025*
+*Last updated: October 1, 2025*
