@@ -1,50 +1,162 @@
-# Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
+# Compiled class file<<<<<<< HEAD
 
-# Java
-*.class
+*.class# Maven
+
+=======
+
+# Log file# Compiled class file
+
+*.log*.class
+
+
+
+# BlueJ files
+
+*.ctxt# Log file
+
 *.log
+
+# Mobile Tools for Java (J2ME)
+
+.mtj.tmp/
+
+# BlueJ files
+
+# Package Files #*.ctxt
+
 *.jar
+
 *.war
-*.nar
-*.ear
+
+*.nar# Mobile Tools for Java (J2ME)
+
+*.ear.mtj.tmp/
+
 *.zip
+
 *.tar.gz
-*.rar
 
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
+*.rar# Package Files #
 
-# VS Code
+*.jar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml*.war
+
+hs_err_pid**.nar
+
+*.ear
+
+# Maven*.zip
+
+target/*.tar.gz
+
+pom.xml.tag*.rar
+
+pom.xml.releaseBackup
+
+pom.xml.versionsBackup
+
+pom.xml.next# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+
+release.propertieshs_err_pid*
+
+dependency-reduced-pom.xml
+
+buildNumber.properties>>>>>>> 4ba62434d934c8245815f635e1c268e9e90a43ef
+
+.mvn/timing.propertiestarget/
+
+.mvn/wrapper/maven-wrapper.jarpom.xml.tag
+
+pom.xml.releaseBackup
+
+# IntelliJ IDEApom.xml.versionsBackup
+
+.idea/pom.xml.next
+
+*.iwsrelease.properties
+
+*.imldependency-reduced-pom.xml
+
+*.iprbuildNumber.properties
+
+.mvn/timing.properties
+
+# VS Code.mvn/wrapper/maven-wrapper.jar
+
 .vscode/
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+<<<<<<< HEAD
 
-# Docker
+# OS# Java
+
+.DS_Store*.class
+
+.DS_Store?*.log
+
+._**.jar
+
+.Spotlight-V100*.war
+
+.Trashes*.nar
+
+ehthumbs.db*.ear
+
+Thumbs.db*.zip
+
+*.tar.gz
+
+# Docker*.rar
+
 .dockerignore
 
-# Logs
-logs
-*.log
+# IntelliJ IDEA
+
+# Logs.idea/
+
+logs*.iws
+
+npm-debug.log**.iml
+
+yarn-debug.log**.ipr
+
+yarn-error.log*
+
+lerna-debug.log*# VS Code
+
+.vscode/
+
+# Database
+
+*.db# OS
+
+*.sqlite.DS_Store
+
+*.sqlite3.DS_Store?
+
+._*
+
+# Temporary files.Spotlight-V100
+
+*.tmp.Trashes
+
+*.tempehthumbs.db
+
+*.swpThumbs.db
+
+*.swo
+
+*~# Docker
+
+.dockerignore
+
+# Build directories
+
+build/# Logs
+
+dist/logs
+
+out/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -66,3 +178,8 @@ lerna-debug.log*
 build/
 dist/
 out/
+=======
+
+.idea/
+.vscode/
+>>>>>>> 4ba62434d934c8245815f635e1c268e9e90a43ef
