@@ -16,38 +16,17 @@
 
 ## Project Overview
 
-This project involves designing and implementing a new system to provide easy access to population information for an organization. The system aims to streamline the process of retrieving, analyzing, and reporting population data to support organizational decision-making and reporting requirements.
 
-## Objectives
 
-- Design a user-friendly interface for accessing population information
-- Implement efficient data retrieval and processing mechanisms
-- Ensure data accuracy and reliability
-- Provide comprehensive reporting capabilities
-- Meet organizational requirements for population data access
 
-## System Features
 
-### Core Functionality
-- [ ] Population data search and filtering
-- [ ] Data visualization and charts
-- [ ] Report generation
-- [ ] User authentication and authorization
-- [ ] Data export capabilities
 
-### Technical Requirements
-- [ ] Database design and implementation
-- [ ] API development for data access
-- [ ] User interface development
-- [ ] Testing and quality assurance
-- [ ] Documentation and user guides
 
 ## Technology Stack
 
 **Backend:** Java 17  
 **Build Tool:** Apache Maven  
 **CI/CD:** GitHub Actions  
-**Containerization:** Docker  
 **Development Environment:** IntelliJ IDEA
 
 ## Project Structure
@@ -64,45 +43,11 @@ SE-Methods_Group-3/
 │           └── com/
 │               └── napier/
 │                   └── sem/
-│                       └── Main.java    # Main application class
 ├── target/                    # Maven build output
 ├── .gitignore                # Git ignore rules
-├── Dockerfile                # Docker container configuration
-├── pom.xml                   # Maven project configuration
 ├── Code of Conduct.docx      # Project guidelines
 └── README.md                 # This file
 ```
-
-## Development Methodology
-
-This project follows agile development principles with:
-
-- **Version Control:** Git with GitHub
-- **CI/CD Pipeline:** GitHub Actions for automated building and testing
-- **Containerization:** Docker for consistent deployment environments
-- **Build Management:** Maven for dependency management and build automation
-- **Code Quality:** Regular code reviews and collaborative development
-
-### Current Implementation Status
-
-✅ **Completed:**
-- Initial project setup with Maven
-- Basic Java application structure (Main.java)
-- GitHub Actions CI/CD pipeline configuration
-- Docker containerization with Dockerfile
-- Git version control with proper .gitignore
-- Docker container entrypoint configured for Main class
-
-🔄 **In Progress:**
-- Population data management system design
-- Database integration
-- User interface development
-
-📋 **Planned:**
-- Database schema implementation
-- API development for data access
-- Frontend user interface
-- Comprehensive testing suite
 
 ## Installation and Setup
 
@@ -120,17 +65,14 @@ This project follows agile development principles with:
    cd SE-Methods_Group-3
    ```
 
-2. **Compile the project**
    ```bash
    mvn compile
    ```
 
-3. **Run the application**
    ```bash
    mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
    ```
 
-4. **Build and run with Docker**
    ```bash
    # First compile the Java code
    mvn compile
@@ -147,29 +89,14 @@ This project follows agile development principles with:
 
 ## Usage
 
-Currently, the application runs a basic Java program that outputs "Boo yah!" to demonstrate the build system is working correctly.
 
-### Running Locally:
 ```bash
-mvn compile
-mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
-```
 
-### Running with Docker:
-```bash
-# Compile and build
-mvn compile
 docker build -t devopsimage .
 
-# Run container
-docker run --name devopscontainer devopsimage
-
-# Or run in detached mode and check logs
-docker run --name devopscontainer -d devopsimage
 docker logs devopscontainer
 ```
 
-*Additional functionality will be documented as features are implemented.*
 
 ## Testing
 
@@ -199,10 +126,6 @@ docker rm testcontainer
 
 ## Documentation
 
-- [System Design Document]
-- [User Manual]
-- [API Documentation]
-- [Database Schema]
 
 ## Contributing
 
@@ -210,7 +133,6 @@ Please refer to our `Code of Conduct.docx` for guidelines on contributing to thi
 
 ### Development Workflow
 
-1. Create a feature branch from `master`
 2. Implement changes with appropriate tests
 3. Submit a pull request for review
 4. Merge after approval and testing
@@ -237,5 +159,3 @@ For questions or concerns about this project, please contact any of the team mem
 This project is developed as part of academic coursework. All rights reserved by the contributors and the educational institution.
 
 ---
-
-*Last updated: October 1, 2025*
