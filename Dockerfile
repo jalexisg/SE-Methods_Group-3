@@ -23,7 +23,7 @@ FROM openjdk:17-jre-slim
 WORKDIR /app
 
 # Copy the built JAR from build stage
-COPY --from=build /app/target/population-system-1.0-SNAPSHOT-jar-with-dependencies.jar app.jar
+COPY --from=build /app/target/*-jar-with-dependencies.jar app.jar
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 appgroup && \
