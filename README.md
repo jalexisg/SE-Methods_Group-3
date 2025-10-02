@@ -53,16 +53,19 @@ SE-Methods_Group-3/
 │   └── workflows/
 │       └── main.yml           # GitHub Actions CI/CD pipeline
 ├── .idea/                     # IntelliJ IDEA configuration
+├── database/
+│   └── world.sql             # MySQL World Database (239 countries, 4,079 cities)
 ├── src/
 │   └── main/
 │       └── java/
 │           └── com/
 │               └── napier/
 │                   └── sem/
-│                       ├── Main.java      # Main application class
+│                       ├── Main.java      # Main application class (268 lines)
 │                       └── Country.java   # Country data model
 ├── target/                    # Maven build output
 ├── .gitignore                # Git ignore rules
+├── docker-compose.yml        # Docker Compose with MySQL + App
 ├── Dockerfile                # Multi-stage Docker build
 ├── pom.xml                   # Maven project configuration
 ├── PRODUCT_BACKLOG.md        # Complete list of 32 required reports
@@ -75,7 +78,7 @@ SE-Methods_Group-3/
 ### Prerequisites
 - Java 17 or later
 - Apache Maven 3.6+
-- Docker (for containerization)
+- Docker & Docker Compose (for full database functionality)
 - Git
 
 ### Setup Instructions
@@ -86,63 +89,88 @@ SE-Methods_Group-3/
    cd SE-Methods_Group-3
    ```
 
+2. **Build the project**
    ```bash
-   mvn compile
+   mvn clean compile
    ```
 
+3. **Run with Docker Compose (Recommended - Shows Real Reports)**
+   ```bash
+   # Start MySQL database and application
+   docker-compose up --build
+   
+   # Alternative: MySQL only, then run app from host
+   docker-compose up mysql -d
+   sleep 60  # Wait for database to load
+   mvn exec:java -Dexec.mainClass="com.napier.sem.Main" -Dexec.args="localhost"
+   ```
+
+4. **Run without database (Demo Mode)**
    ```bash
    mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
    ```
 
+5. **Create executable JAR**
    ```bash
-   # First compile the Java code
-   mvn compile
-   
-   # Build Docker image
-   docker build -t devopsimage .
-   
-   # Run the container
-   docker run --name devopscontainer -d devopsimage
-   
-   # View the application output
-   docker logs devopscontainer
+   mvn clean package
+   java -jar target/population-info-system-1.0-SNAPSHOT-jar-with-dependencies.jar
    ```
 
 ## Usage
 
-The Population Information System generates 32 different types of population reports. Currently implemented:
+The Population Information System generates 32 different types of population reports using the MySQL World Database. **Currently implemented and working:**
 
-### Available Reports (2/32 implemented)
+### ✅ Available Reports (2/32 implemented - FULLY FUNCTIONAL)
 
 1. **All Countries by Population (Global)**
-   - Displays all countries ordered by population from largest to smallest
-   - Format: Rank, Country Code, Name, Continent, Region, Population, Capital
+   - Displays all 239 countries ordered by population from largest to smallest
+   - Format: Code, Name, Continent, Region, Population, Capital
 
 2. **Countries by Population (By Continent)**
-   - Displays countries in a specific continent ordered by population
-   - Format: Rank, Country Code, Name, Continent, Region, Population, Capital
+   - Displays countries in each continent ordered by population
+   - Covers: Asia, Europe, North America, South America, Africa, Oceania
+   - Format: Code, Name, Continent, Region, Population, Capital
 
-### Running the Application
+### 🎯 Running the Application with Full Database
 
 ```bash
-# Using Maven
-mvn exec:java -Dexec.mainClass="com.napier.sem.Main"
+# Option 1: Full Docker Compose (Complete Setup)
+docker-compose up --build
 
-# Using Docker (Recommended)
-docker build -t population-info-system:latest .
-docker run --name population-container population-info-system:latest
-docker logs population-container
+# Option 2: MySQL + Host Application (Recommended for Development)
+docker-compose up mysql -d
+sleep 60  # Wait for database initialization
+mvn exec:java -Dexec.mainClass="com.napier.sem.Main" -Dexec.args="localhost"
 ```
 
-### Sample Output
+### 📊 Sample Output (Real Data)
 ```
-=== All Countries by Population ===
-Rank | Code | Name                  | Continent     | Region               | Population  | Capital
------|------|-----------------------|---------------|----------------------|-------------|--------
-1    | CHN  | China                 | Asia          | Eastern Asia         | 1,277,558,000| Beijing
-2    | IND  | India                 | Asia          | Southern and Central | 1,013,662,000| New Delhi
-3    | USA  | United States         | North America | North America        | 278,357,000 | Washington
+Population Information System
+============================
+Connecting to database...
+Successfully connected
+Generating population reports...
+
+=== ALL COUNTRIES BY POPULATION (LARGEST TO SMALLEST) ===
+
+Code Name                                         Continent       Region                    Population Capital
+==================================================================================================================
+CHN  China                                        Asia            Eastern Asia           1,277,558,000 Beijing
+IND  India                                        Asia            Southern and Central   1,013,662,000 New Delhi
+USA  United States                               North America    North America            278,357,000 Washington
+IDN  Indonesia                                    Asia            Southeast Asia           212,107,000 Jakarta
+BRA  Brazil                                       South America   South America            170,115,000 Brasília
 ...
+
+Total countries: 239
+
+=== COUNTRIES IN ASIA BY POPULATION (LARGEST TO SMALLEST) ===
+[Additional continent reports...]
+
+=== REPORT GENERATION COMPLETED ===
+Implemented: 2/32 reports (6.25% complete)
+- Global country population ranking ✅
+- Continental country population rankings ✅
 ```
 
 
