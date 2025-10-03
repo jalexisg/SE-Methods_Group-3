@@ -78,7 +78,7 @@ public class Main
     }
 
     /**
-     * Gets all countries in the world organised by largest population to smallest.
+     * Gets  all countries in the world organised by largest population to smallest.
      * @return A list of all countries sorted by population, or null if there is an error.
      */
     public List<Country> getAllCountriesByPopulation()
