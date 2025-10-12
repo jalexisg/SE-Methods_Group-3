@@ -1,0 +1,41 @@
+@startuml
+
+left to right direction
+
+actor SysAdmin as "System Administrator"
+actor Dev as "Developer"
+actor Analyst as "Data Analyst"
+
+rectangle Database
+
+rectangle "Population System" {
+
+    ' === System Administrator ===
+    usecase UC_Connect as "Connect to
+    World Database"
+
+    usecase UC_Access as "Access
+    Population Data"
+
+    ' === Developer ===
+    usecase UC_Docker as "Run Application
+    in Docker Containers"
+
+    ' === Data Analyst ===
+    usecase UC_Rank as "View Countries
+    Ranked by Population"
+
+    ' === Relationships ===
+    SysAdmin - UC_Connect
+    UC_Connect ..> UC_Access : include
+    UC_Connect - Database
+
+    Dev - UC_Docker
+
+    Analyst - UC_Rank
+    UC_Rank ..> UC_Access : include
+    UC_Rank - Database
+}
+
+@enduml
+
