@@ -1,9 +1,10 @@
-version: '3.8'
 
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: world-database
+    container_name: mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: world
@@ -28,3 +29,8 @@ services:
 networks:
   population-network:
     driver: bridge
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+>>>>>>> release/0.1.1
