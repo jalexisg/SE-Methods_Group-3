@@ -1,3 +1,4 @@
+
 package com.napier.sem;
 
 // Simple class to represent a country
@@ -16,13 +17,5 @@ public class Country {
         this.region = region;
         this.population = population;
         this.capital = capital;
-    }
-}
-     */
-    @Override
-    public String toString()
-    {
-        return String.format("%-4s %-45s %-15s %-25s %15s %-35s", 
-                code, name, continent, region, getFormattedPopulation(), capital);
     }
 }
