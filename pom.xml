@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.napier.sem</groupId>
     <artifactId>population-system</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0.3</version>
     <packaging>jar</packaging>
 
     <name>Population Information System</name>
@@ -20,6 +20,17 @@
         <mysql.connector.version>8.2.0</mysql.connector.version>
         <junit.version>5.10.0</junit.version>
     </properties>
+
+    <!-- 🔒 Force a secure protobuf-java version to fix CVE-2024-7254 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>3.25.5</version> <!-- Safe version -->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- MySQL Connector for database connectivity -->
@@ -39,6 +50,8 @@
     </dependencies>
 
     <build>
+        <finalName>app</finalName>
+
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>
@@ -58,7 +71,7 @@
                 <version>3.1.2</version>
             </plugin>
 
-            <!-- Maven Assembly Plugin for creating fat JAR -->
+            <!-- Maven Assembly Plugin for creating fat JAR (sin sufijo) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -67,6 +80,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
                             <mainClass>com.napier.sem.Main</mainClass>

@@ -1,5 +1,5 @@
+version: "3.8"
 
-version: '3.8'
 services:
   mysql:
     image: mysql:8.0
@@ -8,29 +8,43 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: world
+      MYSQL_USER: app
+      MYSQL_PASSWORD: apppass
     ports:
-      - "3306:3306"
+      - "3306:3306"   # opcional: solo si necesitas acceder desde el host
     volumes:
       - ./database/world.sql:/docker-entrypoint-initdb.d/world.sql
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -pexample --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - population-network
 
   app:
-    build: .
+    build:
+      context: .
     container_name: population-app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
-      - JAVA_OPTS=-Xmx512m -Xms256m
-    command: ["sh", "-c", "sleep 60 && java -jar app.jar mysql"]
+      JAVA_OPTS: -Xmx512m -Xms256m
+      DB_HOST: mysql
+      DB_NAME: world
+      DB_USER: app
+      DB_PASSWORD: apppass
+    # Ajusta el comando a cómo tu jar recibe la config;
+    # aquí pasamos el host por variable:
+    command: ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
     networks:
       - population-network
 
 networks:
   population-network:
     driver: bridge
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
->>>>>>> release/0.1.1
+
+volumes:
+  mysql_data:

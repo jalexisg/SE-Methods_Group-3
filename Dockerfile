@@ -1,50 +1,33 @@
-# Multi-stage build for Population Information System
-# Stage 1: Build stage using Maven with Eclipse Temurin JDK 17
+# ---- Stage 1: Build (Maven + JDK) ----
 FROM maven:3.9-eclipse-temurin-17 AS builder
-
-# Set working directory
 WORKDIR /app
 
-# Copy pom.xml first for better layer caching
+# Descarga dependencias primero para aprovechar cache
 COPY pom.xml .
+RUN mvn -q dependency:go-offline -B
 
-# Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN mvn dependency:go-offline -B
-
-# Copy source code
+# Copia el código y empaqueta (fat JAR -> target/app.jar)
 COPY src ./src
+RUN mvn -q clean package -DskipTests
 
-# Build the application and create executable JAR
-RUN mvn clean package -DskipTests
-
-# Stage 2: Runtime stage using Eclipse Temurin JRE 17 (Jammy)
-FROM eclipse-temurin:17-jre-jammy AS runtime
-
-# Create a non-root user for security
-RUN addgroup --system --gid 1001 appgroup && \
-    adduser --system --uid 1001 --gid 1001 --home /app --shell /bin/sh appuser
-
-# Set working directory
+# ---- Stage 2: Runtime (JRE) ----
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copy the executable JAR from builder stage
-COPY --from=builder /app/target/*-jar-with-dependencies.jar app.jar
+# (Opcional) crea usuario no root
+RUN addgroup --system --gid 1001 appgroup \
+ && adduser --system --uid 1001 --gid 1001 --home /app --shell /bin/sh appuser
 
-# Change ownership to the non-root user
+# Copia el artefacto final
+COPY --from=builder /app/target/app.jar /app/app.jar
 RUN chown -R appuser:appgroup /app
-
-# Switch to non-root user
 USER appuser
 
-# Expose port (if needed for future web interface)
-EXPOSE 8080
+# (Opcional) Solo expón si tu app abre un puerto (por ejemplo 8080)
+# EXPOSE 8080
 
-# Add health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD java -cp app.jar com.napier.sem.Main --health-check || exit 1
+# JVM en contenedor sin usar 'sh -c'
+ENV JAVA_TOOL_OPTIONS="-Xms256m -Xmx512m -XX:+UseContainerSupport"
 
-# Set JVM options for containerized environment
-ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseContainerSupport -XX:+UnlockExperimentalVMOptions"
-
-# Run the application
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Ejecuta la app
+ENTRYPOINT ["java","-jar","/app/app.jar"]
