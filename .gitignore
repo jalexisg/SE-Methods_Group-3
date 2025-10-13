@@ -1,0 +1,22 @@
+# Build output
+target/
+
+# IntelliJ IDEA user-specific files
+.idea/workspace.xml
+.idea/shelf/
+
+# Compiled class files
+*.class
+
+# Logs
+*.log
+
+# Package files
+*.jar
+*.war
+*.zip
+
+# Maven wrapper and local build files
+.mvn/
+dependency-reduced-pom.xml
+release.properties
