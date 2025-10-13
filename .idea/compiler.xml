@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="population-system" />
         <module name="SE-Methods_Group-3" />
+        <module name="population-info-system" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

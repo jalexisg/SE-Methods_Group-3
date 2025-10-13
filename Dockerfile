@@ -1,36 +1,36 @@
-# Multi-stage build for Java Maven application
-FROM maven:3.9.4-eclipse-temurin-17 AS build
+# Multi-stage build for Population Information System
+# Stage 1: Build stage using Maven with Eclipse Temurin JDK 17
+FROM maven:3.9-eclipse-temurin-17 AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy pom.xml first to leverage Docker cache
+# Copy pom.xml first for better layer caching
 COPY pom.xml .
 
-# Download dependencies
+# Download dependencies (this layer will be cached if pom.xml doesn't change)
 RUN mvn dependency:go-offline -B
 
 # Copy source code
 COPY src ./src
 
-# Build the application
+# Build the application and create executable JAR
 RUN mvn clean package -DskipTests
 
-# Runtime stage
-# Use a maintained Temurin JRE base image (stable and available on Docker Hub)
-FROM eclipse-temurin:17-jre-jammy
+# Stage 2: Runtime stage using Eclipse Temurin JRE 17 (Jammy)
+FROM eclipse-temurin:17-jre-jammy AS runtime
+
+# Create a non-root user for security
+RUN addgroup --system --gid 1001 appgroup && \
+    adduser --system --uid 1001 --gid 1001 --home /app --shell /bin/sh appuser
 
 # Set working directory
 WORKDIR /app
 
-# Copy the built JAR from build stage
-COPY --from=build /app/target/*-jar-with-dependencies.jar app.jar
+# Copy the executable JAR from builder stage
+COPY --from=builder /app/target/*-jar-with-dependencies.jar app.jar
 
-# Create non-root user for security
-RUN addgroup --system --gid 1001 appgroup && \
-    adduser --system --uid 1001 --gid 1001 appuser
-
-# Change ownership of the app directory
+# Change ownership to the non-root user
 RUN chown -R appuser:appgroup /app
 
 # Switch to non-root user
@@ -39,9 +39,12 @@ USER appuser
 # Expose port (if needed for future web interface)
 EXPOSE 8080
 
-# Health check
+# Add health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD echo "Application health check - Population System running"
+    CMD java -cp app.jar com.napier.sem.Main --health-check || exit 1
+
+# Set JVM options for containerized environment
+ENV JAVA_OPTS="-Xmx512m -Xms256m -XX:+UseContainerSupport -XX:+UnlockExperimentalVMOptions"
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
