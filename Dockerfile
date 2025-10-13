@@ -17,17 +17,18 @@ COPY src ./src
 # Build the application and create executable JAR
 RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime stage using Eclipse Temurin JRE 17
-FROM eclipse-temurin:17-jre AS runtime
+# Stage 2: Runtime stage using Eclipse Temurin JRE 17 (Jammy)
+FROM eclipse-temurin:17-jre-jammy AS runtime
 
 # Create a non-root user for security
-RUN groupadd -r appgroup && useradd -r -g appgroup -d /app -s /bin/bash appuser
+RUN addgroup --system --gid 1001 appgroup && \
+    adduser --system --uid 1001 --gid 1001 --home /app --shell /bin/sh appuser
 
 # Set working directory
 WORKDIR /app
 
 # Copy the executable JAR from builder stage
-COPY --from=builder /app/target/population-info-system-1.0-SNAPSHOT-jar-with-dependencies.jar app.jar
+COPY --from=builder /app/target/*-jar-with-dependencies.jar app.jar
 
 # Change ownership to the non-root user
 RUN chown -R appuser:appgroup /app
