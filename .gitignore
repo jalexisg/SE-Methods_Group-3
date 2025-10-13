@@ -20,3 +20,6 @@ target/
 .mvn/
 dependency-reduced-pom.xml
 release.properties
+
+# Ignore VSCode workspace files (keep local only)
+.vscode/
