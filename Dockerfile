@@ -17,7 +17,8 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+# Use a maintained Temurin JRE base image (stable and available on Docker Hub)
+FROM eclipse-temurin:17-jre-jammy
 
 # Set working directory
 WORKDIR /app
