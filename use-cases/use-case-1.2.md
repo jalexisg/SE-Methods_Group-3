@@ -1,4 +1,3 @@
-```markdown
 # USE CASE: 1.2 Docker Containerization
 
 ## CHARACTERISTIC INFORMATION
@@ -66,5 +65,3 @@ A developer or CI pipeline initiates a container build (local docker build or CI
 ## SCHEDULE
 
 **DUE DATE**: Release 0.1.0
-
-```

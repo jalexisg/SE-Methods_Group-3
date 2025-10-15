@@ -1,4 +1,3 @@
-```markdown
 # USE CASE: 1.1 Database Connection Setup
 
 ## CHARACTERISTIC INFORMATION
@@ -65,4 +64,3 @@ Deployment or start of the application, or a manual connectivity test request.
 
 **DUE DATE**: Release 0.1.0
 
-``` 

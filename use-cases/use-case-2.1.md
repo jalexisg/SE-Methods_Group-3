@@ -1,4 +1,3 @@
-```markdown
 # USE CASE: 2.1 Global Country Population Report
 
 ## CHARACTERISTIC INFORMATION
@@ -60,5 +59,3 @@ None.
 ## SCHEDULE
 
 **DUE DATE**: Release 0.1.0
-
-``` 
