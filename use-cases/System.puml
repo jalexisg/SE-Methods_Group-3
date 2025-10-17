@@ -2,40 +2,71 @@
 
 left to right direction
 
-actor SysAdmin as "System Administrator"
-actor Dev as "Developer"
-actor Analyst as "Data Analyst"
+'Actor for the user'
+
+actor User as "User"
+
+'Rectangle for the database'
 
 rectangle Database
 
+'Rectangle for the System'
+
 rectangle "Population System" {
 
-    ' === System Administrator ===
-    usecase UC_Connect as "Connect to
-    World Database"
+   'Application Use Cases'
 
-    usecase UC_Access as "Access
-    Population Data"
+    'Use case for running the App'
+    usecase UC_Begin as "Run Application"
 
-    ' === Developer ===
+    usecase UC_Maven as "App builds to jar with maven"
+
     usecase UC_Docker as "Run Application
     in Docker Containers"
 
-    ' === Data Analyst ===
-    usecase UC_Rank as "View Countries
-    Ranked by Population"
+    'View Population Use Cases'
+
+    'Use Case for Viewing the Population data'
+    usecase UC_View as "View Population"
+
+    'Use case for specifying how to sort the data displayed'
+    usecase UC_Criteria as "View Population of specific to
+     city, district,
+     country, region, continent"
+
+     usecase UC_Number as "Specify a number of specific
+      criteria to display"
+
+     usecase UC_Report as "Creates a report on the population data"
+
+     usecase UC_Sort as "Sort the Population"
+
+     usecase UC_Language as "Order Population by Languages spoken"
+
+    'Use Case for Connecting to the Database'
+    usecase UC_Connect as "Connect to
+    World Database"
+
+
+
+
+
+
 
     ' === Relationships ===
-    SysAdmin - UC_Connect
-    UC_Connect ..> UC_Access : include
+    UC_Begin - User
+    UC_View - User
+    UC_Begin ..> UC_View : Include
+    UC_Begin ..> UC_Docker : include
+    UC_Connect ..> UC_View : include
+    UC_Begin ..> UC_Maven : include
     UC_Connect - Database
+    UC_Criteria ..> UC_View : Extend
+    UC_Sort ..> UC_View : Extend
+    UC_Report ..> UC_View : Extend
+    UC_Number ..> UC_Criteria : Extend
+    UC_Language ..> UC_View : Extend
 
-    Dev - UC_Docker
-
-    Analyst - UC_Rank
-    UC_Rank ..> UC_Access : include
-    UC_Rank - Database
-}
 
 @enduml
 
