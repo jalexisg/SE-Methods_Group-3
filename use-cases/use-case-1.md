@@ -1,4 +1,4 @@
-# USE CASE: 1.1 Database Connection Setup
+# USE CASE: 1 Database Connection Setup
 
 ## CHARACTERISTIC INFORMATION
 

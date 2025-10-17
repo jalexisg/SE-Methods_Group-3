@@ -6,9 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="population-system" />
         <module name="SE-Methods_Group-3" />
         <module name="population-info-system" />
+        <module name="population-system" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

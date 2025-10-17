@@ -1,4 +1,4 @@
-# USE CASE: 1.2 Docker Containerization
+# USE CASE: 2 Docker Containerization
 
 ## CHARACTERISTIC INFORMATION
 

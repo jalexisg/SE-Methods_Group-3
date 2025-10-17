@@ -1,4 +1,4 @@
-# USE CASE: 2.1 Global Country Population Report
+# USE CASE: 3 Global Country Population Report
 
 ## CHARACTERISTIC INFORMATION
 
