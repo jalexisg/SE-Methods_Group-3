@@ -10,6 +10,7 @@ public class Country {
     public long population;
     public String capital;
 
+    //Country class variables defined
     public Country(String code, String name, String continent, String region, long population, String capital) {
         this.code = code;
         this.name = name;

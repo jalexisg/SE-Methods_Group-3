@@ -35,13 +35,25 @@ public class Main {
 
             // Continental Country Population Reports
             String[] continents = {"Asia", "Europe", "Africa", "North America", "South America", "Oceania", "Antarctica"};
+
+
             for (String continent : continents) {
+                //Looping through each continent
                 System.out.println("\nCountries in " + continent + " by Population\n");
                 System.out.println("Code | Name | Continent | Region | Population | Capital");
+
+                //SQL select query for each category
                 String sqlContinent = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Continent='" + continent + "' ORDER BY Population DESC";
+
+                //Query sorting continents by population descending
                 ResultSet rsContinent = stmt.executeQuery(sqlContinent);
+
                 while (rsContinent.next()) {
+                    //Initiate while loop
+
+                    //Displaying information gathered
                     System.out.println(
+
                         rsContinent.getString("Code") + " | " +
                         rsContinent.getString("Name") + " | " +
                         rsContinent.getString("Continent") + " | " +
@@ -55,6 +67,7 @@ public class Main {
 
             stmt.close();
             con.close();
+            //error catching
         } catch (SQLException e) {
             System.out.println("Error connecting or querying the database: " + e.getMessage());
         }
