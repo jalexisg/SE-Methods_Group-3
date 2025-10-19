@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -64,20 +65,26 @@ public class Main {
             }
 
             // --- Regional Country Population Reports (User Story 2.3) ---
-            // Para cada región, imprime los países ordenados por población descendente
+            // For each region, print countries ordered by population (descending)
             System.out.println("\nRegional Country Population Reports\n");
-            // Obtener todas las regiones distintas de la tabla country
+            // Get all distinct regions from the country table and store in a list
             String sqlRegions = "SELECT DISTINCT Region FROM country ORDER BY Region";
+            ArrayList<String> regions = new ArrayList<>();
             ResultSet rsRegions = stmt.executeQuery(sqlRegions);
             while (rsRegions.next()) {
-                String region = rsRegions.getString("Region");
+                regions.add(rsRegions.getString("Region"));
+            }
+            rsRegions.close();
+
+            // Now, for each region, query and print the countries
+            for (String region : regions) {
                 System.out.println("\nCountries in region: " + region + " by Population\n");
                 System.out.println("Code | Name | Continent | Region | Population | Capital");
-                // Consulta para países de la región actual
+                // Query for countries in the current region
                 String sqlRegionReport = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Region='" + region.replace("'", "''") + "' ORDER BY Population DESC";
                 ResultSet rsRegion = stmt.executeQuery(sqlRegionReport);
                 while (rsRegion.next()) {
-                    // Imprime los datos del país para la región actual
+                    // Print country data for the current region
                     System.out.println(
                         rsRegion.getString("Code") + " | " +
                         rsRegion.getString("Name") + " | " +
@@ -89,7 +96,6 @@ public class Main {
                 }
                 rsRegion.close();
             }
-            rsRegions.close();
 
             // Close resources after all reports are generated
             stmt.close();
