@@ -9,19 +9,23 @@ import java.sql.Statement;
 
 public class Main {
     public static void main(String[] args) {
+        // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
         String user = "root";
         String password = "example";
         try {
+            // Establish connection to the World database
             Connection con = DriverManager.getConnection(url, user, password);
             Statement stmt = con.createStatement();
 
-            // Global Country Population Report
+            // --- Global Country Population Report (User Story 2.1) ---
+            // Prints all countries ordered by population (descending)
             System.out.println("\nGlobal Country Population Report\n");
             System.out.println("Code | Name | Continent | Region | Population | Capital");
             String sqlGlobal = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC";
             ResultSet rsGlobal = stmt.executeQuery(sqlGlobal);
             while (rsGlobal.next()) {
+                // Print each country's details in a formatted row
                 System.out.println(
                     rsGlobal.getString("Code") + " | " +
                     rsGlobal.getString("Name") + " | " +
@@ -33,27 +37,21 @@ public class Main {
             }
             rsGlobal.close();
 
-            // Continental Country Population Reports
+            // --- Continental Country Population Reports (User Story 2.2) ---
+            // For each continent, print countries ordered by population
             String[] continents = {"Asia", "Europe", "Africa", "North America", "South America", "Oceania", "Antarctica"};
-
-
             for (String continent : continents) {
-                //Looping through each continent
+                // Print header for the current continent
                 System.out.println("\nCountries in " + continent + " by Population\n");
                 System.out.println("Code | Name | Continent | Region | Population | Capital");
 
-                //SQL select query for each category
+                // Query countries in the current continent, ordered by population
                 String sqlContinent = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Continent='" + continent + "' ORDER BY Population DESC";
-
-                //Query sorting continents by population descending
                 ResultSet rsContinent = stmt.executeQuery(sqlContinent);
 
                 while (rsContinent.next()) {
-                    //Initiate while loop
-
-                    //Displaying information gathered
+                    // Print each country's details for the current continent
                     System.out.println(
-
                         rsContinent.getString("Code") + " | " +
                         rsContinent.getString("Name") + " | " +
                         rsContinent.getString("Continent") + " | " +
@@ -65,10 +63,39 @@ public class Main {
                 rsContinent.close();
             }
 
+            // --- Regional Country Population Reports (User Story 2.3) ---
+            // Para cada región, imprime los países ordenados por población descendente
+            System.out.println("\nRegional Country Population Reports\n");
+            // Obtener todas las regiones distintas de la tabla country
+            String sqlRegions = "SELECT DISTINCT Region FROM country ORDER BY Region";
+            ResultSet rsRegions = stmt.executeQuery(sqlRegions);
+            while (rsRegions.next()) {
+                String region = rsRegions.getString("Region");
+                System.out.println("\nCountries in region: " + region + " by Population\n");
+                System.out.println("Code | Name | Continent | Region | Population | Capital");
+                // Consulta para países de la región actual
+                String sqlRegionReport = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Region='" + region.replace("'", "''") + "' ORDER BY Population DESC";
+                ResultSet rsRegion = stmt.executeQuery(sqlRegionReport);
+                while (rsRegion.next()) {
+                    // Imprime los datos del país para la región actual
+                    System.out.println(
+                        rsRegion.getString("Code") + " | " +
+                        rsRegion.getString("Name") + " | " +
+                        rsRegion.getString("Continent") + " | " +
+                        rsRegion.getString("Region") + " | " +
+                        String.format("%,d", rsRegion.getLong("Population")) + " | " +
+                        rsRegion.getString("Capital")
+                    );
+                }
+                rsRegion.close();
+            }
+            rsRegions.close();
+
+            // Close resources after all reports are generated
             stmt.close();
             con.close();
-            //error catching
         } catch (SQLException e) {
+            // Handle and report any SQL/database errors
             System.out.println("Error connecting or querying the database: " + e.getMessage());
         }
     }
