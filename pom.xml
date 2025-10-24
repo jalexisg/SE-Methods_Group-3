@@ -7,7 +7,7 @@
 
     <groupId>com.napier.sem</groupId>
     <artifactId>population-system</artifactId>
-    <version>0.1.0.4</version>
+    <version>0.1.0.5</version>
     <packaging>jar</packaging>
 
     <name>Population Information System</name>

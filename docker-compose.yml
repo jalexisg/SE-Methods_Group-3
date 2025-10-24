@@ -11,7 +11,7 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: apppass
     ports:
-      - "3306:3306"   # opcional: solo si necesitas acceder desde el host
+      - "3306:3306"   # optional: only if you need to access from the host
     volumes:
       - ./database/world.sql:/docker-entrypoint-initdb.d/world.sql
       - mysql_data:/var/lib/mysql
@@ -36,8 +36,8 @@ services:
       DB_NAME: world
       DB_USER: app
       DB_PASSWORD: apppass
-    # Ajusta el comando a cómo tu jar recibe la config;
-    # aquí pasamos el host por variable:
+  # Adjust the command to how your jar accepts configuration;
+  # here we pass the DB host via an environment variable:
     command: ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
     networks:
       - population-network

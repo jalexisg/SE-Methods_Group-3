@@ -34,13 +34,14 @@ The **Population Information System** is a Java-based application designed to pr
 - **Professional Output:** Formatted console output with proper alignment and styling
 
 ### Current Implementation Status
-- ✅ **2/32 Reports Implemented** (6.25% complete)
-  - Countries by population (globally)
-  - Countries by population (by continent)
+- ✅ **4/32 Reports Implemented** (12.5% complete)
+   - Countries by population (globally)
+   - Countries by population (by continent)
+   - Regional country population reports
 - ✅ **Database connectivity established**
 - ✅ **Docker containerization completed**
 - ✅ **CI/CD pipeline configured**
-- 🔄 **30 additional reports pending implementation**
+- 🔄 **28 additional reports pending implementation**
 
 ## Technology Stack
 
@@ -128,7 +129,7 @@ SE-Methods_Group-3/
 
 The Population Information System generates 32 different types of population reports using the MySQL World Database. **Currently implemented and working:**
 
-### ✅ Available Reports (2/32 implemented - FULLY FUNCTIONAL)
+### ✅ Available Reports (3/32 implemented - FULLY FUNCTIONAL)
 
 1. **All Countries by Population (Global)**
    - Displays all 239 countries ordered by population from largest to smallest
@@ -137,6 +138,14 @@ The Population Information System generates 32 different types of population rep
 2. **Countries by Population (By Continent)**
    - Displays countries in each continent ordered by population
    - Covers: Asia, Europe, North America, South America, Africa, Oceania
+   - Format: Code, Name, Continent, Region, Population, Capital
+
+3. **Top N Countries Globally**
+   - Displays the top N countries worldwide by population (N provided by user)
+   - Format: Rank, Code, Name, Continent, Region, Population, Capital
+
+4. **Regional Country Population Reports**
+   - Displays countries in each region ordered by population
    - Format: Code, Name, Continent, Region, Population, Capital
 
 ### 🎯 Running the Application with Full Database
@@ -176,9 +185,11 @@ Total countries: 239
 [Additional continent reports...]
 
 === REPORT GENERATION COMPLETED ===
-Implemented: 2/32 reports (6.25% complete)
+Implemented: 4/32 reports (12.5% complete)
 - Global country population ranking ✅
 - Continental country population rankings ✅
+- Regional country population reports ✅
+- Top N countries globally ✅
 ```
 
 

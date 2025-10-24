@@ -97,6 +97,42 @@ public class Main {
                 rsRegion.close();
             }
 
+            // --- Top N Countries Globally (User Story 2.4) ---
+            // Use first command-line argument as N if provided, otherwise default to 10
+            int topN = 10;
+            if (args.length > 0) {
+                try {
+                    topN = Integer.parseInt(args[0]);
+                    if (topN <= 0) {
+                        System.out.println("Invalid N provided, using default 10");
+                        topN = 10;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid number format for top N, using default 10");
+                    topN = 10;
+                }
+            }
+
+            // Top N query (global)
+            String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTop = stmt.executeQuery(sqlTop);
+            System.out.println("\nTop " + topN + " Countries by Population (Global)\n");
+            System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
+            int rank = 1;
+            while (rsTop.next()) {
+                System.out.println(
+                    rank + " | " +
+                    rsTop.getString("Code") + " | " +
+                    rsTop.getString("Name") + " | " +
+                    rsTop.getString("Continent") + " | " +
+                    rsTop.getString("Region") + " | " +
+                    String.format("%,d", rsTop.getLong("Population")) + " | " +
+                    rsTop.getString("Capital")
+                );
+                rank++;
+            }
+            rsTop.close();
+
             // Close resources after all reports are generated
             stmt.close();
             con.close();
@@ -105,4 +141,6 @@ public class Main {
             System.out.println("Error connecting or querying the database: " + e.getMessage());
         }
     }
+
+    
 }
