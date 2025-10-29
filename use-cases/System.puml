@@ -47,6 +47,34 @@ rectangle "Population System" {
     usecase UC_Connect as "Connect to
     World Database"
 
+    ' --- Additional use-cases (from repository files use-case-1..use-case-26) ---'
+    usecase UC_1  as "Database Connection\nSetup"
+    usecase UC_2  as "Docker\nContainerization"
+    usecase UC_3  as "Global Country\nPopulation Report"
+    usecase UC_4  as "Produce a Report on the Salary of\nEmployees of a Given Role"
+    usecase UC_5  as "Population Data\nIntegration"
+    usecase UC_6  as "Reports Export\ninto a File"
+    usecase UC_7  as "Get Population\nof a City"
+    usecase UC_8  as "Get Population\nof a District"
+    usecase UC_9  as "Get Population\nof a Country"
+    usecase UC_10 as "Get Population\nof a Region"
+    usecase UC_11 as "Get Population\nof a Continent"
+    usecase UC_12 as "Get Total\nPopulation"
+    usecase UC_13 as "Population Breakdown\nby Country"
+    usecase UC_14 as "Population Breakdown\nby Region"
+    usecase UC_15 as "Population Breakdown\nby Continent"
+    usecase UC_16 as "Top N Capital Cities\nin a Region"
+    usecase UC_17 as "Top N Capital Cities\nin a Continent"
+    usecase UC_18 as "Top N Capital Cities\nin the World"
+    usecase UC_19 as "Capitals Ordered\nby Population (Region)"
+    usecase UC_20 as "Capitals Ordered\nby Population (Continent)"
+    usecase UC_21 as "Capitals Ranked\nLargest to Smallest"
+    usecase UC_22 as "Cities Ordered by\nPopulation (District)"
+    usecase UC_23 as "Cities Ordered by\nPopulation (Country)"
+    usecase UC_24 as "Cities Ordered by\nPopulation (Region)"
+    usecase UC_25 as "Cities Ordered by\nPopulation (Continent)"
+    usecase UC_26 as "Cities Ordered by\nPopulation (World)"
+
 
 
 
@@ -66,6 +94,34 @@ rectangle "Population System" {
     UC_Report ..> UC_View : Extend
     UC_Number ..> UC_Criteria : Extend
     UC_Language ..> UC_View : Extend
+
+    ' Connect the additional use-cases to the User actor (simple primary relationship)
+    UC_1  - User
+    UC_2  - User
+    UC_3  - User
+    UC_4  - User
+    UC_5  - User
+    UC_6  - User
+    UC_7  - User
+    UC_8  - User
+    UC_9  - User
+    UC_10 - User
+    UC_11 - User
+    UC_12 - User
+    UC_13 - User
+    UC_14 - User
+    UC_15 - User
+    UC_16 - User
+    UC_17 - User
+    UC_18 - User
+    UC_19 - User
+    UC_20 - User
+    UC_21 - User
+    UC_22 - User
+    UC_23 - User
+    UC_24 - User
+    UC_25 - User
+    UC_26 - User
 
 
 @enduml
