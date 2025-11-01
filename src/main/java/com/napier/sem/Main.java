@@ -138,7 +138,33 @@ public class Main {
             }
             rsTopContinent.close();
 
-            
+            // Top N Countries by Region (2.6)
+
+
+            String regionName = "Western Europe"; //Hardcoded again
+
+            String sqlTopRegion = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Region='" + regionName + "' ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTopRegion = stmt.executeQuery(sqlTopRegion);
+            System.out.println("\nTop N Countries by Population by Region\n");
+            System.out.println("\nTop " + topN + " Countries by Population in " + regionName + "\n");
+            System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
+            int regionRank = 1;
+            while (rsTopRegion.next()) {
+                System.out.println(
+                        regionRank + " | " +
+                                rsTopRegion.getString("Code") + " | " +
+                                rsTopRegion.getString("Name") + " | " +
+                                rsTopRegion.getString("Continent") + " | " +
+                                rsTopRegion.getString("Region") + " | " +
+                                String.format("%,d", rsTopRegion.getLong("Population")) + " | " +
+                                rsTopRegion.getString("Capital")
+                );
+                regionRank++;
+            }
+            rsTopRegion.close();
+
+
+
             // Top N query (global)
             String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTop = stmt.executeQuery(sqlTop);
