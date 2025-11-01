@@ -113,12 +113,38 @@ public class Main {
                 }
             }
 
+            // Top N Countries by Continent (2.5) (modified Top N global)
+
+
+            String continentName = "Asia"; //Hard coded, unsure how to accept user input for this...
+
+            String sqlTopContinent = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Continent='" + continentName + "' ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTopContinent = stmt.executeQuery(sqlTopContinent);
+            System.out.println("\nTop N Countries by Population by Continent\n");
+            System.out.println("\nTop " + topN + " Countries by Population in " + continentName + "\n");
+            System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
+            int rank = 1;
+            while (rsTopContinent.next()) {
+                System.out.println(
+                        rank + " | " +
+                                rsTopContinent.getString("Code") + " | " +
+                                rsTopContinent.getString("Name") + " | " +
+                                rsTopContinent.getString("Continent") + " | " +
+                                rsTopContinent.getString("Region") + " | " +
+                                String.format("%,d", rsTopContinent.getLong("Population")) + " | " +
+                                rsTopContinent.getString("Capital")
+                );
+                rank++;
+            }
+            rsTopContinent.close();
+
+            
             // Top N query (global)
             String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTop = stmt.executeQuery(sqlTop);
             System.out.println("\nTop " + topN + " Countries by Population (Global)\n");
             System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
-            int rank = 1;
+            int continentRank = 1;
             while (rsTop.next()) {
                 System.out.println(
                     rank + " | " +
@@ -129,7 +155,7 @@ public class Main {
                     String.format("%,d", rsTop.getLong("Population")) + " | " +
                     rsTop.getString("Capital")
                 );
-                rank++;
+                continentRank++;
             }
             rsTop.close();
 
