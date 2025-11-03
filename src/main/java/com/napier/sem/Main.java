@@ -15,6 +15,14 @@ public class Main {
     private static final String DB_PASSWORD = "example";
 
     /**
+     * Get database connection string
+     * @return the database URL
+     */
+    public static String getDatabaseURL() {
+        return DB_URL;
+    }
+
+    /**
      * Get a connection to the database
      * @return the connection object, or null if connection fails
      */
@@ -40,6 +48,14 @@ public class Main {
     public static String formatCountryLine(String code, String name, String continent, String region, long population, String capital) {
         return String.format("%s | %s | %s | %s | %,d | %s",
             code, name, continent, region, population, capital);
+    }
+
+    /**
+     * Get list of all continents
+     * @return array of continent names
+     */
+    public static String[] getContinents() {
+        return new String[]{"Asia", "Europe", "Africa", "North America", "South America", "Oceania", "Antarctica"};
     }
 
     public static void main(String[] args) {
