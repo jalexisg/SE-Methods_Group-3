@@ -46,10 +46,16 @@ jobs:
         echo "Starting Maven compilation..."
         mvn clean compile -X
       
-    - name: Run tests
+    - name: Run all tests
       run: |
-        echo "Running tests..."
+        echo "Running all tests..."
         mvn test -X
+      continue-on-error: true
+
+    - name: Unit Tests
+      run: |
+        echo "Running specific unit tests..."
+        mvn -Dtest=MyTest test
       continue-on-error: true
       
     - name: Package application

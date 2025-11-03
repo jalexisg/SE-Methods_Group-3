@@ -7,7 +7,7 @@
 
     <groupId>com.napier.sem</groupId>
     <artifactId>population-system</artifactId>
-    <version>0.1.0.6</version>
+    <version>0.1.0.7</version>
     <packaging>jar</packaging>
 
     <name>Population Information System</name>
@@ -68,10 +68,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
             </plugin>
 
-            <!-- Maven Assembly Plugin for creating fat JAR (sin sufijo) -->
+            <!-- Maven Assembly Plugin for creating fat JAR (no prefix) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -107,6 +112,7 @@
                     <mainClass>com.napier.sem.Main</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

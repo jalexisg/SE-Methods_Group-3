@@ -9,14 +9,47 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
-        // Database connection parameters
-        String url = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
-        String user = "root";
-        String password = "example";
+    // Database connection parameters
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "example";
+
+    /**
+     * Get a connection to the database
+     * @return the connection object, or null if connection fails
+     */
+    public static Connection connect() {
         try {
-            // Establish connection to the World database
-            Connection con = DriverManager.getConnection(url, user, password);
+            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Error connecting to database: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Format a line of country data for display
+     * @param code country code
+     * @param name country name
+     * @param continent continent name
+     * @param region region name
+     * @param population population count
+     * @param capital capital city name
+     * @return formatted string
+     */
+    public static String formatCountryLine(String code, String name, String continent, String region, long population, String capital) {
+        return String.format("%s | %s | %s | %s | %,d | %s",
+            code, name, continent, region, population, capital);
+    }
+
+    public static void main(String[] args) {
+        Connection con = connect();
+        if (con == null) {
+            System.err.println("Failed to connect to database");
+            return;
+        }
+        
+        try {
             Statement stmt = con.createStatement();
 
             // --- Global Country Population Report (User Story 2.1) ---
