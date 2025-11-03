@@ -55,7 +55,7 @@ jobs:
     - name: Unit Tests
       run: |
         echo "Running specific unit tests..."
-        mvn -Dtest=MyTest test
+        mvn -Dtest=com.napier.sem.** test
       continue-on-error: true
       
     - name: Package application
