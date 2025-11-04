@@ -64,9 +64,10 @@ public class Main {
             System.err.println("Failed to connect to database");
             return;
         }
-        
+
+        Statement stmt = null;
         try {
-            Statement stmt = con.createStatement();
+            stmt = con.createStatement();
 
             // --- Global Country Population Report (User Story 2.1) ---
             // Prints all countries ordered by population (descending)
@@ -77,12 +78,12 @@ public class Main {
             while (rsGlobal.next()) {
                 // Print each country's details in a formatted row
                 System.out.println(
-                    rsGlobal.getString("Code") + " | " +
-                    rsGlobal.getString("Name") + " | " +
-                    rsGlobal.getString("Continent") + " | " +
-                    rsGlobal.getString("Region") + " | " +
-                    String.format("%,d", rsGlobal.getLong("Population")) + " | " +
-                    rsGlobal.getString("Capital")
+                        rsGlobal.getString("Code") + " | " +
+                                rsGlobal.getString("Name") + " | " +
+                                rsGlobal.getString("Continent") + " | " +
+                                rsGlobal.getString("Region") + " | " +
+                                String.format("%,d", rsGlobal.getLong("Population")) + " | " +
+                                rsGlobal.getString("Capital")
                 );
             }
             rsGlobal.close();
@@ -102,12 +103,12 @@ public class Main {
                 while (rsContinent.next()) {
                     // Print each country's details for the current continent
                     System.out.println(
-                        rsContinent.getString("Code") + " | " +
-                        rsContinent.getString("Name") + " | " +
-                        rsContinent.getString("Continent") + " | " +
-                        rsContinent.getString("Region") + " | " +
-                        String.format("%,d", rsContinent.getLong("Population")) + " | " +
-                        rsContinent.getString("Capital")
+                            rsContinent.getString("Code") + " | " +
+                                    rsContinent.getString("Name") + " | " +
+                                    rsContinent.getString("Continent") + " | " +
+                                    rsContinent.getString("Region") + " | " +
+                                    String.format("%,d", rsContinent.getLong("Population")) + " | " +
+                                    rsContinent.getString("Capital")
                     );
                 }
                 rsContinent.close();
@@ -135,12 +136,12 @@ public class Main {
                 while (rsRegion.next()) {
                     // Print country data for the current region
                     System.out.println(
-                        rsRegion.getString("Code") + " | " +
-                        rsRegion.getString("Name") + " | " +
-                        rsRegion.getString("Continent") + " | " +
-                        rsRegion.getString("Region") + " | " +
-                        String.format("%,d", rsRegion.getLong("Population")) + " | " +
-                        rsRegion.getString("Capital")
+                            rsRegion.getString("Code") + " | " +
+                                    rsRegion.getString("Name") + " | " +
+                                    rsRegion.getString("Continent") + " | " +
+                                    rsRegion.getString("Region") + " | " +
+                                    String.format("%,d", rsRegion.getLong("Population")) + " | " +
+                                    rsRegion.getString("Capital")
                     );
                 }
                 rsRegion.close();
@@ -213,7 +214,6 @@ public class Main {
             rsTopRegion.close();
 
 
-
             // Top N query (global)
             String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTop = stmt.executeQuery(sqlTop);
@@ -222,26 +222,91 @@ public class Main {
             int continentRank = 1;
             while (rsTop.next()) {
                 System.out.println(
-                    rank + " | " +
-                    rsTop.getString("Code") + " | " +
-                    rsTop.getString("Name") + " | " +
-                    rsTop.getString("Continent") + " | " +
-                    rsTop.getString("Region") + " | " +
-                    String.format("%,d", rsTop.getLong("Population")) + " | " +
-                    rsTop.getString("Capital")
+                        rank + " | " +
+                                rsTop.getString("Code") + " | " +
+                                rsTop.getString("Name") + " | " +
+                                rsTop.getString("Continent") + " | " +
+                                rsTop.getString("Region") + " | " +
+                                String.format("%,d", rsTop.getLong("Population")) + " | " +
+                                rsTop.getString("Capital")
                 );
                 continentRank++;
             }
+
+
+
+            //3.2 cities in specific continents ranked by population
+
+            String continentName2 = "Asia";  // Hardcoded for now
+            System.out.println("\nCities in " + continentName + " ranked by Population\n");
+            System.out.println("Rank | City | Country | Continent | Population");
+
+            String sqlCitiesByContinent =
+                    "SELECT city.Name AS City, country.Name AS Country, country.Continent, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Continent = '" + continentName2 + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT 10"; //change 10 to n to determine top n cities by pop in a continent (only put this here due to there being thousands of cities in asia, and it's a pain to scroll past!)
+
+
+            ResultSet rsCities = stmt.executeQuery(sqlCitiesByContinent);
+            int rank2 = 1;
+            while (rsCities.next()) {
+                System.out.println(
+                        rank2 + " | " +
+                                rsCities.getString("City") + " | " +
+                                rsCities.getString("Country") + " | " +
+                                rsCities.getString("Continent") + " | " +
+                                String.format("%,d", rsCities.getLong("Population"))
+                );
+                rank2++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+            rsCities.close();
             rsTop.close();
 
             // Close resources after all reports are generated
             stmt.close();
             con.close();
-        } catch (SQLException e) {
+
+        }
+
+        catch (SQLException e) {
             // Handle and report any SQL/database errors
             System.out.println("Error connecting or querying the database: " + e.getMessage());
         }
     }
 
-    
+
 }
