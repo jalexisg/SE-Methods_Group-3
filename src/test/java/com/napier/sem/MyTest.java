@@ -18,6 +18,27 @@ class MyTest
     }
 
     @Test
+    void testGetContinents()
+    {
+        //Test that the getContinents method array returns the expected 7 continents
+        String[] expected = {"Asia","Europe","Africa","North America","South America","Oceania","Antarctica"};
+        assertArrayEquals(expected, Main.getContinents(),"Continents should be Asia, Europe, Africa, North America, South America, Oceania & Antarctica ");
+    }
+
+    @Test
+    public void testFormatCountryLine()
+    {
+        //Tests that the formatCountryLine method formats the line properly
+        String result = Main.formatCountryLine(
+                "USA", "United States", "North America", "Northern America", 331002651L, "Washington D.C.");
+        String expected = "USA | United States | North America | Northern America | 331,002,651 | Washington D.C.";
+        assertEquals(expected, result);
+    }
+
+
+
+
+    @Test
     void testCountryWithZeroPopulation()
     {
         // Test a country with zero population (like some territories might have)
