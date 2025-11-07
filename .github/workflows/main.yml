@@ -51,11 +51,53 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+  IntegrationTests:
+    name: Integration Tests
+    runs-on: ubuntu-22.04
+    needs: UnitTests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build database Docker image
+        run: |
+          docker build -t world-db ./database
+
+      - name: Start database container
+        run: |
+          # Allow root to connect from runner by setting MYSQL_ROOT_HOST=%
+          docker run --name worlddb -e MYSQL_ROOT_PASSWORD=example -e MYSQL_ROOT_HOST=% -p 33060:3306 -d world-db
+          echo "Waiting for database to initialize..."
+          sleep 25
+
+      - name: Run Integration Tests against DB container
+        env:
+          RUN_INTEGRATION_TESTS: 'true'
+          TEST_DB_URL: 'jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false'
+          TEST_DB_USER: 'root'
+          TEST_DB_PASSWORD: 'example'
+        run: |
+          mvn -Dtest=com.napier.sem.AppIntegrationTest test
+
+      - name: Tear down DB container and image
+        if: always()
+        run: |
+          docker stop worlddb || true
+          docker rm -f worlddb || true
+          docker image rm world-db || true
 
   Build:
     name: Build and Start Using docker-compose
     runs-on: ubuntu-22.04
-    needs: UnitTests
+    needs: IntegrationTests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
