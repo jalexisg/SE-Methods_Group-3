@@ -19,6 +19,11 @@ public class Main {
      * @return the database URL
      */
     public static String getDatabaseURL() {
+        // Allow tests to override the database URL via system property TEST_DB_URL
+        String testUrl = System.getProperty("TEST_DB_URL");
+        if (testUrl != null && !testUrl.isEmpty()) return testUrl;
+        String envUrl = System.getenv("TEST_DB_URL");
+        if (envUrl != null && !envUrl.isEmpty()) return envUrl;
         return DB_URL;
     }
 
@@ -28,11 +33,33 @@ public class Main {
      */
     public static Connection connect() {
         try {
-            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            return DriverManager.getConnection(getDatabaseURL(), getDatabaseUser(), getDatabasePassword());
         } catch (SQLException e) {
             System.err.println("Error connecting to database: " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Allow tests to override DB user via system property or env var
+     */
+    public static String getDatabaseUser() {
+        String u = System.getProperty("TEST_DB_USER");
+        if (u != null && !u.isEmpty()) return u;
+        String eu = System.getenv("TEST_DB_USER");
+        if (eu != null && !eu.isEmpty()) return eu;
+        return DB_USER;
+    }
+
+    /**
+     * Allow tests to override DB password via system property or env var
+     */
+    public static String getDatabasePassword() {
+        String p = System.getProperty("TEST_DB_PASSWORD");
+        if (p != null && !p.isEmpty()) return p;
+        String ep = System.getenv("TEST_DB_PASSWORD");
+        if (ep != null && !ep.isEmpty()) return ep;
+        return DB_PASSWORD;
     }
 
     /**
@@ -222,7 +249,7 @@ public class Main {
             int continentRank = 1;
             while (rsTop.next()) {
                 System.out.println(
-                    rank + " | " +
+                    continentRank + " | " +
                     rsTop.getString("Code") + " | " +
                     rsTop.getString("Name") + " | " +
                     rsTop.getString("Continent") + " | " +

@@ -18,12 +18,43 @@ public class AppIntegrationTest {
 
     @BeforeAll
     void init() {
-        // Only run integration test when explicitly enabled via env var
+        // Prefer a real integration DB when RUN_INTEGRATION_TESTS=true; otherwise fall back to an H2 in-memory DB
         boolean runIntegration = Boolean.parseBoolean(System.getenv().getOrDefault("RUN_INTEGRATION_TESTS", "false"));
-        assumeTrue(runIntegration, "Integration tests disabled - set RUN_INTEGRATION_TESTS=true to enable");
+        if (runIntegration) {
+            conn = Main.connect();
+            assertNotNull(conn, "Could not establish DB connection to integration DB");
+        } else {
+            // Setup an H2 in-memory database and configure Main to use it via TEST_DB_* system properties
+            try {
+                Class.forName("org.h2.Driver");
+            } catch (ClassNotFoundException ignored) {}
+            String url = "jdbc:h2:mem:app_integration_test;DB_CLOSE_DELAY=-1";
+            String user = "test";
+            String pass = "test";
+            System.setProperty("TEST_DB_URL", url);
+            System.setProperty("TEST_DB_USER", user);
+            System.setProperty("TEST_DB_PASSWORD", pass);
 
-        conn = Main.connect();
-        assertNotNull(conn, "Could not establish DB connection");
+            try (java.sql.Connection c = java.sql.DriverManager.getConnection(url, user, pass);
+                 java.sql.Statement s = c.createStatement()) {
+                s.execute("CREATE TABLE country (Code VARCHAR(3), Name VARCHAR(100), Continent VARCHAR(50), Region VARCHAR(50), Population BIGINT, Capital VARCHAR(100));");
+                s.execute("INSERT INTO country VALUES ('AAA','CountryA','Europe','RegionA',1000,'CapA');");
+                s.execute("INSERT INTO country VALUES ('BBB','CountryB','Europe','RegionB',500,'CapB');");
+            } catch (Exception e) {
+                fail("Failed to prepare H2 test DB: " + e.getMessage());
+            }
+
+            conn = Main.connect();
+            assertNotNull(conn, "Could not establish DB connection to test H2 database");
+        }
+    }
+
+    @org.junit.jupiter.api.AfterAll
+    void cleanup() {
+        // Clear test DB system properties if we set them
+        System.clearProperty("TEST_DB_URL");
+        System.clearProperty("TEST_DB_USER");
+        System.clearProperty("TEST_DB_PASSWORD");
     }
 
     @Test

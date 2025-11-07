@@ -3,6 +3,8 @@ package com.napier.sem;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 class MyTest
 {
@@ -59,12 +61,25 @@ class MyTest
     }
 
     @Test
-    @Disabled("Disabled until database is properly configured in CI environment")
     void testDatabaseConnection()
     {
-        // Test that we can connect to the database - disabled in CI environment
+        // Create an H2 in-memory DB and configure Main to use it so this test can run in CI
+        System.setProperty("TEST_DB_URL", "jdbc:h2:mem:mytestdb;DB_CLOSE_DELAY=-1");
+        System.setProperty("TEST_DB_USER", "test");
+        System.setProperty("TEST_DB_PASSWORD", "test");
+        try (Connection c = DriverManager.getConnection(System.getProperty("TEST_DB_URL"), System.getProperty("TEST_DB_USER"), System.getProperty("TEST_DB_PASSWORD"))) {
+            // DB started
+        } catch (SQLException e) {
+            fail("Failed to set up H2 in-memory DB: " + e.getMessage());
+        }
+
         Connection conn = Main.connect();
         assertNotNull(conn, "Database connection should be established");
+        try { conn.close(); } catch (SQLException ignored) {}
+
+        System.clearProperty("TEST_DB_URL");
+        System.clearProperty("TEST_DB_USER");
+        System.clearProperty("TEST_DB_PASSWORD");
     }
 
 

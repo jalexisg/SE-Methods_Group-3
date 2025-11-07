@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.*;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,23 +20,10 @@ public class MainSimulationTest {
     void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
-        // deregister our test driver
-        try {
-            Enumeration<Driver> drivers = DriverManager.getDrivers();
-            List<Driver> toRemove = new ArrayList<>();
-            while (drivers.hasMoreElements()) {
-                Driver d = drivers.nextElement();
-                if (d instanceof TestDriver) {
-                    toRemove.add(d);
-                }
-            }
-            for (Driver d : toRemove) {
-                try {
-                    DriverManager.deregisterDriver(d);
-                } catch (SQLException ignored) {
-                }
-            }
-        } catch (Exception ignored) {}
+        // cleanup test DB system properties
+        System.clearProperty("TEST_DB_URL");
+        System.clearProperty("TEST_DB_USER");
+        System.clearProperty("TEST_DB_PASSWORD");
     }
 
     @Test
@@ -45,43 +31,42 @@ public class MainSimulationTest {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
 
-    // Register the test driver that will provide an H2 in-memory DB
-    DriverManager.registerDriver(new TestDriver());
-
-        // Run main with a topN argument to exercise parsing
-        Main.main(new String[]{"3"});
-
-        String out = outContent.toString();
-        String err = errContent.toString();
-
-        // Ensure it printed global report header and didn't fail to connect
-        assertTrue(out.contains("Global Country Population Report") || err.contains("Failed to connect to database") == false,
-                "Main should produce a global report when fake driver is present");
-
-        // Check that at least one formatted country line appears
-        assertTrue(out.contains(" | "), "Output should contain formatted country lines");
-    }
-
-    // TestDriver creates an H2 in-memory database, populates a `country` table and returns the real H2 Connection.
-    public static class TestDriver implements Driver {
-        @Override
-        public Connection connect(String url, Properties info) throws SQLException {
-            // Create an H2 in-memory DB and populate it
-            Connection c = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+        // Prepare an H2 in-memory database and tell Main to use it via system property
+        System.setProperty("TEST_DB_URL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+        // Use an explicit test user/password to avoid H2 authentication quirks
+        System.setProperty("TEST_DB_USER", "test");
+        System.setProperty("TEST_DB_PASSWORD", "test");
+        try (Connection c = DriverManager.getConnection(System.getProperty("TEST_DB_URL"), System.getProperty("TEST_DB_USER"), System.getProperty("TEST_DB_PASSWORD"))) {
             try (Statement s = c.createStatement()) {
                 s.execute("CREATE TABLE country (Code VARCHAR(3), Name VARCHAR(100), Continent VARCHAR(50), Region VARCHAR(50), Population BIGINT, Capital VARCHAR(100));");
                 s.execute("INSERT INTO country VALUES ('AAA','CountryA','Europe','RegionA',1000,'CapA');");
                 s.execute("INSERT INTO country VALUES ('BBB','CountryB','Europe','RegionB',500,'CapB');");
                 s.execute("INSERT INTO country VALUES ('CCC','CountryC','Asia','RegionC',2000,'CapC');");
             }
-            return c;
         }
 
-        @Override public boolean acceptsURL(String url) { return url != null && url.startsWith("jdbc:mysql:"); }
-        @Override public DriverPropertyInfo[] getPropertyInfo(String url, Properties info) { return new DriverPropertyInfo[0]; }
-        @Override public int getMajorVersion() { return 1; }
-        @Override public int getMinorVersion() { return 0; }
-        @Override public boolean jdbcCompliant() { return false; }
-        @Override public java.util.logging.Logger getParentLogger() { return java.util.logging.Logger.getGlobal(); }
+        // Ensure H2 driver is loaded and verify that Main.connect() can connect using the same properties
+        try {
+            Class.forName("org.h2.Driver");
+        } catch (ClassNotFoundException ignored) {}
+
+        // Verify that Main.connect() can connect using the same properties
+        Connection c2 = Main.connect();
+        assertNotNull(c2, () -> "Main.connect() failed - getDatabaseURL=" + Main.getDatabaseURL() + ", user=" + Main.getDatabaseUser() + ", stderr=" + errContent.toString());
+    try { c2.close(); } catch (SQLException ignored) {}
+
+    // Run main with a topN argument to exercise parsing
+    Main.main(new String[]{"3"});
+
+    String out = outContent.toString();
+    String err = errContent.toString();
+
+    // Ensure it printed global report header
+    assertTrue(out.contains("Global Country Population Report"), "Main should produce a global report when test DB is present; stderr=" + err);
+
+        // Check that at least one formatted country line appears
+        assertTrue(out.contains(" | "), "Output should contain formatted country lines");
     }
+
+    // No custom driver; tests use an H2 in-memory DB and set TEST_DB_URL system property
 }

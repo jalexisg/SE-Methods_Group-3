@@ -26,9 +26,16 @@ public class MainUnitTest {
 
     @Test
     void testGetDatabaseURL() {
-        String url = Main.getDatabaseURL();
-        assertNotNull(url);
-        assertTrue(url.startsWith("jdbc:mysql://"));
-        assertTrue(url.contains("world"));
+        // Ensure TEST_DB_URL does not interfere with this unit test
+        String orig = System.getProperty("TEST_DB_URL");
+        try {
+            System.clearProperty("TEST_DB_URL");
+            String url = Main.getDatabaseURL();
+            assertNotNull(url);
+            assertTrue(url.startsWith("jdbc:mysql://"));
+            assertTrue(url.contains("world"));
+        } finally {
+            if (orig != null) System.setProperty("TEST_DB_URL", orig);
+        }
     }
 }
