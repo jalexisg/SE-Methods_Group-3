@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Unit Tests (with JaCoCo)
         run: |
-          mvn -Dtest=com.napier.sem.MyTest org.jacoco:org.jacoco-maven-plugin:0.8.10:prepare-agent test org.jacoco:org.jacoco-maven-plugin:0.8.10:report
+          mvn -Dtest=com.napier.sem.MyTest org.jacoco:jacoco-maven-plugin:0.8.10:prepare-agent test org.jacoco:jacoco-maven-plugin:0.8.10:report
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
