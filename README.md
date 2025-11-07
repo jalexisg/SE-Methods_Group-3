@@ -2,6 +2,7 @@
 ![workflow](https://github.com/jalexisg/SE-Methods_Group-3/actions/workflows/main.yml/badge.svg)
 [![LICENSE](https://img.shields.io/github/license/jalexisg/SE-Methods_Group-3?style=flat-square)](https://github.com/jalexisg/SE-Methods_Group-3/blob/main/LICENSE)
 [![Releases](https://img.shields.io/github/release/jalexisg/SE-Methods_Group-3/all.svg?style=flat-square)](https://github.com/jalexisg/SE-Methods_Group-3/releases)
+[![codecov](https://codecov.io/gh/jalexisg/SE-Methods_Group-3/graph/badge.svg?token=T8QE7705OJ)](https://codecov.io/gh/jalexisg/SE-Methods_Group-3)
 
 ## DevOps
 * Master Build Status    ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/jalexisg/SE-Methods_Group-3/main.yml?branch=master&style=flat-square)
