@@ -62,7 +62,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Package and Run docker compose
+      - name: Package application (skip tests)
+        run: mvn package -DskipTests
+
+      - name: Start services with docker-compose (background)
         run: |
-          mvn package -DskipTests
-          docker compose up --abort-on-container-exit
+          echo "Starting docker-compose services..."
+          docker compose up -d
+          echo "Waiting 20s for services to become healthy..."
+          sleep 20
+
+      - name: Run integration tests
+        env:
+          RUN_INTEGRATION_TESTS: 'true'
+        run: |
+          echo "Running integration tests (AppIntegrationTest)"
+          mvn -Dtest=com.napier.sem.AppIntegrationTest test
+
+      - name: Tear down docker-compose
+        if: always()
+        run: |
+          echo "Stopping docker-compose services..."
+          docker compose down --volumes --remove-orphans
