@@ -43,8 +43,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Run Unit Tests
-        run: mvn -Dtest=com.napier.sem.MyTest test
+      - name: Run Unit Tests (with JaCoCo)
+        run: |
+          mvn -Dtest=com.napier.sem.MyTest org.jacoco:org.jacoco-maven-plugin:0.8.10:prepare-agent test org.jacoco:org.jacoco-maven-plugin:0.8.10:report
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   Build:
     name: Build and Start Using docker-compose
