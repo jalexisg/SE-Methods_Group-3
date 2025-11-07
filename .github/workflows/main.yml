@@ -73,7 +73,8 @@ jobs:
 
       - name: Start database container
         run: |
-          docker run --name worlddb -e MYSQL_ROOT_PASSWORD=example -p 33060:3306 -d world-db
+          # Allow root to connect from runner by setting MYSQL_ROOT_HOST=%
+          docker run --name worlddb -e MYSQL_ROOT_PASSWORD=example -e MYSQL_ROOT_HOST=% -p 33060:3306 -d world-db
           echo "Waiting for database to initialize..."
           sleep 25
 
