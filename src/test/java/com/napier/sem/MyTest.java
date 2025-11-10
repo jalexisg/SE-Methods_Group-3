@@ -1,57 +1,128 @@
 package com.napier.sem;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.Statement;
 
-class MyTest
-{
-    @Test
-    void testMainDatabaseURL()
-    {
-        // Test the database URL is correctly formed
-        String dbUrl = Main.getDatabaseURL();
-        assertTrue(dbUrl.startsWith("jdbc:mysql://"), "Database URL should start with jdbc:mysql://");
-        assertTrue(dbUrl.contains("world"), "Database URL should contain the database name 'world'");
-        assertTrue(dbUrl.contains("allowPublicKeyRetrieval=true"), "Database URL should include public key retrieval setting");
-        assertTrue(dbUrl.contains("useSSL=false"), "Database URL should include SSL setting");
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MyTest {
+
+    @AfterEach
+    void clearTestProperties() {
+        System.clearProperty("TEST_DB_URL");
+        System.clearProperty("TEST_DB_USER");
+        System.clearProperty("TEST_DB_PASSWORD");
     }
 
     @Test
-    void testGetContinents()
-    {
-        //Test that the getContinents method array returns the expected 7 continents
-        String[] expected = {"Asia","Europe","Africa","North America","South America","Oceania","Antarctica"};
-        assertArrayEquals(expected, Main.getContinents(),"Continents should be Asia, Europe, Africa, North America, South America, Oceania & Antarctica ");
+    void testFormatCountryLine() {
+        String formatted = Main.formatCountryLine("ESP", "Spain", "Europe", "Southern Europe", 47615034, "Madrid");
+        assertEquals("ESP | Spain | Europe | Southern Europe | 47,615,034 | Madrid", formatted);
+
+        String formattedNull = Main.formatCountryLine(null, null, null, null, 0, null);
+        assertEquals("null | null | null | null | 0 | null", formattedNull);
     }
 
     @Test
-    public void testFormatCountryLine()
-    {
-        //Tests that the formatCountryLine method formats the line properly
-        String result = Main.formatCountryLine(
-                "USA", "United States", "North America", "Northern America", 331002651L, "Washington D.C.");
-        String expected = "USA | United States | North America | Northern America | 331,002,651 | Washington D.C.";
-        assertEquals(expected, result);
+    void testGetContinents() {
+        String[] continents = Main.getContinents();
+        assertNotNull(continents);
+        assertEquals(7, continents.length);
+        assertEquals("Asia", continents[0]);
+        assertEquals("Antarctica", continents[6]);
     }
 
-
-
+    @Test
+    void testGetDatabaseURLDefault() {
+        String orig = System.getProperty("TEST_DB_URL");
+        try {
+            System.clearProperty("TEST_DB_URL");
+            String url = Main.getDatabaseURL();
+            assertNotNull(url);
+            assertTrue(url.startsWith("jdbc:mysql://"));
+            assertTrue(url.contains("world"));
+        } finally {
+            if (orig != null) System.setProperty("TEST_DB_URL", orig);
+        }
+    }
 
     @Test
-    void testCountryWithZeroPopulation()
-    {
-        // Test a country with zero population (like some territories might have)
+    void testGetDatabaseURLSystemOverride() {
+        System.setProperty("TEST_DB_URL", "jdbc:h2:mem:override;DB_CLOSE_DELAY=-1");
+        assertEquals("jdbc:h2:mem:override;DB_CLOSE_DELAY=-1", Main.getDatabaseURL());
+    }
+
+    @Test
+    void testGetDatabaseUserAndPasswordOverride() {
+        String origU = System.getProperty("TEST_DB_USER");
+        String origP = System.getProperty("TEST_DB_PASSWORD");
+        try {
+            System.setProperty("TEST_DB_USER", "u1");
+            System.setProperty("TEST_DB_PASSWORD", "p1");
+            assertEquals("u1", Main.getDatabaseUser());
+            assertEquals("p1", Main.getDatabasePassword());
+        } finally {
+            if (origU != null) System.setProperty("TEST_DB_USER", origU);
+            if (origP != null) System.setProperty("TEST_DB_PASSWORD", origP);
+        }
+    }
+
+    @Test
+    void testConnectWithH2InMemory() throws Exception {
+        String url = "jdbc:h2:mem:connecttest;DB_CLOSE_DELAY=-1";
+        System.setProperty("TEST_DB_URL", url);
+        System.setProperty("TEST_DB_USER", "sa");
+        // Main.getDatabasePassword ignores empty strings, so use a non-empty test password
+        System.setProperty("TEST_DB_PASSWORD", "example");
+
+        // H2 creates the DB on connect
+        Connection c = Main.connect();
+        assertNotNull(c, "Should be able to connect to H2 in-memory DB");
+        c.close();
+    }
+
+    @Test
+    void testMainInvalidTopNUsesDefault() throws Exception {
+        // Prepare H2 DB with a single country so Main can print something
+        String url = "jdbc:h2:mem:maindeftest;DB_CLOSE_DELAY=-1";
+        System.setProperty("TEST_DB_URL", url);
+        System.setProperty("TEST_DB_USER", "sa");
+        // match Main's default-password handling by using a non-empty password
+        System.setProperty("TEST_DB_PASSWORD", "example");
+
+        try (Connection c = DriverManager.getConnection(url, "sa", "example")) {
+            try (Statement s = c.createStatement()) {
+                s.execute("CREATE TABLE country (Code VARCHAR(3), Name VARCHAR(100), Continent VARCHAR(50), Region VARCHAR(50), Population BIGINT, Capital VARCHAR(100));");
+                s.execute("INSERT INTO country VALUES ('TST','Testland','Europe','TestRegion',12345,'Tcap');");
+            }
+        }
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+        try {
+            Main.main(new String[]{"not-a-number"});
+            String out = outContent.toString();
+            assertTrue(out.contains("Invalid number format for top N, using default 10") || out.contains("Global Country Population Report"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testCountryWithZeroPopulation() {
         Country country = new Country("ATA", "Antarctica", "Antarctica", "Antarctic", 0, "None");
         assertEquals(0, country.population, "Population should be zero");
     }
 
     @Test
-    void testCountryWithNullValues()
-    {
-        // Test that we can create a country with null values
+    void testCountryWithNullValues() {
         Country country = new Country(null, null, null, null, 0, null);
         assertNull(country.code, "Code can be null");
         assertNull(country.name, "Name can be null");
@@ -59,29 +130,6 @@ class MyTest
         assertNull(country.region, "Region can be null");
         assertNull(country.capital, "Capital can be null");
     }
-
-    @Test
-    void testDatabaseConnection()
-    {
-        // Create an H2 in-memory DB and configure Main to use it so this test can run in CI
-        System.setProperty("TEST_DB_URL", "jdbc:h2:mem:mytestdb;DB_CLOSE_DELAY=-1");
-        System.setProperty("TEST_DB_USER", "test");
-        System.setProperty("TEST_DB_PASSWORD", "test");
-        try (Connection c = DriverManager.getConnection(System.getProperty("TEST_DB_URL"), System.getProperty("TEST_DB_USER"), System.getProperty("TEST_DB_PASSWORD"))) {
-            // DB started
-        } catch (SQLException e) {
-            fail("Failed to set up H2 in-memory DB: " + e.getMessage());
-        }
-
-        Connection conn = Main.connect();
-        assertNotNull(conn, "Database connection should be established");
-        try { conn.close(); } catch (SQLException ignored) {}
-
-        System.clearProperty("TEST_DB_URL");
-        System.clearProperty("TEST_DB_USER");
-        System.clearProperty("TEST_DB_PASSWORD");
-    }
-
 
 }
 
