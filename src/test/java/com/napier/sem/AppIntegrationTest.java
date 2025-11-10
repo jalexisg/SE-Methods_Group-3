@@ -4,12 +4,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppIntegrationTest {
@@ -59,13 +60,40 @@ public class AppIntegrationTest {
 
     @Test
     void testCountryCountQuery() throws Exception {
-        // This test will only run when RUN_INTEGRATION_TESTS=true
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS cnt FROM country");
             assertTrue(rs.next());
             long count = rs.getLong("cnt");
             assertTrue(count >= 0, "Country count should be >= 0");
             rs.close();
+        }
+    }
+
+    @Test
+    void testMainProducesReports() throws Exception {
+        // Capture stdout/stderr while running main to assert output is produced
+        PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        try {
+            // Run main with a topN argument to exercise parsing
+            Main.main(new String[]{"3"});
+
+            String out = outContent.toString();
+            String err = errContent.toString();
+
+            // Ensure it printed global report header
+            assertTrue(out.contains("Global Country Population Report"), "Main should produce a global report when test DB is present; stderr=" + err);
+
+            // Check that at least one formatted country line appears
+            assertTrue(out.contains(" | "), "Output should contain formatted country lines");
+        } finally {
+            System.setOut(originalOut);
+            System.setErr(originalErr);
         }
     }
 }
