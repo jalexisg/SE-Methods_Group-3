@@ -92,7 +92,10 @@ jobs:
         env:
           RUN_INTEGRATION_TESTS: 'true'
           # Use the compose service hostname; tests will read TEST_DB_* from env
-          TEST_DB_URL: 'jdbc:mysql://database:3306/world?allowPublicKeyRetrieval=true&useSSL=false'
+          # The test process runs on the runner (host). Use the host-mapped port 33061
+          # so the JVM can reach the database. Do not rely on the compose service name
+          # which is only resolvable inside the compose network.
+          TEST_DB_URL: 'jdbc:mysql://127.0.0.1:33061/world?allowPublicKeyRetrieval=true&useSSL=false'
           TEST_DB_USER: 'root'
           TEST_DB_PASSWORD: 'example'
         run: |
@@ -132,6 +135,10 @@ jobs:
       - name: Run integration tests
         env:
           RUN_INTEGRATION_TESTS: 'true'
+          # Ensure tests running on the runner can reach the DB via the host-mapped port
+          TEST_DB_URL: 'jdbc:mysql://127.0.0.1:33061/world?allowPublicKeyRetrieval=true&useSSL=false'
+          TEST_DB_USER: 'root'
+          TEST_DB_PASSWORD: 'example'
         run: |
           echo "Running integration tests (AppIntegrationTest)"
           mvn -Dtest=com.napier.sem.AppIntegrationTest test
