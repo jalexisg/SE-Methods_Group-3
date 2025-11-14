@@ -361,6 +361,31 @@ public class Main {
             rsCities.close();
             rsTop.close();
 
+            // --- District City Population Reports (User Story 3.5) ---
+            // For each district, list cities ordered by population (descending)
+            String sqlDistinctDistricts = "SELECT DISTINCT District FROM city ORDER BY District";
+            ArrayList<String> districts = new ArrayList<>();
+            ResultSet rsDistinctDistricts = stmt.executeQuery(sqlDistinctDistricts);
+            while (rsDistinctDistricts.next()) {
+                districts.add(rsDistinctDistricts.getString("District"));
+            }
+            rsDistinctDistricts.close();
+
+            for (String district : districts) {
+                System.out.println("\nCities in district: " + district + " by Population\n");
+                System.out.println("Name | CountryCode | Population");
+                String sqlCitiesInDistrict = "SELECT Name, CountryCode, Population FROM city WHERE District='" + district.replace("'", "''") + "' ORDER BY Population DESC";
+                ResultSet rsCitiesInDistrict = stmt.executeQuery(sqlCitiesInDistrict);
+                while (rsCitiesInDistrict.next()) {
+                    System.out.println(
+                            rsCitiesInDistrict.getString("Name") + " | " +
+                            rsCitiesInDistrict.getString("CountryCode") + " | " +
+                            String.format("%,d", rsCitiesInDistrict.getLong("Population"))
+                    );
+                }
+                rsCitiesInDistrict.close();
+            }
+
                 // --- Global City Population Report (User Story 3.1) ---
                 // Print all cities ordered by population (descending). Inline implementation here.
                 String sqlCities = "SELECT city.ID, city.Name, country.Name AS CountryName, city.District, city.Population "
