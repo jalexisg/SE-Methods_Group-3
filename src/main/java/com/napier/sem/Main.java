@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Main {
     // Database connection parameters
     private static final String DB_URL = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
-    private static final String DB_USER = "root";
+    private static final String DB_USER = "roSot";
     private static final String DB_PASSWORD = "example";
 
     /**
@@ -260,6 +260,23 @@ public class Main {
                 continentRank++;
             }
             rsTop.close();
+            //user story 3.7 "top N populated cities in a specific continent"
+            String ContinentName =  "Asia";
+            String sqlTopCity = "SELECT ID, Name, CountryCode, District, Population FROM City WHERE Continent ='" + ContinentName + "' ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTopCity = stmt.executeQuery(sqlTopCity);
+            System.out.println("\nTop N Cities by Population by Continent\n");
+            System.out.println("\nTop " + topN + " Cities by Population in " + ContinentName + "\n");
+            System.out.println("ID | Name | CountryCode | District | Population");
+            int cityRank = 1;
+            while (rsTopCity.next()) {
+                System.out.println( cityRank + " | " +
+                        rsTopRegion.getString("ID") + " | " +
+                        rsTopRegion.getString("Name") + " | " +
+                        rsTopRegion.getString("CountryCode") + " | " +
+                        rsTopRegion.getString("District") + " | " +
+                        String.format("%,d", rsTopContinent.getLong("Population")));
+                cityRank++; } rsTopContinent.close();
+
 
             // Close resources after all reports are generated
             stmt.close();
