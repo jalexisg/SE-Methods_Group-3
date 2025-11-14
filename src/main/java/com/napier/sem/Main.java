@@ -270,13 +270,12 @@ public class Main {
             int cityRank = 1;
             while (rsTopCity.next()) {
                 System.out.println( cityRank + " | " +
-                        rsTopContinent.getString("ID") + " | " +
-                        rsTopContinent.getString("Name") + " | " +
-                        rsTopContinent.getString("CountryCode") + " | " +
-                        rsTopContinent.getString("District") + " | " +
-                        String.format("%,d", rsTopContinent.getLong("Population")));
-                cityRank++; } rsTopContinent.close();
-
+                        rsTopCity.getString("ID") + " | " +
+                        rsTopCity.getString("Name") + " | " +
+                        rsTopCity.getString("CountryCode") + " | " +
+                        rsTopCity.getString("District") + " | " +
+                        String.format("%,d", rsTopCity.getLong("Population")));
+                cityRank++; } rsTopCity.close();
 
             // Close resources after all reports are generated
             stmt.close();
