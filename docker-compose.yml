@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
-  mysql:
+  database:
     image: mysql:8.0
-    container_name: mysql
+    container_name: database
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
@@ -11,12 +9,13 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: apppass
     ports:
-      - "3306:3306"   # optional: only if you need to access from the host
+      - "33061:3306"   # map host port 33060 to container 3306 so host processes can connect
     volumes:
       - ./database/world.sql:/docker-entrypoint-initdb.d/world.sql
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -pexample --silent"]
+      # Use the service name for host; mysqladmin will connect to the local server inside the container
+      test: ["CMD-SHELL", "mysqladmin ping -h database -pexample --silent || mysqladmin ping -h 127.0.0.1 -pexample --silent"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -28,7 +27,7 @@ services:
       context: .
     container_name: population-app
     depends_on:
-      mysql:
+      database:
         condition: service_healthy
     environment:
       JAVA_OPTS: -Xmx512m -Xms256m
@@ -36,9 +35,12 @@ services:
       DB_NAME: world
       DB_USER: app
       DB_PASSWORD: apppass
-  # Adjust the command to how your jar accepts configuration;
-  # here we pass the DB host via an environment variable:
-    command: ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+    # Adjust the command to how your jar accepts configuration;
+    # here we pass the DB host via an environment variable.
+    # Escape the $ so docker-compose does not interpolate it at compose-time; the shell
+    # inside the container will expand $JAVA_OPTS at runtime. This prevents the
+    # "variable is not set" warning on the client.
+    command: ["sh", "-c", "java $$JAVA_OPTS -jar app.jar"]
     networks:
       - population-network
 

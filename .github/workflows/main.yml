@@ -66,33 +66,42 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Set up Docker Compose
+        run: |
+          docker compose --version || true
 
-      - name: Build database Docker image
+      - name: Build and start database with docker-compose
         run: |
           docker build -t world-db ./database
+          # Start the database service defined in docker-compose (no ports required) so it runs on the compose network
+          docker compose up -d --build database
 
-      - name: Start database container
+      - name: Wait for MySQL to be ready
         run: |
-          # Allow root to connect from runner by setting MYSQL_ROOT_HOST=%
-          docker run --name worlddb -e MYSQL_ROOT_PASSWORD=example -e MYSQL_ROOT_HOST=% -p 33060:3306 -d world-db
-          echo "Waiting for database to initialize..."
-          sleep 25
+          # Wait up to 60s for MySQL to accept connections
+          for i in {1..30}; do
+            if docker compose exec -T database mysqladmin ping -h "$$(hostname -i || echo 127.0.0.1)" --silent >/dev/null 2>&1; then
+              echo "MySQL is ready"
+              break
+            fi
+            echo "Waiting for MySQL to be ready ($i/30)..."
+            sleep 2
+          done
 
       - name: Run Integration Tests against DB container
         env:
           RUN_INTEGRATION_TESTS: 'true'
-          TEST_DB_URL: 'jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false'
+          # Use the compose service hostname; tests will read TEST_DB_* from env
+          TEST_DB_URL: 'jdbc:mysql://database:3306/world?allowPublicKeyRetrieval=true&useSSL=false'
           TEST_DB_USER: 'root'
           TEST_DB_PASSWORD: 'example'
         run: |
-          mvn -Dtest=com.napier.sem.AppIntegrationTest test
+          mvn -Dtest=com.napier.sem.AppIntegrationTest org.jacoco:jacoco-maven-plugin:0.8.10:prepare-agent test org.jacoco:jacoco-maven-plugin:0.8.10:report
 
-      - name: Tear down DB container and image
+      - name: Tear down docker-compose database service
         if: always()
         run: |
-          docker stop worlddb || true
-          docker rm -f worlddb || true
-          docker image rm world-db || true
+          docker compose down --volumes --remove-orphans
 
   Build:
     name: Build and Start Using docker-compose
@@ -116,7 +125,7 @@ jobs:
       - name: Start services with docker-compose (background)
         run: |
           echo "Starting docker-compose services..."
-          docker compose up -d
+          docker compose up -d --build
           echo "Waiting 20s for services to become healthy..."
           sleep 20
 
@@ -126,6 +135,12 @@ jobs:
         run: |
           echo "Running integration tests (AppIntegrationTest)"
           mvn -Dtest=com.napier.sem.AppIntegrationTest test
+
+      - name: Upload coverage reports to Codecov
+        if: always()
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Tear down docker-compose
         if: always()
