@@ -239,6 +239,50 @@ public class Main {
             }
             rsTopRegion.close();
 
+            //us 3.10 as a local urban planner I want to see top N populated cities of a specific district
+
+            String districtName = "California"; // Hardcoded again
+
+            String sqlTopDistrict =
+                    "SELECT Name AS CityName, CountryCode, District, Population " +
+                            "FROM city " +
+                            "WHERE District='" + districtName + "' " +
+                            "ORDER BY Population DESC LIMIT " + topN;
+
+            ResultSet rsTopDistrict = stmt.executeQuery(sqlTopDistrict);
+            System.out.println("\nTop N Cities by Population by District\n");
+            System.out.println("\nTop " + topN + " Cities by Population in " + districtName + "\n");
+            System.out.println("Rank | City Name | Country Code | District | Population");
+
+            int districtRank = 1;
+            while (rsTopDistrict.next()) {
+                System.out.println(
+                        districtRank + " | " +
+                                rsTopDistrict.getString("CityName") + " | " +
+                                rsTopDistrict.getString("CountryCode") + " | " +
+                                rsTopDistrict.getString("District") + " | " +
+                                String.format("%,d", rsTopDistrict.getLong("Population"))
+                );
+                districtRank++;
+            }
+            rsTopDistrict.close();
+
+
+            //Top N cities by Region
+            String sqlTopCity = "SELECT ID, Name, CountryCode, District, Population FROM City WHERE Region='" + regionName + "' ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTopCity = stmt.executeQuery(sqlTopCity);
+            System.out.println("\nTop N Cities by Population by Region\n");
+            System.out.println("\nTop " + topN + " Cities by Population in " + regionName + "\n");
+            System.out.println("ID | Name | CountryCode | District | Population");
+            int cityRank = 1;
+            while (rsTopCity.next()) {
+                System.out.println( cityRank + " | " +
+                        rsTopRegion.getString("ID") + " | " +
+                        rsTopRegion.getString("Name") + " | " +
+                        rsTopRegion.getString("CountryCode") + " | " +
+                        rsTopRegion.getString("District") + " | " +
+                        String.format("%,d", rsTopRegion.getLong("Population")));
+                cityRank++; } rsTopCity.close();
 
 
             // Top N query (global)
