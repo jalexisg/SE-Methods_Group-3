@@ -270,10 +270,10 @@ public class Main {
             int cityRank = 1;
             while (rsTopCity.next()) {
                 System.out.println( cityRank + " | " +
-                        rsTopRegion.getString("ID") + " | " +
-                        rsTopRegion.getString("Name") + " | " +
-                        rsTopRegion.getString("CountryCode") + " | " +
-                        rsTopRegion.getString("District") + " | " +
+                        rsTopContinent.getString("ID") + " | " +
+                        rsTopContinent.getString("Name") + " | " +
+                        rsTopContinent.getString("CountryCode") + " | " +
+                        rsTopContinent.getString("District") + " | " +
                         String.format("%,d", rsTopContinent.getLong("Population")));
                 cityRank++; } rsTopContinent.close();
 
