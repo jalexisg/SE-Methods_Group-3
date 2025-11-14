@@ -280,6 +280,7 @@ public class Main {
                         String.format("%,d", rsTopRegion.getLong("Population")));
                 cityRank++; } rsTopRegion.close();
 
+
         } catch (SQLException e) {
             // Handle and report any SQL/database errors
             System.out.println("Error connecting or querying the database: " + e.getMessage());
