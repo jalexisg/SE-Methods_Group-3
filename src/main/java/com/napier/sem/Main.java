@@ -281,7 +281,26 @@ public class Main {
             rsTopCity.close();
 
 
+            //Top N cities by Country
+            String countryName = "Poland"; //Hardcoded
+            String sqlTopCityCountry = "SELECT ID, Name, CountryCode, District, Population FROM city WHERE Region='" + countryName + "' ORDER BY Population DESC LIMIT " + topN;
+            ResultSet rsTopCityCountry = stmt.executeQuery(sqlTopCityCountry);
+            System.out.println("\nTop N Cities by Population by Region\n");
+            System.out.println("\nTop " + topN + " Cities by Population in " + countryName + "\n");
+            System.out.println("ID | Name | CountryCode | District | Population");
+            int cityRankC = 1;
+            while (rsTopCity.next()) {
+                System.out.println( cityRankC + " | " +
+                        rsTopRegion.getString("ID") + " | " +
+                        rsTopRegion.getString("Name") + " | " +
+                        rsTopRegion.getString("CountryCode") + " | " +
+                        rsTopRegion.getString("District") + " | " +
+                        String.format("%,d", rsTopRegion.getLong("Population")
+                        )
+                );
+                cityRankC++; }
 
+            rsTopCityCountry.close();
 
 
             // Close resources after all reports are generated
