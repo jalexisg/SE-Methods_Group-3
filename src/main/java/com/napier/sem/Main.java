@@ -274,21 +274,7 @@ public class Main {
             rsTopDistrict.close();
 
 
-            //Top N cities by Region
-            String sqlTopCity = "SELECT ID, Name, CountryCode, District, Population FROM City WHERE Region='" + regionName + "' ORDER BY Population DESC LIMIT " + topN;
-            ResultSet rsTopCity = stmt.executeQuery(sqlTopCity);
-            System.out.println("\nTop N Cities by Population by Region\n");
-            System.out.println("\nTop " + topN + " Cities by Population in " + regionName + "\n");
-            System.out.println("ID | Name | CountryCode | District | Population");
-            int cityRank = 1;
-            while (rsTopCity.next()) {
-                System.out.println( cityRank + " | " +
-                        rsTopRegion.getString("ID") + " | " +
-                        rsTopRegion.getString("Name") + " | " +
-                        rsTopRegion.getString("CountryCode") + " | " +
-                        rsTopRegion.getString("District") + " | " +
-                        String.format("%,d", rsTopRegion.getLong("Population")));
-                cityRank++; } rsTopCity.close();
+            
 
 
             // Top N query (global)
@@ -385,17 +371,17 @@ public class Main {
                 System.out.println("Global City Population Report");
                 System.out.println();
                 System.out.println("ID | Name | Country | District | Population");
-                ResultSet rsCities = stmt.executeQuery(sqlCities);
-                while (rsCities.next()) {
+                ResultSet rsCitiesAll = stmt.executeQuery(sqlCities);
+                while (rsCitiesAll.next()) {
                 System.out.printf("%d | %s | %s | %s | %,d%n",
-                    rsCities.getInt("ID"),
-                    safe(rsCities.getString("Name")),
-                    safe(rsCities.getString("CountryName")),
-                    safe(rsCities.getString("District")),
-                    rsCities.getLong("Population")
+                    rsCitiesAll.getInt("ID"),
+                    safe(rsCitiesAll.getString("Name")),
+                    safe(rsCitiesAll.getString("CountryName")),
+                    safe(rsCitiesAll.getString("District")),
+                    rsCitiesAll.getLong("Population")
                 );
                 }
-                rsCities.close();
+                rsCitiesAll.close();
 
 //Top N cities by Region
         // The `city` table does not have a `Region` column. Join with `country` and filter by
