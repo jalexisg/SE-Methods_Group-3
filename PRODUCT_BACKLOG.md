@@ -79,10 +79,10 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can analyze countries within specific geographical regions  
 
 **Acceptance Criteria:**
-- [ ] Filter countries by region (e.g., Eastern Asia, Western Europe)
-- [ ] Sort by population within region (descending)
-- [ ] Include: Code, Name, Continent, Region, Population, Capital
-- [ ] Support for all regions in the database
+- [x] Filter countries by region (e.g., Eastern Asia, Western Europe)
+- [x] Sort by population within region (descending)
+- [x] Include: Code, Name, Continent, Region, Population, Capital
+- [x] Support for all regions in the database
 
 **Priority:** High | **Story Points:** 8 | **Status:** ✅ DONE
 
@@ -92,10 +92,10 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can focus on the most populous nations  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for N (number of countries)
-- [ ] Display top N countries by population (descending)
-- [ ] Include: Code, Name, Continent, Region, Population, Capital
-- [ ] Handle invalid N values gracefully
+- [x] Accept user input for N (number of countries)
+- [x] Display top N countries by population (descending)
+- [x] Include: Code, Name, Continent, Region, Population, Capital
+- [x] Handle invalid N values gracefully
 
 **Priority:** High | **Story Points:** 5 | **Status:** ✅ DONE
 
@@ -105,12 +105,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can identify leading countries within regions  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for continent and N
-- [ ] Display top N countries within specified continent
-- [ ] Include: Code, Name, Continent, Region, Population, Capital
-- [ ] Validate continent names
+- [x] Accept user input for continent and N
+- [x] Display top N countries within specified continent
+- [x] Include: Code, Name, Continent, Region, Population, Capital
+- [x] Validate continent names
 
-**Priority:** High | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** High | **Story Points:** 5 | **Status:** ✅ DONE
 
 ### User Story 2.6: Top N Countries by Region
 **As a** regional analyst  
@@ -118,12 +118,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can analyze leading countries in specific areas  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for region and N
-- [ ] Display top N countries within specified region
-- [ ] Include: Code, Name, Continent, Region, Population, Capital
-- [ ] Validate region names
+- [x] Accept user input for region and N
+- [x] Display top N countries within specified region
+- [x] Include: Code, Name, Continent, Region, Population, Capital
+- [x] Validate region names
 
-**Priority:** High | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** High | **Story Points:** 5 | **Status:** ✅ DONE
 
 ---
 
@@ -135,12 +135,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can analyze global urban population distribution  
 
 **Acceptance Criteria:**
-- [ ] Display all cities with population data
-- [ ] Sort cities by population (descending)
-- [ ] Include: Name, Country, District, Population
-- [ ] Format population numbers properly
+- [x] Display all cities with population data
+- [x] Sort cities by population (descending)
+- [x] Include: Name, Country, District, Population
+- [x] Format population numbers properly
 
-**Priority:** High | **Story Points:** 8 | **Status:** 📋 TODO
+**Priority:** High | **Story Points:** 8 | **Status:** ✅ DONE
 
 ### User Story 3.2: Continental City Population Reports
 **As a** urban planner  
@@ -148,12 +148,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can analyze urban centers within continents  
 
 **Acceptance Criteria:**
-- [ ] Filter cities by continent
-- [ ] Sort by population within continent (descending)
-- [ ] Include: Name, Country, District, Population
-- [ ] Support for all continents
+- [x] Filter cities by continent
+- [x] Sort by population within continent (descending)
+- [x] Include: Name, Country, District, Population
+- [x] Support for all continents
 
-**Priority:** High | **Story Points:** 8 | **Status:** 📋 TODO
+**Priority:** High | **Story Points:** 8 | **Status:** ✅ DONE
 
 ### User Story 3.3: Regional City Population Reports
 **As a** urban planner  
@@ -187,12 +187,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can analyze local urban distribution  
 
 **Acceptance Criteria:**
-- [ ] Filter cities by district
-- [ ] Sort by population within district (descending)
-- [ ] Include: Name, Country, District, Population
-- [ ] Support for all districts
+- [x] Filter cities by district
+- [x] Sort by population within district (descending)
+- [x] Include: Name, Country, District, Population
+- [x] Support for all districts
 
-**Priority:** Medium | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** Medium | **Story Points:** 5 | **Status:** ✅ DONE
 
 ### User Story 3.6: Top N Cities Globally
 **As a** urban researcher  
@@ -200,12 +200,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can focus on major global urban centers  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for N (number of cities)
-- [ ] Display top N cities by population (descending)
-- [ ] Include: Name, Country, District, Population
-- [ ] Handle invalid N values gracefully
+- [x] Accept user input for N (number of cities)
+- [x] Display top N cities by population (descending)
+- [x] Include: Name, Country, District, Population
+- [x] Handle invalid N values gracefully
 
-**Priority:** High | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** High | **Story Points:** 5 | **Status:** ✅ DONE
 
 ### User Story 3.7: Top N Cities by Continent
 **As a** regional urban planner  
@@ -239,12 +239,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can identify major urban centers within countries  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for country and N
-- [ ] Display top N cities within specified country
-- [ ] Include: Name, Country, District, Population
-- [ ] Validate country names
+- [x] Accept user input for country and N
+- [x] Display top N cities within specified country
+- [x] Include: Name, Country, District, Population
+- [x] Validate country names
 
-**Priority:** Medium | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** Medium | **Story Points:** 5 | **Status:** ✅ DONE
 
 ### User Story 3.10: Top N Cities by District
 **As a** local urban planner  
@@ -252,12 +252,12 @@ Design and implement a comprehensive system to provide easy access to population
 **So that** I can identify major urban centers within districts  
 
 **Acceptance Criteria:**
-- [ ] Accept user input for district and N
-- [ ] Display top N cities within specified district
-- [ ] Include: Name, Country, District, Population
-- [ ] Validate district names
+- [x] Accept user input for district and N
+- [x] Display top N cities within specified district
+- [x] Include: Name, Country, District, Population
+- [x] Validate district names
 
-**Priority:** Low | **Story Points:** 5 | **Status:** 📋 TODO
+**Priority:** Low | **Story Points:** 5 | **Status:** ✅ DONE
 
 ---
 
@@ -577,7 +577,7 @@ Design and implement a comprehensive system to provide easy access to population
 ### Sprint 1 (COMPLETED) ✅
 - Database Integration & Core Infrastructure
 - Basic Docker setup
-- Global country reports (2 of 32 reports completed)
+ - Global country reports and initial city reports (12 of 32 reports completed)
 
 ### Sprint 2 (CURRENT) 🔄
 - Regional country reports
@@ -607,26 +607,33 @@ Design and implement a comprehensive system to provide easy access to population
 
 ## Progress Summary
 
-### Completed Reports: 4/32 (12.5%) ✅
-- All countries in the world by population
-- All countries in a continent by population
-- Regional country population reports
-- Top N countries globally
+### Completed Reports: 12/32 (37.5%) ✅
+- Countries by population (global) — User Story 2.1
+- Countries by population (by continent) — User Story 2.2
+- Regional country population reports — User Story 2.3
+- Top N countries globally — User Story 2.4
+- Top N countries by continent — User Story 2.5
+- Top N countries by region — User Story 2.6
+- Global city population report (all cities) — User Story 3.1
+- Cities in a continent (sample/top N) — User Story 3.2
+- District city population reports (all districts) — User Story 3.5
+- Top N cities globally — User Story 3.6
+- Top N cities by country — User Story 3.9
+- Top N cities by district — User Story 3.10
 
 ### In Progress: 0/32 (0%) 🔄
-- Currently working on regional country reports
+- Currently working on regional country reports and additional city reports
 
--### Remaining Reports: 29/32 (90.625%) 📋
-### Remaining Reports: 28/32 (87.5%) 📋
- **Country Reports:** 2 remaining (top N variations)
-- **City Reports:** 10 remaining (all variations)
-- **Capital City Reports:** 6 remaining (all variations)
+### Remaining Reports: 20/32 (62.5%) 📋
+- **Country Reports:** 0 remaining (core country reports implemented)
+- **City Reports:** 8 remaining (continental/regional/country variations not yet fully parameterised)
+- **Capital City Reports:** 6 remaining
 - **Population Summary Reports:** 3 remaining
-- **Basic Population Queries:** 6 remaining
+- **Basic Population Queries:** 3 remaining
 - **Language Demographics:** 1 remaining
 
 ### Implementation Priority:
-1. **HIGH:** Country and city reports (core functionality)
+1. **HIGH:** Finish remaining country/city reports and parameterisation
 2. **MEDIUM:** Capital city and population summary reports
 3. **LOW:** Language demographics and advanced analytics
 

@@ -34,15 +34,25 @@ The **Population Information System** is a Java-based application designed to pr
 - **CI/CD Pipeline:** Automated testing and deployment through GitHub Actions
 - **Professional Output:** Formatted console output with proper alignment and styling
 
-### Current Implementation Status
-- ✅ **4/32 Reports Implemented** (12.5% complete)
-   - Countries by population (globally)
-   - Countries by population (by continent)
-   - Regional country population reports
+## Current Implementation Status
+- ✅ **12/32 Reports Implemented** (37.5% complete)
+   Implemented reports in this branch include (countries and cities):
+   - Countries by population (global) — User Story 2.1
+   - Countries by population (by continent) — User Story 2.2
+   - Regional country population reports — User Story 2.3
+   - Top N countries globally — User Story 2.4
+   - Top N countries by continent — User Story 2.5
+   - Top N countries by region — User Story 2.6
+   - Global city population report (all cities) — User Story 3.1
+   - Cities in a continent (sample/top N) — User Story 3.2
+   - District city population reports (all districts) — User Story 3.5
+   - Top N cities globally — User Story 3.6
+   - Top N cities by country — User Story 3.9
+   - Top N cities by district — User Story 3.10
 - ✅ **Database connectivity established**
 - ✅ **Docker containerization completed**
 - ✅ **CI/CD pipeline configured**
-- 🔄 **28 additional reports pending implementation**
+- 🔄 **20 additional reports pending implementation**
 
 ## Technology Stack
 
@@ -79,7 +89,7 @@ SE-Methods_Group-3/
 ├── Dockerfile                # Multi-stage Docker build
 ├── pom.xml                   # Maven project configuration
 ├── PRODUCT_BACKLOG.md        # Complete list of 32 required reports
-├── Code of Conduct.docx      # Project guidelines
+├── CODEOFCONDUCT.md          # Project guidelines
 └── README.md                 # This file
 ```
 
@@ -130,7 +140,7 @@ SE-Methods_Group-3/
 
 The Population Information System generates 32 different types of population reports using the MySQL World Database. **Currently implemented and working:**
 
-### ✅ Available Reports (3/32 implemented - FULLY FUNCTIONAL)
+### ✅ Available Reports (12/32 implemented - FULLY FUNCTIONAL)
 
 1. **All Countries by Population (Global)**
    - Displays all 239 countries ordered by population from largest to smallest
@@ -148,6 +158,25 @@ The Population Information System generates 32 different types of population rep
 4. **Regional Country Population Reports**
    - Displays countries in each region ordered by population
    - Format: Code, Name, Continent, Region, Population, Capital
+
+5. **Global City Population Report (All Cities)**
+   - Displays all cities ordered by population (descending)
+   - Format: ID, Name, Country, District, Population
+
+6. **Cities in a Continent (Top N sample)**
+   - Displays (example) top cities in a given continent ordered by population
+
+7. **District City Population Reports**
+   - For each district, lists cities ordered by population
+
+8. **Top N Cities Globally**
+   - Displays the top N cities worldwide by population
+
+9. **Top N Cities by Country**
+   - Displays the top N cities in a specified country
+
+10. **Top N Cities by District**
+   - Displays the top N cities within a specific district
 
 ### 🎯 Running the Application with Full Database
 
