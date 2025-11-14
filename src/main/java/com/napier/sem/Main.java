@@ -283,9 +283,9 @@ public class Main {
 
             //Top N cities by Country
             String countryName = "Poland"; //Hardcoded
-            String sqlTopCityCountry = "SELECT ID, Name, CountryCode, District, Population FROM city WHERE Region='" + countryName + "' ORDER BY Population DESC LIMIT " + topN;
+            String sqlTopCityCountry = "SELECT ID, Name, CountryCode, District, Population FROM city WHERE Country='" + countryName + "' ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTopCityCountry = stmt.executeQuery(sqlTopCityCountry);
-            System.out.println("\nTop N Cities by Population by Region\n");
+            System.out.println("\nTop N Cities by Population by Country\n");
             System.out.println("\nTop " + topN + " Cities by Population in " + countryName + "\n");
             System.out.println("ID | Name | CountryCode | District | Population");
             int cityRankC = 1;
