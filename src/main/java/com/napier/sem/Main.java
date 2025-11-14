@@ -408,6 +408,28 @@ public class Main {
                 }
                 rsCitiesAll.close();
 
+                // --- Top N Cities Globally (User Story 3.6) ---
+                // Show the top N most populated cities in the world.
+                String sqlTopCitiesGlobal = "SELECT city.ID, city.Name, country.Name AS CountryName, city.District, city.Population "
+                    + "FROM city JOIN country ON city.CountryCode = country.Code "
+                    + "ORDER BY city.Population DESC LIMIT " + topN;
+                ResultSet rsTopCitiesGlobal = stmt.executeQuery(sqlTopCitiesGlobal);
+                System.out.println("\nTop " + topN + " Cities by Population (Global)\n");
+                System.out.println("Rank | ID | Name | Country | District | Population");
+                int topCityRank = 1;
+                while (rsTopCitiesGlobal.next()) {
+                    System.out.println(
+                        topCityRank + " | " +
+                        rsTopCitiesGlobal.getInt("ID") + " | " +
+                        safe(rsTopCitiesGlobal.getString("Name")) + " | " +
+                        safe(rsTopCitiesGlobal.getString("CountryName")) + " | " +
+                        safe(rsTopCitiesGlobal.getString("District")) + " | " +
+                        String.format("%,d", rsTopCitiesGlobal.getLong("Population"))
+                    );
+                    topCityRank++;
+                }
+                rsTopCitiesGlobal.close();
+
 //Top N cities by Region
         // The `city` table does not have a `Region` column. Join with `country` and filter by
         // `country.Region` instead.
