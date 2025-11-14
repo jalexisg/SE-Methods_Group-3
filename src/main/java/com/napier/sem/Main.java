@@ -27,6 +27,12 @@ public class Main {
         return DB_URL;
     }
 
+    
+
+    private static String safe(String s) {
+        return s == null ? "null" : s;
+    }
+
     /**
      * Get a connection to the database
      * @return the connection object, or null if connection fails
@@ -288,6 +294,28 @@ public class Main {
                 continentRank++;
             }
             rsTop.close();
+
+                // --- Global City Population Report (User Story 3.1) ---
+                // Print all cities ordered by population (descending). Inline implementation here.
+                String sqlCities = "SELECT city.ID, city.Name, country.Name AS CountryName, city.District, city.Population "
+                    + "FROM city JOIN country ON city.CountryCode = country.Code "
+                    + "ORDER BY city.Population DESC";
+                // no limit (0) means all
+                System.out.println();
+                System.out.println("Global City Population Report");
+                System.out.println();
+                System.out.println("ID | Name | Country | District | Population");
+                ResultSet rsCities = stmt.executeQuery(sqlCities);
+                while (rsCities.next()) {
+                System.out.printf("%d | %s | %s | %s | %,d%n",
+                    rsCities.getInt("ID"),
+                    safe(rsCities.getString("Name")),
+                    safe(rsCities.getString("CountryName")),
+                    safe(rsCities.getString("District")),
+                    rsCities.getLong("Population")
+                );
+                }
+                rsCities.close();
 
 //Top N cities by Region
         // The `city` table does not have a `Region` column. Join with `country` and filter by
