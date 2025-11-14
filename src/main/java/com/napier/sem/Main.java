@@ -33,7 +33,7 @@ public class Main {
      */
     public static Connection connect() {
         try {
-            return DriverManager.getConnection(getDatabaseURL(), getDatabaseUser(), getDatabasePassword());
+            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
             System.err.println("Error connecting to database: " + e.getMessage());
             return null;
@@ -303,6 +303,70 @@ public class Main {
                 );
                 continentRank++;
             }
+
+
+
+            //3.2 cities in specific continents ranked by population
+
+            String continentName2 = "Asia";  // Hardcoded for now
+            System.out.println("\nCities in " + continentName + " ranked by Population\n");
+            System.out.println("Rank | City | Country | Continent | Population");
+
+            String sqlCitiesByContinent =
+                    "SELECT city.Name AS City, country.Name AS Country, country.Continent, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Continent = '" + continentName2 + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT 10"; //change 10 to n to determine top n cities by pop in a continent (only put this here due to there being thousands of cities in asia, and it's a pain to scroll past!)
+
+
+            ResultSet rsCities = stmt.executeQuery(sqlCitiesByContinent);
+            int rank2 = 1;
+            while (rsCities.next()) {
+                System.out.println(
+                        rank2 + " | " +
+                                rsCities.getString("City") + " | " +
+                                rsCities.getString("Country") + " | " +
+                                rsCities.getString("Continent") + " | " +
+                                String.format("%,d", rsCities.getLong("Population"))
+                );
+                rank2++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+            rsCities.close();
             rsTop.close();
 
             // Close resources after all reports are generated
