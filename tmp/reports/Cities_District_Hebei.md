@@ -1,0 +1,14 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Shijiazhuang | CHN | 2,041,500 |
+| Tangshan | CHN | 1,040,000 |
+| Handan | CHN | 840,000 |
+| Zhangjiakou | CHN | 530,000 |
+| Baoding | CHN | 483,155 |
+| Qinhuangdao | CHN | 364,972 |
+| Xingtai | CHN | 302,789 |
+| Chengde | CHN | 246,799 |
+| Cangzhou | CHN | 242,708 |
+| Langfang | CHN | 148,105 |
+| Renqiu | CHN | 114,256 |
+| Hengshui | CHN | 104,269 |

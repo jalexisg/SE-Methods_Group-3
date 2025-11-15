@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Phoenix | USA | 1,321,045 |
+| Tucson | USA | 486,699 |
+| Mesa | USA | 396,375 |
+| Glendale | USA | 218,812 |
+| Scottsdale | USA | 202,705 |
+| Chandler | USA | 176,581 |
+| Tempe | USA | 158,625 |
+| Gilbert | USA | 109,697 |
+| Peoria | USA | 108,364 |

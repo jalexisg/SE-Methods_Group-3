@@ -1,0 +1,23 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Soweto | ZAF | 904,165 |
+| Johannesburg | ZAF | 756,653 |
+| Pretoria | ZAF | 658,630 |
+| Vanderbijlpark | ZAF | 468,931 |
+| Kempton Park | ZAF | 442,633 |
+| Alberton | ZAF | 410,102 |
+| Benoni | ZAF | 365,467 |
+| Randburg | ZAF | 341,288 |
+| Vereeniging | ZAF | 328,535 |
+| Wonderboom | ZAF | 283,289 |
+| Roodepoort | ZAF | 279,340 |
+| Boksburg | ZAF | 262,648 |
+| Soshanguve | ZAF | 242,727 |
+| Krugersdorp | ZAF | 181,503 |
+| Brakpan | ZAF | 171,363 |
+| Oberholzer | ZAF | 164,367 |
+| Germiston | ZAF | 164,252 |
+| Springs | ZAF | 162,072 |
+| Westonaria | ZAF | 159,632 |
+| Randfontein | ZAF | 120,838 |
+| Nigel | ZAF | 96,734 |

@@ -1,0 +1,19 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Bangalore | IND | 2,660,088 |
+| Hubli-Dharwad | IND | 648,298 |
+| Mysore | IND | 480,692 |
+| Belgaum | IND | 326,399 |
+| Gulbarga | IND | 304,099 |
+| Mangalore | IND | 273,304 |
+| Davangere | IND | 266,082 |
+| Bellary | IND | 245,391 |
+| Bijapur | IND | 186,939 |
+| Shimoga | IND | 179,258 |
+| Raichur | IND | 157,551 |
+| Timkur | IND | 138,903 |
+| Gadag Betigeri | IND | 134,051 |
+| Mandya | IND | 120,265 |
+| Bidar | IND | 108,016 |
+| Hospet | IND | 96,322 |
+| Hassan | IND | 90,803 |

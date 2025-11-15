@@ -1,0 +1,9 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Bari | ITA | 331,848 |
+| Taranto | ITA | 208,214 |
+| Foggia | ITA | 154,891 |
+| Lecce | ITA | 98,208 |
+| Andria | ITA | 94,443 |
+| Brindisi | ITA | 93,454 |
+| Barletta | ITA | 91,904 |

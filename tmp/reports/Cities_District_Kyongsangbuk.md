@@ -1,0 +1,12 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Pohang | KOR | 508,899 |
+| Kumi | KOR | 311,431 |
+| Kyongju | KOR | 272,968 |
+| Andong | KOR | 188,443 |
+| Kyongsan | KOR | 173,746 |
+| Kimchon | KOR | 147,027 |
+| Yongju | KOR | 131,097 |
+| Sangju | KOR | 124,116 |
+| Yongchon | KOR | 113,511 |
+| Mun-gyong | KOR | 92,239 |

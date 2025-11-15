@@ -1,0 +1,23 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Indore | IND | 1,091,674 |
+| Bhopal | IND | 1,062,771 |
+| Jabalpur | IND | 741,927 |
+| Gwalior | IND | 690,765 |
+| Ujjain | IND | 362,266 |
+| Sagar | IND | 195,346 |
+| Ratlam | IND | 183,375 |
+| Burhanpur | IND | 172,710 |
+| Dewas | IND | 164,364 |
+| Murwara (Katni) | IND | 163,431 |
+| Satna | IND | 156,630 |
+| Morena | IND | 147,124 |
+| Khandwa | IND | 145,133 |
+| Rewa | IND | 128,981 |
+| Bhind | IND | 109,755 |
+| Shivapuri | IND | 108,277 |
+| Guna | IND | 100,490 |
+| Mandasor | IND | 95,758 |
+| Damoh | IND | 95,661 |
+| Chhindwara | IND | 93,731 |
+| Vidisha | IND | 92,917 |

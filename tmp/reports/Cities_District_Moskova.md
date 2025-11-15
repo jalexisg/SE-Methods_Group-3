@@ -1,0 +1,20 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Podolsk | RUS | 194,300 |
+| Ljubertsy | RUS | 163,900 |
+| Mytištši | RUS | 155,700 |
+| Kolomna | RUS | 150,700 |
+| Elektrostal | RUS | 147,000 |
+| Himki | RUS | 133,700 |
+| Balašiha | RUS | 132,900 |
+| Korolev | RUS | 132,400 |
+| Serpuhov | RUS | 132,000 |
+| Odintsovo | RUS | 127,400 |
+| Orehovo-Zujevo | RUS | 124,900 |
+| Noginsk | RUS | 117,200 |
+| Sergijev Posad | RUS | 111,100 |
+| Štšolkovo | RUS | 104,900 |
+| Zeleznodoroznyi | RUS | 100,100 |
+| Zukovski | RUS | 96,500 |
+| Krasnogorsk | RUS | 91,000 |
+| Klin | RUS | 90,000 |

@@ -1,0 +1,9 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Rostov-na-Donu | RUS | 1,012,700 |
+| Taganrog | RUS | 284,400 |
+| Šahty | RUS | 221,800 |
+| Novotšerkassk | RUS | 184,400 |
+| Volgodonsk | RUS | 178,200 |
+| Novošahtinsk | RUS | 101,900 |
+| Bataisk | RUS | 97,300 |

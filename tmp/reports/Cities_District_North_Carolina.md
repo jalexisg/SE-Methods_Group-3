@@ -1,0 +1,9 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Charlotte | USA | 540,828 |
+| Raleigh | USA | 276,093 |
+| Greensboro | USA | 223,891 |
+| Durham | USA | 187,035 |
+| Winston-Salem | USA | 185,776 |
+| Fayetteville | USA | 121,015 |
+| Cary | USA | 91,213 |

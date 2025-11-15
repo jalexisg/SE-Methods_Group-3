@@ -1,0 +1,73 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| London | GBR | 7,285,000 |
+| Birmingham | GBR | 1,013,000 |
+| Liverpool | GBR | 461,000 |
+| Sheffield | GBR | 431,607 |
+| Manchester | GBR | 430,000 |
+| Leeds | GBR | 424,194 |
+| Bristol | GBR | 402,000 |
+| Coventry | GBR | 304,000 |
+| Leicester | GBR | 294,000 |
+| Bradford | GBR | 289,376 |
+| Nottingham | GBR | 287,000 |
+| Kingston upon Hull | GBR | 262,000 |
+| Plymouth | GBR | 253,000 |
+| Stoke-on-Trent | GBR | 252,000 |
+| Wolverhampton | GBR | 242,000 |
+| Derby | GBR | 236,000 |
+| Southampton | GBR | 216,000 |
+| Northampton | GBR | 196,000 |
+| Dudley | GBR | 192,171 |
+| Portsmouth | GBR | 190,000 |
+| Newcastle upon Tyne | GBR | 189,150 |
+| Sunderland | GBR | 183,310 |
+| Luton | GBR | 183,000 |
+| Swindon | GBR | 180,000 |
+| Southend-on-Sea | GBR | 176,000 |
+| Walsall | GBR | 174,739 |
+| Bournemouth | GBR | 162,000 |
+| Brighton | GBR | 156,124 |
+| Peterborough | GBR | 156,000 |
+| Blackpool | GBR | 151,000 |
+| Reading | GBR | 148,000 |
+| West Bromwich | GBR | 146,386 |
+| Oldbury/Smethwick (Warley) | GBR | 145,542 |
+| Middlesbrough | GBR | 145,000 |
+| Oxford | GBR | 144,000 |
+| Huddersfield | GBR | 143,726 |
+| Poole | GBR | 141,000 |
+| Blackburn | GBR | 140,000 |
+| Bolton | GBR | 139,020 |
+| Preston | GBR | 135,000 |
+| Stockport | GBR | 132,813 |
+| Norwich | GBR | 124,000 |
+| Rotherham | GBR | 121,380 |
+| Cambridge | GBR | 121,000 |
+| Ipswich | GBR | 114,000 |
+| Watford | GBR | 113,080 |
+| Slough | GBR | 112,000 |
+| Exeter | GBR | 111,000 |
+| Gloucester | GBR | 107,000 |
+| Saint Helens | GBR | 106,293 |
+| Sutton Coldfield | GBR | 106,001 |
+| Cheltenham | GBR | 106,000 |
+| York | GBR | 104,425 |
+| Oldham | GBR | 103,931 |
+| Basildon | GBR | 100,924 |
+| Worthing | GBR | 100,000 |
+| Chelmsford | GBR | 97,451 |
+| Crawley | GBR | 97,000 |
+| Colchester | GBR | 96,063 |
+| Worcester | GBR | 95,000 |
+| Solihull | GBR | 94,531 |
+| Rochdale | GBR | 94,313 |
+| Birkenhead | GBR | 93,087 |
+| Gillingham | GBR | 92,000 |
+| Hartlepool | GBR | 92,000 |
+| Woking/Byfleet | GBR | 92,000 |
+| Halifax | GBR | 91,069 |
+| Southport | GBR | 90,959 |
+| Maidstone | GBR | 90,878 |
+| Eastbourne | GBR | 90,000 |
+| Grimsby | GBR | 89,000 |

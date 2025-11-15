@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Nanning | CHN | 1,161,800 |
+| Liuzhou | CHN | 610,000 |
+| Guilin | CHN | 364,130 |
+| Wuzhou | CHN | 210,452 |
+| Yulin | CHN | 144,467 |
+| Qinzhou | CHN | 114,586 |
+| Guigang | CHN | 114,025 |
+| Beihai | CHN | 112,673 |
+| Bose | CHN | 93,009 |

@@ -1,0 +1,27 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Nanking [Nanjing] | CHN | 2,870,300 |
+| Wuxi | CHN | 830,000 |
+| Xuzhou | CHN | 810,000 |
+| Suzhou | CHN | 710,000 |
+| Changzhou | CHN | 530,000 |
+| Zhenjiang | CHN | 368,316 |
+| Lianyungang | CHN | 354,139 |
+| Nantong | CHN | 343,341 |
+| Yangzhou | CHN | 312,892 |
+| Yancheng | CHN | 296,831 |
+| Huaiyin | CHN | 239,675 |
+| Jiangyin | CHN | 213,659 |
+| Yixing | CHN | 200,824 |
+| Dongtai | CHN | 192,247 |
+| Changshu | CHN | 181,805 |
+| Danyang | CHN | 169,603 |
+| Xinghua | CHN | 161,910 |
+| Taizhou | CHN | 152,442 |
+| Huai´an | CHN | 131,149 |
+| Qidong | CHN | 126,872 |
+| Liyang | CHN | 109,520 |
+| Yizheng | CHN | 109,268 |
+| Suqian | CHN | 105,021 |
+| Kunshan | CHN | 102,052 |
+| Zhangjiagang | CHN | 97,994 |

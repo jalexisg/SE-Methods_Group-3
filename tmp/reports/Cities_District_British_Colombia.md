@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Vancouver | CAN | 514,008 |
+| Surrey | CAN | 304,477 |
+| Burnaby | CAN | 179,209 |
+| Richmond | CAN | 148,867 |
+| Abbotsford | CAN | 105,403 |
+| Coquitlam | CAN | 101,820 |
+| Saanich | CAN | 101,388 |
+| Delta | CAN | 95,411 |
+| Kelowna | CAN | 89,442 |

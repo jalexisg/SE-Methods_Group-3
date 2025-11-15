@@ -1,0 +1,13 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Nanchang | CHN | 1,691,600 |
+| Pingxiang | CHN | 425,579 |
+| Jiujiang | CHN | 291,187 |
+| Jingdezhen | CHN | 281,183 |
+| Ganzhou | CHN | 220,129 |
+| Fengcheng | CHN | 193,784 |
+| Xinyu | CHN | 173,524 |
+| Yichun | CHN | 151,585 |
+| Ji´an | CHN | 148,583 |
+| Shangrao | CHN | 132,455 |
+| Linchuan | CHN | 121,949 |

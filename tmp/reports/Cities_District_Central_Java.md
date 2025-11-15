@@ -1,0 +1,13 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Semarang | IDN | 1,104,405 |
+| Surakarta | IDN | 518,600 |
+| Pekalongan | IDN | 301,504 |
+| Tegal | IDN | 289,744 |
+| Cilacap | IDN | 206,900 |
+| Purwokerto | IDN | 202,500 |
+| Magelang | IDN | 123,800 |
+| Pemalang | IDN | 103,500 |
+| Klaten | IDN | 103,300 |
+| Salatiga | IDN | 103,000 |
+| Kudus | IDN | 95,300 |

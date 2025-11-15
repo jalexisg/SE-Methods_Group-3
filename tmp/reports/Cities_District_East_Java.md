@@ -1,0 +1,15 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Surabaya | IDN | 2,663,820 |
+| Malang | IDN | 716,862 |
+| Kediri | IDN | 253,760 |
+| Jember | IDN | 218,500 |
+| Madiun | IDN | 171,532 |
+| Pasuruan | IDN | 134,019 |
+| Waru | IDN | 124,300 |
+| Blitar | IDN | 122,600 |
+| Probolinggo | IDN | 120,770 |
+| Taman | IDN | 107,000 |
+| Mojokerto | IDN | 96,626 |
+| Jombang | IDN | 92,600 |
+| Banyuwangi | IDN | 89,900 |

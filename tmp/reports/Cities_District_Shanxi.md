@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Taiyuan | CHN | 1,968,400 |
+| Datong | CHN | 800,000 |
+| Yangquan | CHN | 362,268 |
+| Changzhi | CHN | 317,144 |
+| Yuci | CHN | 191,356 |
+| Linfen | CHN | 187,309 |
+| Jincheng | CHN | 136,396 |
+| Yuncheng | CHN | 108,359 |
+| Xinzhou | CHN | 98,667 |

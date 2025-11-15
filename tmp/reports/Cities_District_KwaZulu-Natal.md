@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Inanda | ZAF | 634,065 |
+| Durban | ZAF | 566,120 |
+| Pinetown | ZAF | 378,810 |
+| Pietermaritzburg | ZAF | 370,190 |
+| Umlazi | ZAF | 339,233 |
+| Newcastle | ZAF | 222,993 |
+| Chatsworth | ZAF | 189,885 |
+| Ladysmith | ZAF | 89,292 |

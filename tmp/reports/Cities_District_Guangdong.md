@@ -1,0 +1,22 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Kanton [Guangzhou] | CHN | 4,256,300 |
+| Shenzhen | CHN | 950,500 |
+| Shantou | CHN | 580,000 |
+| Zhangjiang | CHN | 400,997 |
+| Shaoguan | CHN | 350,043 |
+| Chaozhou | CHN | 313,469 |
+| Dongwan | CHN | 308,669 |
+| Foshan | CHN | 303,160 |
+| Zhongshan | CHN | 278,829 |
+| Jiangmen | CHN | 230,587 |
+| Yangjiang | CHN | 215,196 |
+| Zhaoqing | CHN | 194,784 |
+| Maoming | CHN | 178,683 |
+| Zhuhai | CHN | 164,747 |
+| Qingyuan | CHN | 164,641 |
+| Huizhou | CHN | 161,023 |
+| Meixian | CHN | 132,156 |
+| Heyuan | CHN | 120,101 |
+| Shanwei | CHN | 107,847 |
+| Jieyang | CHN | 98,531 |

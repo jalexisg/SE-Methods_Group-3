@@ -1,0 +1,12 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Sapporo | JPN | 1,790,886 |
+| Asahikawa | JPN | 364,813 |
+| Hakodate | JPN | 294,788 |
+| Kushiro | JPN | 197,608 |
+| Obihiro | JPN | 173,685 |
+| Tomakomai | JPN | 171,958 |
+| Otaru | JPN | 155,784 |
+| Ebetsu | JPN | 118,805 |
+| Kitami | JPN | 111,295 |
+| Muroran | JPN | 108,275 |

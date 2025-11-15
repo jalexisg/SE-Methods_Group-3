@@ -1,0 +1,37 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Hyderabad | IND | 2,964,638 |
+| Vishakhapatnam | IND | 752,037 |
+| Vijayawada | IND | 701,827 |
+| Guntur | IND | 471,051 |
+| Warangal | IND | 447,657 |
+| Rajahmundry | IND | 324,851 |
+| Nellore | IND | 316,606 |
+| Kakinada | IND | 279,980 |
+| Nizamabad | IND | 241,034 |
+| Kurnool | IND | 236,800 |
+| Ramagundam | IND | 214,384 |
+| Eluru | IND | 212,866 |
+| Kukatpalle | IND | 185,378 |
+| Anantapur | IND | 174,924 |
+| Tirupati | IND | 174,369 |
+| Secunderabad | IND | 167,461 |
+| Vizianagaram | IND | 160,359 |
+| Machilipatnam (Masulipatam) | IND | 159,110 |
+| Lalbahadur Nagar | IND | 155,500 |
+| Karimnagar | IND | 148,583 |
+| Tenali | IND | 143,726 |
+| Adoni | IND | 136,182 |
+| Proddatur | IND | 133,914 |
+| Chittoor | IND | 133,462 |
+| Khammam | IND | 127,992 |
+| Malkajgiri | IND | 126,066 |
+| Cuddapah | IND | 121,463 |
+| Bhimavaram | IND | 121,314 |
+| Nandyal | IND | 119,813 |
+| Mahbubnagar | IND | 116,833 |
+| Guntakal | IND | 107,592 |
+| Qutubullapur | IND | 105,380 |
+| Hindupur | IND | 104,651 |
+| Gudivada | IND | 101,656 |
+| Ongole | IND | 100,836 |

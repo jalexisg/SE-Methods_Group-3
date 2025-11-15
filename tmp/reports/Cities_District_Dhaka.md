@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Dhaka | BGD | 3,612,850 |
+| Narayanganj | BGD | 202,134 |
+| Mymensingh | BGD | 188,713 |
+| Tungi | BGD | 168,702 |
+| Tangail | BGD | 106,004 |
+| Jamalpur | BGD | 103,556 |
+| Narsinghdi | BGD | 98,342 |
+| Gazipur | BGD | 96,717 |

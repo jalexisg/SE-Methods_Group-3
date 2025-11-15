@@ -1,0 +1,27 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Bandung | IDN | 2,429,000 |
+| Tangerang | IDN | 1,198,300 |
+| Bekasi | IDN | 644,300 |
+| Depok | IDN | 365,200 |
+| Cimahi | IDN | 344,600 |
+| Bogor | IDN | 285,114 |
+| Ciputat | IDN | 270,800 |
+| Pondokgede | IDN | 263,200 |
+| Cirebon | IDN | 254,406 |
+| Cimanggis | IDN | 205,100 |
+| Ciomas | IDN | 187,400 |
+| Tasikmalaya | IDN | 179,800 |
+| Karawang | IDN | 145,000 |
+| Sukabumi | IDN | 125,766 |
+| Serang | IDN | 122,400 |
+| Cilegon | IDN | 117,000 |
+| Cianjur | IDN | 114,300 |
+| Ciparay | IDN | 111,500 |
+| Citeureup | IDN | 105,100 |
+| Cibinong | IDN | 101,300 |
+| Purwakarta | IDN | 95,900 |
+| Garut | IDN | 95,800 |
+| Majalaya | IDN | 93,200 |
+| Pondok Aren | IDN | 92,700 |
+| Sawangan | IDN | 91,100 |

@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Belém | BRA | 1,186,926 |
+| Ananindeua | BRA | 400,940 |
+| Santarém | BRA | 241,771 |
+| Marabá | BRA | 167,795 |
+| Castanhal | BRA | 127,634 |
+| Abaetetuba | BRA | 111,258 |
+| Itaituba | BRA | 101,320 |
+| Cametá | BRA | 92,779 |

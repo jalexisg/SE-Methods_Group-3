@@ -1,0 +1,13 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Ulsan | KOR | 1,084,891 |
+| Chang-won | KOR | 481,694 |
+| Masan | KOR | 441,242 |
+| Chinju | KOR | 329,886 |
+| Kimhae | KOR | 256,370 |
+| Yangsan | KOR | 163,351 |
+| Koje | KOR | 147,562 |
+| Tong-yong | KOR | 131,717 |
+| Chinhae | KOR | 125,997 |
+| Miryang | KOR | 121,501 |
+| Sachon | KOR | 113,494 |

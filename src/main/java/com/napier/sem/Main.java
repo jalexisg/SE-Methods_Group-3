@@ -117,22 +117,30 @@ public class Main {
             System.out.println("Code | Name | Continent | Region | Population | Capital");
             String sqlGlobal = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC";
             ResultSet rsGlobal = stmt.executeQuery(sqlGlobal);
+            List<List<String>> rowsGlobalCountries = new ArrayList<>();
+            List<String> headersGlobalCountries = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
             while (rsGlobal.next()) {
                 // Print each country's details in a formatted row
-                System.out.println(
-                    rsGlobal.getString("Code") + " | " +
-                    rsGlobal.getString("Name") + " | " +
-                    rsGlobal.getString("Continent") + " | " +
-                    rsGlobal.getString("Region") + " | " +
-                    String.format("%,d", rsGlobal.getLong("Population")) + " | " +
-                    rsGlobal.getString("Capital")
-                );
+                String code = safe(rsGlobal.getString("Code"));
+                String name = safe(rsGlobal.getString("Name"));
+                String continent = safe(rsGlobal.getString("Continent"));
+                String region = safe(rsGlobal.getString("Region"));
+                String population = String.format("%,d", rsGlobal.getLong("Population"));
+                String capital = safe(rsGlobal.getString("Capital"));
+
+                System.out.println(code + " | " + name + " | " + continent + " | " + region + " | " + population + " | " + capital);
+                rowsGlobalCountries.add(List.of(code, name, continent, region, population, capital));
             }
             rsGlobal.close();
+            // Write global countries report
+            outputTable(headersGlobalCountries, rowsGlobalCountries, "Countries by population (global) — User Story 2.1.md");
 
             // --- Continental Country Population Reports (User Story 2.2) ---
             // For each continent, print countries ordered by population
             String[] continents = {"Asia", "Europe", "Africa", "North America", "South America", "Oceania", "Antarctica"};
+            // Aggregate all continent reports into a single file
+            List<List<String>> rowsCountriesAllContinents = new ArrayList<>();
+            List<String> headersContinent = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
             for (String continent : continents) {
                 // Print header for the current continent
                 System.out.println("\nCountries in " + continent + " by Population\n");
@@ -143,18 +151,21 @@ public class Main {
                 ResultSet rsContinent = stmt.executeQuery(sqlContinent);
 
                 while (rsContinent.next()) {
+                    String code = safe(rsContinent.getString("Code"));
+                    String name = safe(rsContinent.getString("Name"));
+                    String cont = safe(rsContinent.getString("Continent"));
+                    String reg = safe(rsContinent.getString("Region"));
+                    String pop = String.format("%,d", rsContinent.getLong("Population"));
+                    String cap = safe(rsContinent.getString("Capital"));
+
                     // Print each country's details for the current continent
-                    System.out.println(
-                        rsContinent.getString("Code") + " | " +
-                        rsContinent.getString("Name") + " | " +
-                        rsContinent.getString("Continent") + " | " +
-                        rsContinent.getString("Region") + " | " +
-                        String.format("%,d", rsContinent.getLong("Population")) + " | " +
-                        rsContinent.getString("Capital")
-                    );
+                    System.out.println(code + " | " + name + " | " + cont + " | " + reg + " | " + pop + " | " + cap);
+                    rowsCountriesAllContinents.add(List.of(code, name, cont, reg, pop, cap));
                 }
                 rsContinent.close();
             }
+            // Write a single consolidated continent report
+            outputTable(headersContinent, rowsCountriesAllContinents, "Countries by population (by continent) — User Story 2.2.md");
 
             // --- Regional Country Population Reports (User Story 2.3) ---
             // For each region, print countries ordered by population (descending)
@@ -168,7 +179,9 @@ public class Main {
             }
             rsRegions.close();
 
-            // Now, for each region, query and print the countries
+            // Now, for each region, query and accumulate countries
+            List<List<String>> rowsCountriesAllRegions = new ArrayList<>();
+            List<String> headersRegion = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
             for (String region : regions) {
                 System.out.println("\nCountries in region: " + region + " by Population\n");
                 System.out.println("Code | Name | Continent | Region | Population | Capital");
@@ -176,18 +189,21 @@ public class Main {
                 String sqlRegionReport = "SELECT Code, Name, Continent, Region, Population, Capital FROM country WHERE Region='" + region.replace("'", "''") + "' ORDER BY Population DESC";
                 ResultSet rsRegion = stmt.executeQuery(sqlRegionReport);
                 while (rsRegion.next()) {
+                    String code = safe(rsRegion.getString("Code"));
+                    String name = safe(rsRegion.getString("Name"));
+                    String cont = safe(rsRegion.getString("Continent"));
+                    String reg = safe(rsRegion.getString("Region"));
+                    String pop = String.format("%,d", rsRegion.getLong("Population"));
+                    String cap = safe(rsRegion.getString("Capital"));
+
                     // Print country data for the current region
-                    System.out.println(
-                        rsRegion.getString("Code") + " | " +
-                        rsRegion.getString("Name") + " | " +
-                        rsRegion.getString("Continent") + " | " +
-                        rsRegion.getString("Region") + " | " +
-                        String.format("%,d", rsRegion.getLong("Population")) + " | " +
-                        rsRegion.getString("Capital")
-                    );
+                    System.out.println(code + " | " + name + " | " + cont + " | " + reg + " | " + pop + " | " + cap);
+                    rowsCountriesAllRegions.add(List.of(code, name, cont, reg, pop, cap));
                 }
                 rsRegion.close();
             }
+            // Write a single consolidated region report
+            outputTable(headersRegion, rowsCountriesAllRegions, "Regional country population reports — User Story 2.3.md");
 
             // --- Top N Countries Globally (User Story 2.4) ---
             // Use first command-line argument as N if provided, otherwise default to 10
@@ -216,19 +232,22 @@ public class Main {
             System.out.println("\nTop " + topN + " Countries by Population in " + continentName + "\n");
             System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
             int rank = 1;
+            List<List<String>> rowsTopContinent = new ArrayList<>();
+            List<String> headersTopContinent = List.of("Rank", "Code", "Name", "Continent", "Region", "Population", "Capital");
             while (rsTopContinent.next()) {
-                System.out.println(
-                        rank + " | " +
-                                rsTopContinent.getString("Code") + " | " +
-                                rsTopContinent.getString("Name") + " | " +
-                                rsTopContinent.getString("Continent") + " | " +
-                                rsTopContinent.getString("Region") + " | " +
-                                String.format("%,d", rsTopContinent.getLong("Population")) + " | " +
-                                rsTopContinent.getString("Capital")
-                );
+                String code = safe(rsTopContinent.getString("Code"));
+                String name = safe(rsTopContinent.getString("Name"));
+                String cont = safe(rsTopContinent.getString("Continent"));
+                String reg = safe(rsTopContinent.getString("Region"));
+                String pop = String.format("%,d", rsTopContinent.getLong("Population"));
+                String cap = safe(rsTopContinent.getString("Capital"));
+
+                System.out.println(rank + " | " + code + " | " + name + " | " + cont + " | " + reg + " | " + pop + " | " + cap);
+                rowsTopContinent.add(List.of(String.valueOf(rank), code, name, cont, reg, pop, cap));
                 rank++;
             }
             rsTopContinent.close();
+            outputTable(headersTopContinent, rowsTopContinent, "Top N countries by continent — User Story 2.5.md");
 
             // Top N Countries by Region (2.6)
 
@@ -241,19 +260,22 @@ public class Main {
             System.out.println("\nTop " + topN + " Countries by Population in " + regionName + "\n");
             System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
             int regionRank = 1;
+            List<List<String>> rowsTopRegion = new ArrayList<>();
+            List<String> headersTopRegion = List.of("Rank", "Code", "Name", "Continent", "Region", "Population", "Capital");
             while (rsTopRegion.next()) {
-                System.out.println(
-                        regionRank + " | " +
-                                rsTopRegion.getString("Code") + " | " +
-                                rsTopRegion.getString("Name") + " | " +
-                                rsTopRegion.getString("Continent") + " | " +
-                                rsTopRegion.getString("Region") + " | " +
-                                String.format("%,d", rsTopRegion.getLong("Population")) + " | " +
-                                rsTopRegion.getString("Capital")
-                );
+                String code = safe(rsTopRegion.getString("Code"));
+                String name = safe(rsTopRegion.getString("Name"));
+                String cont = safe(rsTopRegion.getString("Continent"));
+                String reg = safe(rsTopRegion.getString("Region"));
+                String pop = String.format("%,d", rsTopRegion.getLong("Population"));
+                String cap = safe(rsTopRegion.getString("Capital"));
+
+                System.out.println(regionRank + " | " + code + " | " + name + " | " + cont + " | " + reg + " | " + pop + " | " + cap);
+                rowsTopRegion.add(List.of(String.valueOf(regionRank), code, name, cont, reg, pop, cap));
                 regionRank++;
             }
             rsTopRegion.close();
+            outputTable(headersTopRegion, rowsTopRegion, "Top N countries by region — User Story 2.6.md");
 
             //us 3.10 as a local urban planner I want to see top N populated cities of a specific district
 
@@ -271,17 +293,20 @@ public class Main {
             System.out.println("Rank | City Name | Country Code | District | Population");
 
             int districtRank = 1;
+            List<List<String>> rowsTopDistrict = new ArrayList<>();
+            List<String> headersTopDistrict = List.of("Rank", "City Name", "Country Code", "District", "Population");
             while (rsTopDistrict.next()) {
-                System.out.println(
-                        districtRank + " | " +
-                                rsTopDistrict.getString("CityName") + " | " +
-                                rsTopDistrict.getString("CountryCode") + " | " +
-                                rsTopDistrict.getString("District") + " | " +
-                                String.format("%,d", rsTopDistrict.getLong("Population"))
-                );
+                String cityName = safe(rsTopDistrict.getString("CityName"));
+                String countryCode = safe(rsTopDistrict.getString("CountryCode"));
+                String district = safe(rsTopDistrict.getString("District"));
+                String pop = String.format("%,d", rsTopDistrict.getLong("Population"));
+
+                System.out.println(districtRank + " | " + cityName + " | " + countryCode + " | " + district + " | " + pop);
+                rowsTopDistrict.add(List.of(String.valueOf(districtRank), cityName, countryCode, district, pop));
                 districtRank++;
             }
             rsTopDistrict.close();
+            outputTable(headersTopDistrict, rowsTopDistrict, "Top N cities by district — User Story 3.10.md");
 
 
             
@@ -293,18 +318,21 @@ public class Main {
             System.out.println("\nTop " + topN + " Countries by Population (Global)\n");
             System.out.println("Rank | Code | Name | Continent | Region | Population | Capital");
             int continentRank = 1;
+            List<List<String>> rowsTopGlobal = new ArrayList<>();
+            List<String> headersTopGlobal = List.of("Rank", "Code", "Name", "Continent", "Region", "Population", "Capital");
             while (rsTop.next()) {
-                System.out.println(
-                    continentRank + " | " +
-                    rsTop.getString("Code") + " | " +
-                    rsTop.getString("Name") + " | " +
-                    rsTop.getString("Continent") + " | " +
-                    rsTop.getString("Region") + " | " +
-                    String.format("%,d", rsTop.getLong("Population")) + " | " +
-                    rsTop.getString("Capital")
-                );
+                String code = safe(rsTop.getString("Code"));
+                String name = safe(rsTop.getString("Name"));
+                String cont = safe(rsTop.getString("Continent"));
+                String reg = safe(rsTop.getString("Region"));
+                String pop = String.format("%,d", rsTop.getLong("Population"));
+                String cap = safe(rsTop.getString("Capital"));
+
+                System.out.println(continentRank + " | " + code + " | " + name + " | " + cont + " | " + reg + " | " + pop + " | " + cap);
+                rowsTopGlobal.add(List.of(String.valueOf(continentRank), code, name, cont, reg, pop, cap));
                 continentRank++;
             }
+            outputTable(headersTopGlobal, rowsTopGlobal, "Top N countries globally — User Story 2.4.md");
 
 
 
@@ -325,50 +353,52 @@ public class Main {
 
             ResultSet rsCities = stmt.executeQuery(sqlCitiesByContinent);
             int rank2 = 1;
+            List<List<String>> rowsCitiesByContinent = new ArrayList<>();
+            List<String> headersCitiesByContinent = List.of("Rank", "City", "Country", "Continent", "Population");
             while (rsCities.next()) {
-                System.out.println(
-                        rank2 + " | " +
-                                rsCities.getString("City") + " | " +
-                                rsCities.getString("Country") + " | " +
-                                rsCities.getString("Continent") + " | " +
-                                String.format("%,d", rsCities.getLong("Population"))
-                );
+                String city = safe(rsCities.getString("City"));
+                String country = safe(rsCities.getString("Country"));
+                String cont = safe(rsCities.getString("Continent"));
+                String pop = String.format("%,d", rsCities.getLong("Population"));
+
+                System.out.println(rank2 + " | " + city + " | " + country + " | " + cont + " | " + pop);
+                rowsCitiesByContinent.add(List.of(String.valueOf(rank2), city, country, cont, pop));
                 rank2++;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             rsCities.close();
+            // Write continent city report
+            outputTable(headersCitiesByContinent, rowsCitiesByContinent, "Cities in a continent (sample/top N) — User Story 3.2.md");
             rsTop.close();
 
             // --- District City Population Reports (User Story 3.5) ---
@@ -381,20 +411,27 @@ public class Main {
             }
             rsDistinctDistricts.close();
 
+            // Consolidate all district city reports into a single file
+            List<List<String>> rowsCitiesAllDistricts = new ArrayList<>();
+            List<String> headersCitiesInDistrictAll = List.of("District", "Name", "CountryCode", "Population");
+
             for (String district : districts) {
                 System.out.println("\nCities in district: " + district + " by Population\n");
                 System.out.println("Name | CountryCode | Population");
                 String sqlCitiesInDistrict = "SELECT Name, CountryCode, Population FROM city WHERE District='" + district.replace("'", "''") + "' ORDER BY Population DESC";
                 ResultSet rsCitiesInDistrict = stmt.executeQuery(sqlCitiesInDistrict);
                 while (rsCitiesInDistrict.next()) {
-                    System.out.println(
-                            rsCitiesInDistrict.getString("Name") + " | " +
-                            rsCitiesInDistrict.getString("CountryCode") + " | " +
-                            String.format("%,d", rsCitiesInDistrict.getLong("Population"))
-                    );
+                    String name = safe(rsCitiesInDistrict.getString("Name"));
+                    String cc = safe(rsCitiesInDistrict.getString("CountryCode"));
+                    String pop = String.format("%,d", rsCitiesInDistrict.getLong("Population"));
+
+                    System.out.println(name + " | " + cc + " | " + pop);
+                    rowsCitiesAllDistricts.add(List.of(district, name, cc, pop));
                 }
                 rsCitiesInDistrict.close();
             }
+            // Write a single consolidated district report
+            outputTable(headersCitiesInDistrictAll, rowsCitiesAllDistricts, "District city population reports (all districts) — User Story 3.5.md");
 
                 // --- Global City Population Report (User Story 3.1) ---
                 // Print all cities ordered by population (descending). Inline implementation here.
@@ -407,16 +444,21 @@ public class Main {
                 System.out.println();
                 System.out.println("ID | Name | Country | District | Population");
                 ResultSet rsCitiesAll = stmt.executeQuery(sqlCities);
+                List<List<String>> rowsGlobalCities = new ArrayList<>();
+                List<String> headersCities = List.of("ID", "Name", "Country", "District", "Population");
                 while (rsCitiesAll.next()) {
-                System.out.printf("%d | %s | %s | %s | %,d%n",
-                    rsCitiesAll.getInt("ID"),
-                    safe(rsCitiesAll.getString("Name")),
-                    safe(rsCitiesAll.getString("CountryName")),
-                    safe(rsCitiesAll.getString("District")),
-                    rsCitiesAll.getLong("Population")
-                );
+                int id = rsCitiesAll.getInt("ID");
+                String name = safe(rsCitiesAll.getString("Name"));
+                String countryNameAll = safe(rsCitiesAll.getString("CountryName"));
+                String district = safe(rsCitiesAll.getString("District"));
+                String pop = String.format("%,d", rsCitiesAll.getLong("Population"));
+
+                System.out.printf("%d | %s | %s | %s | %,d%n", id, name, countryNameAll, district, rsCitiesAll.getLong("Population"));
+                rowsGlobalCities.add(List.of(String.valueOf(id), name, countryNameAll, district, pop));
                 }
                 rsCitiesAll.close();
+                // Write global cities report (may be large)
+                outputTable(headersCities, rowsGlobalCities, "Global city population report (all cities) — User Story 3.1.md");
 
                 // --- Top N Cities Globally (User Story 3.6) ---
                 // Show the top N most populated cities in the world.
@@ -427,18 +469,21 @@ public class Main {
                 System.out.println("\nTop " + topN + " Cities by Population (Global)\n");
                 System.out.println("Rank | ID | Name | Country | District | Population");
                 int topCityRank = 1;
+                List<List<String>> rowsTopCities = new ArrayList<>();
+                List<String> headersTopCities = List.of("Rank", "ID", "Name", "Country", "District", "Population");
                 while (rsTopCitiesGlobal.next()) {
-                    System.out.println(
-                        topCityRank + " | " +
-                        rsTopCitiesGlobal.getInt("ID") + " | " +
-                        safe(rsTopCitiesGlobal.getString("Name")) + " | " +
-                        safe(rsTopCitiesGlobal.getString("CountryName")) + " | " +
-                        safe(rsTopCitiesGlobal.getString("District")) + " | " +
-                        String.format("%,d", rsTopCitiesGlobal.getLong("Population"))
-                    );
+                    int id = rsTopCitiesGlobal.getInt("ID");
+                    String name = safe(rsTopCitiesGlobal.getString("Name"));
+                    String countryNameTop = safe(rsTopCitiesGlobal.getString("CountryName"));
+                    String districtTop = safe(rsTopCitiesGlobal.getString("District"));
+                    String pop = String.format("%,d", rsTopCitiesGlobal.getLong("Population"));
+
+                    System.out.println(topCityRank + " | " + id + " | " + name + " | " + countryNameTop + " | " + districtTop + " | " + pop);
+                    rowsTopCities.add(List.of(String.valueOf(topCityRank), String.valueOf(id), name, countryNameTop, districtTop, pop));
                     topCityRank++;
                 }
                 rsTopCitiesGlobal.close();
+                outputTable(headersTopCities, rowsTopCities, "Top N cities globally — User Story 3.6.md");
 
 //Top N cities by Region
         // The `city` table does not have a `Region` column. Join with `country` and filter by
@@ -452,17 +497,22 @@ public class Main {
         System.out.println("\nTop " + topN + " Cities by Population in " + regionName + "\n");
         System.out.println("Rank | ID | Name | CountryCode | District | Population");
         int cityRank = 1;
+        List<List<String>> rowsTopCitiesRegion = new ArrayList<>();
+        List<String> headersTopCitiesRegion = List.of("Rank", "ID", "Name", "CountryCode", "District", "Population");
         while (rsTopCity.next()) {
-        System.out.println( cityRank + " | " +
-            rsTopCity.getString("ID") + " | " +
-            rsTopCity.getString("Name") + " | " +
-            rsTopCity.getString("CountryCode") + " | " +
-            rsTopCity.getString("District") + " | " +
-            String.format("%,d", rsTopCity.getLong("Population"))
-        );
-        cityRank++; }
+            String id = safe(rsTopCity.getString("ID"));
+            String name = safe(rsTopCity.getString("Name"));
+            String cc = safe(rsTopCity.getString("CountryCode"));
+            String dist = safe(rsTopCity.getString("District"));
+            String pop = String.format("%,d", rsTopCity.getLong("Population"));
+
+            System.out.println(cityRank + " | " + id + " | " + name + " | " + cc + " | " + dist + " | " + pop);
+            rowsTopCitiesRegion.add(List.of(String.valueOf(cityRank), id, name, cc, dist, pop));
+            cityRank++;
+        }
 
         rsTopCity.close();
+        outputTable(headersTopCitiesRegion, rowsTopCitiesRegion, "TopCities_Region_" + regionName.replaceAll("\\s+", "_") + ".md");
 
 
                 // --- Top N Cities by Country (User Story 3.9) ---
@@ -478,18 +528,21 @@ public class Main {
                 System.out.println("\nTop " + topN + " Cities by Population in " + countryName + "\n");
                 System.out.println("Rank | ID | Name | Country | District | Population");
                 int cityRankC = 1;
+                List<List<String>> rowsTopCitiesCountry = new ArrayList<>();
+                List<String> headersTopCitiesCountry = List.of("Rank", "ID", "Name", "Country", "District", "Population");
                 while (rsTopCityCountry.next()) {
-                    System.out.println(
-                        cityRankC + " | " +
-                        rsTopCityCountry.getInt("ID") + " | " +
-                        safe(rsTopCityCountry.getString("Name")) + " | " +
-                        safe(rsTopCityCountry.getString("CountryName")) + " | " +
-                        safe(rsTopCityCountry.getString("District")) + " | " +
-                        String.format("%,d", rsTopCityCountry.getLong("Population"))
-                    );
+                    String id = String.valueOf(rsTopCityCountry.getInt("ID"));
+                    String name = safe(rsTopCityCountry.getString("Name"));
+                    String cname = safe(rsTopCityCountry.getString("CountryName"));
+                    String dist = safe(rsTopCityCountry.getString("District"));
+                    String pop = String.format("%,d", rsTopCityCountry.getLong("Population"));
+
+                    System.out.println(cityRankC + " | " + id + " | " + name + " | " + cname + " | " + dist + " | " + pop);
+                    rowsTopCitiesCountry.add(List.of(String.valueOf(cityRankC), id, name, cname, dist, pop));
                     cityRankC++;
                 }
                 rsTopCityCountry.close();
+                outputTable(headersTopCitiesCountry, rowsTopCitiesCountry, "Top N cities by country — User Story 3.9.md");
 
 
             // Close resources after all reports are generated

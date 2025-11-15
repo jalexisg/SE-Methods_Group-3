@@ -1,0 +1,9 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Lanzhou | CHN | 1,565,800 |
+| Tianshui | CHN | 244,974 |
+| Baiyin | CHN | 204,970 |
+| Wuwei | CHN | 133,101 |
+| Yumen | CHN | 109,234 |
+| Jinchang | CHN | 105,287 |
+| Pingliang | CHN | 99,265 |

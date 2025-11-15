@@ -1,0 +1,9 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Novokuznetsk | RUS | 561,600 |
+| Kemerovo | RUS | 492,700 |
+| Prokopjevsk | RUS | 237,300 |
+| Leninsk-Kuznetski | RUS | 113,800 |
+| Kiseljovsk | RUS | 110,000 |
+| Mezduretšensk | RUS | 104,400 |
+| Anzero-Sudzensk | RUS | 96,100 |

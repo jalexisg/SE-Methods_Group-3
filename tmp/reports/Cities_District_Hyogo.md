@@ -1,0 +1,13 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Kobe | JPN | 1,425,139 |
+| Amagasaki | JPN | 481,434 |
+| Himeji | JPN | 475,167 |
+| Nishinomiya | JPN | 397,618 |
+| Akashi | JPN | 292,253 |
+| Kakogawa | JPN | 266,281 |
+| Takarazuka | JPN | 205,993 |
+| Itami | JPN | 190,886 |
+| Kawanishi | JPN | 149,794 |
+| Sanda | JPN | 105,643 |
+| Takasago | JPN | 97,632 |

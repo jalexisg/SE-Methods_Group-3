@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Hamamatsu | JPN | 568,796 |
+| Shizuoka | JPN | 473,854 |
+| Shimizu | JPN | 239,123 |
+| Fuji | JPN | 231,527 |
+| Numazu | JPN | 211,382 |
+| Fujieda | JPN | 126,897 |
+| Fujinomiya | JPN | 119,714 |
+| Yaizu | JPN | 117,258 |
+| Mishima | JPN | 109,699 |

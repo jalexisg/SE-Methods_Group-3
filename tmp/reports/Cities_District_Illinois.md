@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Chicago | USA | 2,896,016 |
+| Rockford | USA | 150,115 |
+| Aurora | USA | 142,990 |
+| Naperville | USA | 128,358 |
+| Peoria | USA | 112,936 |
+| Springfield | USA | 111,454 |
+| Joliet | USA | 106,221 |
+| Elgin | USA | 89,408 |

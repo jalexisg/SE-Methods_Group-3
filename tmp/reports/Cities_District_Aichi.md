@@ -1,0 +1,17 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Nagoya | JPN | 2,154,376 |
+| Toyohashi | JPN | 360,066 |
+| Toyota | JPN | 346,090 |
+| Okazaki | JPN | 328,711 |
+| Kasugai | JPN | 282,348 |
+| Ichinomiya | JPN | 270,828 |
+| Anjo | JPN | 153,823 |
+| Komaki | JPN | 139,827 |
+| Seto | JPN | 130,470 |
+| Kariya | JPN | 127,969 |
+| Toyokawa | JPN | 115,781 |
+| Handa | JPN | 108,600 |
+| Tokai | JPN | 99,738 |
+| Inazawa | JPN | 98,746 |
+| Konan | JPN | 95,521 |

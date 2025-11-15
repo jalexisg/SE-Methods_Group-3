@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Hannover | DEU | 514,718 |
+| Braunschweig | DEU | 246,322 |
+| Osnabrück | DEU | 164,539 |
+| Oldenburg | DEU | 154,125 |
+| Göttingen | DEU | 124,775 |
+| Wolfsburg | DEU | 121,954 |
+| Salzgitter | DEU | 112,934 |
+| Hildesheim | DEU | 104,013 |

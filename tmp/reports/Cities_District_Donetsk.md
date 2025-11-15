@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Donetsk | UKR | 1,050,000 |
+| Mariupol | UKR | 490,000 |
+| Makijivka | UKR | 384,000 |
+| Gorlivka | UKR | 299,000 |
+| Kramatorsk | UKR | 186,000 |
+| Slovjansk | UKR | 127,000 |
+| Jenakijeve | UKR | 105,000 |
+| Kostjantynivka | UKR | 95,000 |

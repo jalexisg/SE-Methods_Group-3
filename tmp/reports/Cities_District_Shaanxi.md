@@ -1,0 +1,10 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Xi´an | CHN | 2,761,400 |
+| Xianyang | CHN | 352,125 |
+| Baoji | CHN | 337,765 |
+| Tongchuan | CHN | 280,657 |
+| Hanzhong | CHN | 169,930 |
+| Ankang | CHN | 142,170 |
+| Weinan | CHN | 140,169 |
+| Yan´an | CHN | 113,277 |

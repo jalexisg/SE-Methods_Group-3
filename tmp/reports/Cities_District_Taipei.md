@@ -1,0 +1,15 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Taipei | TWN | 2,641,312 |
+| Panchiao | TWN | 523,850 |
+| Chungho | TWN | 392,176 |
+| Sanchung | TWN | 380,084 |
+| Hsinchuang | TWN | 365,048 |
+| Hsintien | TWN | 263,603 |
+| Yungho | TWN | 227,700 |
+| Tucheng | TWN | 224,897 |
+| Luchou | TWN | 160,516 |
+| Hsichuh | TWN | 154,976 |
+| Shulin | TWN | 151,260 |
+| Tanshui | TWN | 111,882 |
+| Lungtan | TWN | 103,088 |

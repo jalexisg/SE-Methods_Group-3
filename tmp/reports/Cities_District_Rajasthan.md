@@ -1,0 +1,16 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Jaipur | IND | 1,458,483 |
+| Jodhpur | IND | 666,279 |
+| Kota | IND | 537,371 |
+| Bikaner | IND | 416,289 |
+| Ajmer | IND | 402,700 |
+| Udaipur | IND | 308,571 |
+| Alwar | IND | 205,086 |
+| Bhilwara | IND | 183,965 |
+| Ganganagar | IND | 161,482 |
+| Bharatpur | IND | 148,519 |
+| Sikar | IND | 148,272 |
+| Pali | IND | 136,842 |
+| Beawar | IND | 105,363 |
+| Tonk | IND | 100,079 |

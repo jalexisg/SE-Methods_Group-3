@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Ado-Ekiti | NGA | 359,400 |
+| Ikerre | NGA | 244,600 |
+| Ilawe-Ekiti | NGA | 184,500 |
+| Owo | NGA | 183,500 |
+| Ondo | NGA | 173,600 |
+| Akure | NGA | 162,300 |
+| Oka-Akoko | NGA | 142,900 |
+| Ikare | NGA | 140,800 |
+| Ise-Ekiti | NGA | 103,400 |

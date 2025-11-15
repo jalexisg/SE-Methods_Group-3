@@ -1,0 +1,11 @@
+| Name | CountryCode | Population |
+| --- | --- | --- |
+| Rajshahi | BGD | 294,056 |
+| Rangpur | BGD | 191,398 |
+| Nawabganj | BGD | 130,577 |
+| Dinajpur | BGD | 127,815 |
+| Bogra | BGD | 120,170 |
+| Pabna | BGD | 103,277 |
+| Naogaon | BGD | 101,266 |
+| Sirajganj | BGD | 99,669 |
+| Saidpur | BGD | 96,777 |
