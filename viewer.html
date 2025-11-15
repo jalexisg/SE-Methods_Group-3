@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Report Viewer</title>
+  <style>
+    body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:2rem}
+    pre{white-space:pre-wrap}
+    .content{max-width:900px}
+    .back{margin-bottom:1rem}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="content">
+    <div class="back"><a href="/">← Back to reports index</a></div>
+    <h1 id="title">Report</h1>
+    <div id="render"></div>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const file = params.get('file');
+    const render = document.getElementById('render');
+    const title = document.getElementById('title');
+    if (!file) {
+      render.innerHTML = '<p>No file specified. Use <code>?file=FILENAME.md</code>.</p>';
+    } else {
+      const decoded = decodeURIComponent(file);
+      title.textContent = decoded.replace(/\.md$/i, '');
+      fetch(encodeURI(file))
+        .then(r => {
+          if (!r.ok) throw new Error('Failed to load: ' + r.status);
+          return r.text();
+        })
+        .then(md => {
+          // Render markdown to HTML using marked
+          render.innerHTML = marked.parse(md);
+        })
+        .catch(err => {
+          render.innerHTML = '<pre>' + err.toString() + '</pre>';
+        });
+    }
+  </script>
+</body>
+</html>
