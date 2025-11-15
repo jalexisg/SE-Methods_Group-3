@@ -35,12 +35,23 @@ services:
       DB_NAME: world
       DB_USER: app
       DB_PASSWORD: apppass
+      # Provide the TEST_* environment variables that `Main` checks for test/runtime DB overrides
+      TEST_DB_URL: 'jdbc:mysql://database:3306/world?allowPublicKeyRetrieval=true&useSSL=false'
+      TEST_DB_USER: 'app'
+      TEST_DB_PASSWORD: 'apppass'
     # Adjust the command to how your jar accepts configuration;
     # here we pass the DB host via an environment variable.
     # Escape the $ so docker-compose does not interpolate it at compose-time; the shell
     # inside the container will expand $JAVA_OPTS at runtime. This prevents the
     # "variable is not set" warning on the client.
     command: ["sh", "-c", "java $$JAVA_OPTS -jar app.jar"]
+    # Mount host reports so files written by the app are visible to the nginx service.
+    volumes:
+      - ./reports:/app/reports
+      - ./tmp/reports:/tmp/reports
+    # Use root so the container can write to the host-mounted directory without extra UID mapping.
+    # You can remove this after verifying generation and fixing ownership (chown) on the host.
+    user: root
     networks:
       - population-network
 
