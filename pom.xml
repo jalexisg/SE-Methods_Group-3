@@ -92,6 +92,20 @@
                 </configuration>
             </plugin>
 
+            <!-- Disable default jar creation; assembly will produce the final fat JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <!-- skip building the default-jar -->
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Maven Assembly Plugin for creating fat JAR (no prefix) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
