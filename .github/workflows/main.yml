@@ -42,7 +42,7 @@ jobs:
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.m2
+          path: ~/.m2/repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
@@ -81,9 +81,9 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          # Wait up to 60s for MySQL to accept connections
+          # Wait up to 60s for MySQL to accept connections inside the container
           for i in {1..30}; do
-            if docker compose exec -T database mysqladmin ping -h "$$(hostname -i || echo 127.0.0.1)" --silent >/dev/null 2>&1; then
+            if docker compose exec -T database mysqladmin ping --silent >/dev/null 2>&1; then
               echo "MySQL is ready"
               break
             fi
@@ -225,7 +225,6 @@ jobs:
           # If still not found, create a placeholder to avoid deploy failure
           if [ ! -d ./reports ]; then
             echo "No reports directory found in any container. Creating placeholder reports/index.md"
-            mkdir -p reports
             mkdir -p reports
             printf "%s\n" "# Reports" "" "No reports were generated during this workflow run. Ensure the application writes Markdown files to /tmp/reports inside the running container before the DeployReports job runs." > reports/index.md
           else

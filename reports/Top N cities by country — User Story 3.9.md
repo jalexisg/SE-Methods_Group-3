@@ -1,12 +1,2 @@
 | Rank | ID | Name | Country | District | Population |
 | --- | --- | --- | --- | --- | --- |
-| 1 | 2928 | Warszawa | Poland | Mazowieckie | 1,615,369 |
-| 2 | 2929 | Lódz | Poland | Lodzkie | 800,110 |
-| 3 | 2930 | Kraków | Poland | Malopolskie | 738,150 |
-| 4 | 2931 | Wroclaw | Poland | Dolnoslaskie | 636,765 |
-| 5 | 2932 | Poznan | Poland | Wielkopolskie | 576,899 |
-| 6 | 2933 | Gdansk | Poland | Pomorskie | 458,988 |
-| 7 | 2934 | Szczecin | Poland | Zachodnio-Pomorskie | 416,988 |
-| 8 | 2935 | Bydgoszcz | Poland | Kujawsko-Pomorskie | 386,855 |
-| 9 | 2936 | Lublin | Poland | Lubelskie | 356,251 |
-| 10 | 2937 | Katowice | Poland | Slaskie | 345,934 |
