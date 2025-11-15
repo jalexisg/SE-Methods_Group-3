@@ -8,7 +8,11 @@ RUN mvn -q dependency:go-offline -B
 
 # Copy source and package (fat JAR -> target/app.jar)
 COPY src ./src
-RUN mvn -q clean package -DskipTests
+# Use mvn with -Dmaven.test.skip=true to skip compiling and running tests
+# `-DskipTests` skips execution but still compiles test sources; inside the
+# builder image we want to avoid compiling tests to prevent failures when
+# test-only dependencies are not available in the build environment.
+RUN mvn -q clean package -Dmaven.test.skip=true
 
 # ---- Stage 2: Runtime (JRE) ----
 FROM eclipse-temurin:17-jre-jammy

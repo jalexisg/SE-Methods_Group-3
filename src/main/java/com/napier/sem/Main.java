@@ -9,14 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.net.URLEncoder;
+import java.util.stream.Stream;
 
 public class Main {
     // Database connection parameters
@@ -545,6 +547,13 @@ public class Main {
                 outputTable(headersTopCitiesCountry, rowsTopCitiesCountry, "Top N cities by country — User Story 3.9.md");
 
 
+            // Regenerate the human-friendly index in `./reports` so the web UI shows current files
+            try {
+                regenerateReportsIndex();
+            } catch (IOException e) {
+                System.err.println("Failed to regenerate reports index: " + e.getMessage());
+            }
+
             // Close resources after all reports are generated
             stmt.close();
             con.close();
@@ -581,10 +590,17 @@ public class Main {
             System.err.println("Failed to create reports dir: " + e.getMessage());
         }
 
-        Path fileTmp = dirTmp.resolve(filename);
-        Path fileReports = dirReports.resolve(filename);
+        // Sanitize filename to avoid path separators or illegal filename characters
+        String safeFilename = filename.replaceAll("[\\\\/:*?\"<>|]", "_");
+        if (!safeFilename.equals(filename)) {
+            System.out.println("Sanitized filename: '" + filename + "' -> '" + safeFilename + "'");
+        }
+
+        Path fileTmp = dirTmp.resolve(safeFilename);
+        Path fileReports = dirReports.resolve(safeFilename);
 
         try {
+            Files.createDirectories(fileTmp.getParent());
             Files.write(fileTmp, content.getBytes(StandardCharsets.UTF_8));
             System.out.println("Wrote report: " + fileTmp.toString());
         } catch (IOException e) {
@@ -592,6 +608,7 @@ public class Main {
         }
 
         try {
+            Files.createDirectories(fileReports.getParent());
             Files.write(fileReports, content.getBytes(StandardCharsets.UTF_8));
             System.out.println("Wrote report: " + fileReports.toString());
         } catch (IOException e) {
@@ -626,6 +643,58 @@ public class Main {
             }
         }
         outputMarkdown(sb.toString(), filename);
+    }
+
+    /**
+     * Regenerate `reports/index.html` dynamically from the current .md files
+     * in the `./reports` directory. The index links each file into `viewer.html`.
+     */
+    public static void regenerateReportsIndex() throws IOException {
+        Path dirReports = Paths.get("./reports");
+        Files.createDirectories(dirReports);
+
+        List<Path> mdFiles;
+        try (Stream<Path> s = Files.walk(dirReports)) {
+            mdFiles = s.filter(p -> Files.isRegularFile(p) && p.getFileName().toString().toLowerCase().endsWith(".md"))
+                .sorted()
+                .collect(Collectors.toList());
+        }
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm");
+        String generated = LocalDateTime.now().format(fmt);
+
+        StringBuilder html = new StringBuilder();
+        html.append("<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>Population Information System — Reports</title>\n  <style>body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 2rem; } h1 { margin-bottom: .5rem } .list { margin-top: 1rem; } a { color: #0366d6; text-decoration: none; } a:hover { text-decoration: underline; } .meta { color: #666; font-size: .9rem }</style>\n</head>\n<body>\n  <h1>Population Information System — Reports</h1>\n  <p class=\"meta\">Last generated: ");
+        html.append(generated).append(".</p>\n  <div class=\"list\">\n    <ul>\n");
+
+        for (Path p : mdFiles) {
+            Path rel = dirReports.relativize(p);
+            // Build display name from relative path and remove .md for display
+            String display = rel.toString().replaceAll("\\.md$", "").replace(File.separatorChar, '/');
+
+            // Encode each path segment separately so '/' remains a separator in the URL
+            StringBuilder encoded = new StringBuilder();
+            for (int i = 0; i < rel.getNameCount(); i++) {
+                if (i > 0) encoded.append('/');
+                String seg = rel.getName(i).toString();
+                String encSeg = URLEncoder.encode(seg, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+                encoded.append(encSeg);
+            }
+
+            html.append("      <li><a href=\"viewer.html?file=").append(encoded.toString()).append("\">")
+                    .append(escapeHtml(display)).append("</a></li>\n");
+        }
+
+        html.append("    </ul>\n  </div>\n</body>\n</html>\n");
+
+        Path indexFile = dirReports.resolve("index.html");
+        Files.write(indexFile, html.toString().getBytes(StandardCharsets.UTF_8));
+        System.out.println("Regenerated reports index: " + indexFile.toString());
+    }
+
+    private static String escapeHtml(String s) {
+        if (s == null) return "";
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
 
 }
