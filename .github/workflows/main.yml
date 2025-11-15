@@ -198,9 +198,41 @@ jobs:
 
       - name: Copy Output
         run: |
-          # Attempt to copy reports folder from a running container
-          # Replace the container name below with your app service container if different
-          docker container cp devops_employees_app_1:./tmp/reports ./reports || true
+          echo "Listing running containers for debug:";
+          docker ps --format 'table {{.Names}}	{{.Image}}'
+
+          # Try common container name first
+          set -e
+          COPIED=0
+          CANDIDATES=(devops_employees_app_1 app population app_1)
+          for c in "${CANDIDATES[@]}"; do
+            if docker ps --format '{{.Names}}' | grep -xq "$c"; then
+              echo "Attempting to copy /tmp/reports from container: $c"
+              docker container cp "$c":/tmp/reports ./reports || true
+              if [ -d ./reports ]; then COPIED=1; break; fi
+            fi
+          done
+
+          # If not found, iterate over all containers and try to copy from each
+          if [ $COPIED -eq 0 ]; then
+            for name in $(docker ps --format '{{.Names}}'); do
+              echo "Trying container: $name"
+              docker container cp "$name":/tmp/reports ./reports 2>/dev/null || true
+              if [ -d ./reports ]; then COPIED=1; break; fi
+            done
+          fi
+
+          # If still not found, create a placeholder to avoid deploy failure
+          if [ ! -d ./reports ]; then
+            echo "No reports directory found in any container. Creating placeholder reports/index.md"
+            mkdir -p reports
+            mkdir -p reports
+            printf "%s\n" "# Reports" "" "No reports were generated during this workflow run. Ensure the application writes Markdown files to /tmp/reports inside the running container before the DeployReports job runs." > reports/index.md
+          else
+            echo "Reports copied into ./reports/"
+            ls -la reports || true
+          fi
+          set +e
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
