@@ -1,0 +1,54 @@
+name: 🚀 Development Task / Feature Request
+description: Use this template for general development tasks, feature requests, or minor improvements.
+title: "[Task]: "
+labels: ["enhancement", "triage"]
+assignees: [] # Leave blank to allow manual assignment
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Task/Feature Details
+        Please be as clear and detailed as possible in your request.
+  
+  - type: textarea
+    id: goal
+    attributes:
+      label: 🎯 Goal and Motivation
+      description: What is the primary goal you are trying to achieve? Why is this task needed?
+      placeholder: Describe the goal and the business/user value it provides.
+    validations:
+      required: true
+  
+  - type: textarea
+    id: detailed-description
+    attributes:
+      label: 📝 Detailed Description of Changes
+      description: Provide clear steps or specifications for the required changes or feature.
+      placeholder: Include acceptance criteria, mockups, or technical details if applicable.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 🚨 Priority Level
+      description: How critical is this task?
+      options:
+        - Low
+        - Medium (Default)
+        - High
+        - Critical (Requires immediate attention)
+      default: 1
+    validations:
+      required: true
+  
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched the existing issues to avoid duplicates.
+          required: true
+        - label: I have reviewed the project documentation/specifications related to this task.
+          required: true
