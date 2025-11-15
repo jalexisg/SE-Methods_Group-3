@@ -187,3 +187,23 @@ jobs:
           automatic_release_tag: 'latest'
           files: |
             ./target/*.jar
+
+  DeployReports:
+    name: Copy and Publish Reports
+    runs-on: ubuntu-22.04
+    needs: CreateRelease
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy Output
+        run: |
+          # Attempt to copy reports folder from a running container
+          # Replace the container name below with your app service container if different
+          docker container cp devops_employees_app_1:./tmp/reports ./reports || true
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: reports # The branch the action should deploy to.
+          folder: reports # The folder we are copying

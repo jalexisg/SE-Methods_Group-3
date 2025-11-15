@@ -7,6 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     // Database connection parameters
@@ -491,5 +501,51 @@ public class Main {
         }
     }
 
-    
+    /**
+     * Write raw Markdown content to a file under `./tmp/reports/`.
+     * If the directory does not exist it will be created.
+     * @param content markdown content
+     * @param filename file name (e.g. "GlobalCities.md")
+     */
+    public static void outputMarkdown(String content, String filename) {
+        if (content == null || filename == null || filename.isEmpty()) return;
+        try {
+            Path dir = Paths.get("./tmp/reports");
+            Files.createDirectories(dir);
+            Path file = dir.resolve(filename);
+            Files.write(file, content.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Wrote report: " + file.toString());
+        } catch (IOException e) {
+            System.err.println("Failed to write report " + filename + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Helper to output a simple Markdown table from headers and rows.
+     * @param headers column headers
+     * @param rows list of rows, each row is a list of cell strings
+     * @param filename output filename under `./tmp/reports/`
+     */
+    public static void outputTable(List<String> headers, List<List<String>> rows, String filename) {
+        if (headers == null || filename == null) return;
+        StringBuilder sb = new StringBuilder();
+        // header
+        sb.append("| ");
+        sb.append(String.join(" | ", headers));
+        sb.append(" |\n");
+        // separator
+        sb.append("| ");
+        sb.append(headers.stream().map(h -> "---").collect(Collectors.joining(" | ")));
+        sb.append(" |\n");
+        if (rows != null) {
+            for (List<String> row : rows) {
+                if (row == null) continue;
+                sb.append("| ");
+                sb.append(row.stream().map(s -> s == null ? "" : s).collect(Collectors.joining(" | ")));
+                sb.append(" |\n");
+            }
+        }
+        outputMarkdown(sb.toString(), filename);
+    }
+
 }
