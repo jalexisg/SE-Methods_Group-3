@@ -502,29 +502,56 @@ public class Main {
     }
 
     /**
-     * Write raw Markdown content to a file under `./tmp/reports/`.
-     * If the directory does not exist it will be created.
+     * Write raw Markdown content to files under `./tmp/reports/` and `./reports/`.
+     * Both directories will be created if they do not exist. Writing to both
+     * locations keeps compatibility with the previous container-based flow
+     * (which used `/tmp/reports`) while ensuring the repository `./reports/`
+     * directory contains the generated reports for CI and manual inspection.
      * @param content markdown content
      * @param filename file name (e.g. "GlobalCities.md")
      */
     public static void outputMarkdown(String content, String filename) {
         if (content == null || filename == null || filename.isEmpty()) return;
+
+        Path dirTmp = Paths.get("./tmp/reports");
+        Path dirReports = Paths.get("./reports");
+
         try {
-            Path dir = Paths.get("./tmp/reports");
-            Files.createDirectories(dir);
-            Path file = dir.resolve(filename);
-            Files.write(file, content.getBytes(StandardCharsets.UTF_8));
-            System.out.println("Wrote report: " + file.toString());
+            Files.createDirectories(dirTmp);
         } catch (IOException e) {
-            System.err.println("Failed to write report " + filename + ": " + e.getMessage());
+            System.err.println("Failed to create tmp reports dir: " + e.getMessage());
+        }
+
+        try {
+            Files.createDirectories(dirReports);
+        } catch (IOException e) {
+            System.err.println("Failed to create reports dir: " + e.getMessage());
+        }
+
+        Path fileTmp = dirTmp.resolve(filename);
+        Path fileReports = dirReports.resolve(filename);
+
+        try {
+            Files.write(fileTmp, content.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Wrote report: " + fileTmp.toString());
+        } catch (IOException e) {
+            System.err.println("Failed to write report to " + fileTmp + ": " + e.getMessage());
+        }
+
+        try {
+            Files.write(fileReports, content.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Wrote report: " + fileReports.toString());
+        } catch (IOException e) {
+            System.err.println("Failed to write report to " + fileReports + ": " + e.getMessage());
         }
     }
 
     /**
      * Helper to output a simple Markdown table from headers and rows.
+     * This writes the resulting `.md` into `./reports/` and `./tmp/reports/`.
      * @param headers column headers
      * @param rows list of rows, each row is a list of cell strings
-     * @param filename output filename under `./tmp/reports/`
+     * @param filename output filename (e.g. "TopCities.md")
      */
     public static void outputTable(List<String> headers, List<List<String>> rows, String filename) {
         if (headers == null || filename == null) return;
