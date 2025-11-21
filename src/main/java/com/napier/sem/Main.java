@@ -260,23 +260,27 @@ public class Main {
             }
             rsTop.close();
 
-//Top N cities by Region
-            String sqlTopCity = "SELECT ID, Name, CountryCode, District, Population FROM city WHERE Region='" + regionName + "' ORDER BY Population DESC LIMIT " + topN;
+
+
+            //Top N cities by Region
+            String sqlTopCity = "SELECT ID, city.Name, city.CountryCode, city.District, city.Population FROM city " +
+                    "JOIN country ON city.countryCode = country.Code " +
+                    "WHERE country.Region='" + regionName +
+                    "' ORDER BY city.Population DESC LIMIT " + topN;
             ResultSet rsTopCity = stmt.executeQuery(sqlTopCity);
-            System.out.println("\nTop N Cities by Population by Region\n");
             System.out.println("\nTop " + topN + " Cities by Population in " + regionName + "\n");
             System.out.println("ID | Name | CountryCode | District | Population");
             int cityRank = 1;
             while (rsTopCity.next()) {
                 System.out.println( cityRank + " | " +
-                        rsTopRegion.getString("ID") + " | " +
-                        rsTopRegion.getString("Name") + " | " +
-                        rsTopRegion.getString("CountryCode") + " | " +
-                        rsTopRegion.getString("District") + " | " +
-                        String.format("%,d", rsTopRegion.getLong("Population")
-                        )
+                        rsTopCity.getString("ID") + " | " +
+                        rsTopCity.getString("Name") + " | " +
+                        rsTopCity.getString("CountryCode") + " | " +
+                        rsTopCity.getString("District") + " | " +
+                        String.format("%,d", rsTopCity.getLong("Population"))
                 );
-                cityRank++; }
+                cityRank++;
+            }
 
             rsTopCity.close();
 
