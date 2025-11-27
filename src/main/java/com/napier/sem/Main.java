@@ -568,6 +568,39 @@ public class Main {
 
 
             // Regenerate the human-friendly index in `./reports` so the web UI shows current files
+                // --- World Population Query (User Story 6.1) ---
+                // Compute world totals: total population, population in cities, population not in cities, and percent in cities.
+                String sqlWorldTotal = "SELECT SUM(Population) AS total FROM country";
+                ResultSet rsWorldTotal = stmt.executeQuery(sqlWorldTotal);
+                long worldTotal = 0L;
+                if (rsWorldTotal.next()) {
+                    worldTotal = rsWorldTotal.getLong("total");
+                }
+                rsWorldTotal.close();
+
+                String sqlWorldCityPop = "SELECT SUM(Population) AS citypop FROM city";
+                ResultSet rsWorldCityPop = stmt.executeQuery(sqlWorldCityPop);
+                long worldCityPop = 0L;
+                if (rsWorldCityPop.next()) {
+                    worldCityPop = rsWorldCityPop.getLong("citypop");
+                }
+                rsWorldCityPop.close();
+
+                long worldNotInCities = worldTotal - worldCityPop;
+                double pctWorldInCities = worldTotal > 0 ? (worldCityPop * 100.0d) / worldTotal : 0.0d;
+
+                String worldTotalFmt = String.format("%,d", worldTotal);
+                String worldCityFmt = String.format("%,d", worldCityPop);
+                String worldNotFmt = String.format("%,d", worldNotInCities);
+                String worldPctFmt = String.format("%.2f%%", pctWorldInCities);
+
+                System.out.println("\nWorld Population Summary — Total: " + worldTotalFmt + ", In cities: " + worldCityFmt + ", Not in cities: " + worldNotFmt + ", % in cities: " + worldPctFmt);
+
+                List<List<String>> rowsWorldPop = new ArrayList<>();
+                List<String> headersWorldPop = List.of("Scope", "Total Population", "Population in Cities", "Population not in Cities", "% in Cities");
+                rowsWorldPop.add(List.of("World", worldTotalFmt, worldCityFmt, worldNotFmt, worldPctFmt));
+                outputTable(headersWorldPop, rowsWorldPop, "World population report — User Story 6.1.md");
+
                 // --- Continental Population Query (User Story 6.2) ---
                 // For each continent, compute total population, population in cities, population not in cities, and percent in cities.
                 List<List<String>> rowsContinentalPop = new ArrayList<>();
