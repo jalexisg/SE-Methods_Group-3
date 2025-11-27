@@ -23,3 +23,9 @@ release.properties
 
 # Ignore VSCode workspace files (keep local only)
 .vscode/
+
+# Generated reports (avoid noisy git status)
+tmp/reports/
+
+# macOS
+.DS_Store

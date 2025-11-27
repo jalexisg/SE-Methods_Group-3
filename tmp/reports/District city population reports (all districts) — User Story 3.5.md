@@ -1,2 +1,0 @@
-| District | Name | CountryCode | Population |
-| --- | --- | --- | --- |
