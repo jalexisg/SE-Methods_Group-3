@@ -29,3 +29,6 @@ tmp/reports/
 
 # macOS
 .DS_Store
+
+# Do not track the generated reports index (it is regenerated at runtime)
+/reports/index.html
