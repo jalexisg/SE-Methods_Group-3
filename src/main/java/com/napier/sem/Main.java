@@ -566,6 +566,36 @@ public class Main {
                 rsTopCapitals.close();
                 outputTable(headersTopCapitals, rowsTopCapitals, "Top N capital cities globally — User Story 4.4.md");
 
+// --- Population Breakdown by Country (User Story 5.3) ---
+// Show population breakdown by country (total, urban, rural) for urbanization analysis.
+            String sqlPopulationBreakdown = "SELECT country.Code, country.Name AS Country, country.Population AS TotalPopulation, "
+                    + "SUM(city.Population) AS UrbanPopulation, "
+                    + "(country.Population - SUM(city.Population)) AS RuralPopulation "
+                    + "FROM country LEFT JOIN city ON country.Code = city.CountryCode "
+                    + "WHERE country.Population > 0 "
+                    + "GROUP BY country.Code, country.Name, country.Population "
+                    + "ORDER BY country.Population DESC";
+            ResultSet rsPopulationBreakdown = stmt.executeQuery(sqlPopulationBreakdown);
+            System.out.println("\nPopulation Breakdown by Country (Total, Urban, Rural)\n");
+            System.out.println("Code | Country | Total Population | Urban Population | Rural Population");
+            List<List<String>> rowsPopulationBreakdown = new ArrayList<>();
+            List<String> headersPopulationBreakdown = List.of("Code", "Country", "Total Population", "Urban Population", "Rural Population");
+            while (rsPopulationBreakdown.next()) {
+                String code = safe(rsPopulationBreakdown.getString("Code"));
+                String countryName2 = safe(rsPopulationBreakdown.getString("Country"));
+                String totalPop = String.format("%,d", rsPopulationBreakdown.getLong("TotalPopulation"));
+                long urbanPop = rsPopulationBreakdown.getLong("UrbanPopulation");
+                long ruralPop = rsPopulationBreakdown.getLong("RuralPopulation");
+                String urbanPopStr = urbanPop > 0 ? String.format("%,d", urbanPop) : "0";
+                String ruralPopStr = ruralPop > 0 ? String.format("%,d", ruralPop) : "0";
+
+                System.out.println(code + " | " + countryName2 + " | " + totalPop + " | " + urbanPopStr + " | " + ruralPopStr);
+                rowsPopulationBreakdown.add(List.of(code, countryName2, totalPop, urbanPopStr, ruralPopStr));
+            }
+            rsPopulationBreakdown.close();
+            outputTable(headersPopulationBreakdown, rowsPopulationBreakdown, "Population breakdown by country — User Story 5.3.md");
+
+
 
             // Regenerate the human-friendly index in `./reports` so the web UI shows current files
                 // --- World Population Query (User Story 6.1) ---
