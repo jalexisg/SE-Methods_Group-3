@@ -540,6 +540,32 @@ public class Main {
                 rsCapital.close();
                 outputTable(headersCapital, rowsCapitalCities, "Global capital cities — User Story 4.1.md");
 
+                // --- Top N Capital Cities Globally (User Story 4.4) ---
+                // Show the top N most populated capital cities in the world.
+                String sqlTopCapitals = "SELECT city.ID, city.Name AS Capital, country.Name AS Country, city.District, city.Population "
+                        + "FROM country JOIN city ON country.Capital = city.ID "
+                        + "WHERE country.Capital IS NOT NULL AND country.Capital <> 0 "
+                        + "ORDER BY city.Population DESC LIMIT " + topN;
+                ResultSet rsTopCapitals = stmt.executeQuery(sqlTopCapitals);
+                System.out.println("\nTop " + topN + " Capital Cities by Population (Global)\n");
+                System.out.println("Rank | ID | Capital | Country | District | Population");
+                int capRank = 1;
+                List<List<String>> rowsTopCapitals = new ArrayList<>();
+                List<String> headersTopCapitals = List.of("Rank", "ID", "Capital", "Country", "District", "Population");
+                while (rsTopCapitals.next()) {
+                    int id = rsTopCapitals.getInt("ID");
+                    String capName = safe(rsTopCapitals.getString("Capital"));
+                    String countryNameCap = safe(rsTopCapitals.getString("Country"));
+                    String districtCap = safe(rsTopCapitals.getString("District"));
+                    String pop = String.format("%,d", rsTopCapitals.getLong("Population"));
+
+                    System.out.println(capRank + " | " + id + " | " + capName + " | " + countryNameCap + " | " + districtCap + " | " + pop);
+                    rowsTopCapitals.add(List.of(String.valueOf(capRank), String.valueOf(id), capName, countryNameCap, districtCap, pop));
+                    capRank++;
+                }
+                rsTopCapitals.close();
+                outputTable(headersTopCapitals, rowsTopCapitals, "Top N capital cities globally — User Story 4.4.md");
+
 
             // Regenerate the human-friendly index in `./reports` so the web UI shows current files
             try {
