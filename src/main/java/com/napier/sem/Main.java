@@ -568,6 +568,39 @@ public class Main {
 
 
             // Regenerate the human-friendly index in `./reports` so the web UI shows current files
+                // --- Continental Population Query (User Story 6.2) ---
+                // For each continent, compute total population, population in cities, population not in cities, and percent in cities.
+                List<List<String>> rowsContinentalPop = new ArrayList<>();
+                List<String> headersContinentalPop = List.of("Continent", "Total Population", "Population in Cities", "Population not in Cities", "% in Cities");
+                for (String contName : getContinents()) {
+                    String sqlTotal = "SELECT SUM(Population) AS total FROM country WHERE Continent='" + contName.replace("'", "''") + "'";
+                    ResultSet rsTotal = stmt.executeQuery(sqlTotal);
+                    long totalPop = 0L;
+                    if (rsTotal.next()) {
+                        totalPop = rsTotal.getLong("total");
+                    }
+                    rsTotal.close();
+
+                    String sqlCityPop = "SELECT SUM(city.Population) AS citypop FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent='" + contName.replace("'", "''") + "'";
+                    ResultSet rsCityPop = stmt.executeQuery(sqlCityPop);
+                    long popInCities = 0L;
+                    if (rsCityPop.next()) {
+                        popInCities = rsCityPop.getLong("citypop");
+                    }
+                    rsCityPop.close();
+
+                    long popNotInCities = totalPop - popInCities;
+                    double pctInCities = totalPop > 0 ? (popInCities * 100.0d) / totalPop : 0.0d;
+
+                    String totalFmt = String.format("%,d", totalPop);
+                    String cityFmt = String.format("%,d", popInCities);
+                    String notCityFmt = String.format("%,d", popNotInCities);
+                    String pctFmt = String.format("%.2f%%", pctInCities);
+
+                    System.out.println("\nContinent: " + contName + " — Total: " + totalFmt + ", In cities: " + cityFmt + ", Not in cities: " + notCityFmt + ", % in cities: " + pctFmt);
+                    rowsContinentalPop.add(List.of(contName, totalFmt, cityFmt, notCityFmt, pctFmt));
+                }
+                outputTable(headersContinentalPop, rowsContinentalPop, "Continental population report — User Story 6.2.md");
             try {
                 regenerateReportsIndex();
             } catch (IOException e) {
