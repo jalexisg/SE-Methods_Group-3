@@ -310,10 +310,7 @@ public class Main {
             rsTopDistrict.close();
             outputTable(headersTopDistrict, rowsTopDistrict, "Top N cities by district — User Story 3.10.md");
 
-
-            
-
-
+         
             // Top N query (global)
             String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTop = stmt.executeQuery(sqlTop);
@@ -367,35 +364,6 @@ public class Main {
                 rowsCitiesByContinent.add(List.of(String.valueOf(rank2), city, country, cont, pop));
                 rank2++;
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             rsCities.close();
@@ -545,6 +513,32 @@ public class Main {
                 }
                 rsTopCityCountry.close();
                 outputTable(headersTopCitiesCountry, rowsTopCitiesCountry, "Top N cities by country — User Story 3.9.md");
+
+                // --- Global Capital Cities Report (User Story 4.1) ---
+                // List all capital cities (country.Capital -> city.ID) ordered by city population
+                String sqlCapitalCities = "SELECT city.ID, city.Name AS Capital, country.Name AS Country, city.District, city.Population "
+                        + "FROM country JOIN city ON country.Capital = city.ID "
+                        + "WHERE country.Capital IS NOT NULL AND country.Capital <> 0 "
+                        + "ORDER BY city.Population DESC";
+                ResultSet rsCapital = stmt.executeQuery(sqlCapitalCities);
+                System.out.println();
+                System.out.println("Global Capital Cities Report");
+                System.out.println();
+                System.out.println("ID | Capital | Country | District | Population");
+                List<List<String>> rowsCapitalCities = new ArrayList<>();
+                List<String> headersCapital = List.of("ID", "Capital", "Country", "District", "Population");
+                while (rsCapital.next()) {
+                    int id = rsCapital.getInt("ID");
+                    String capName = safe(rsCapital.getString("Capital"));
+                    String countryNameCap = safe(rsCapital.getString("Country"));
+                    String districtCap = safe(rsCapital.getString("District"));
+                    String pop = String.format("%,d", rsCapital.getLong("Population"));
+
+                    System.out.println(id + " | " + capName + " | " + countryNameCap + " | " + districtCap + " | " + pop);
+                    rowsCapitalCities.add(List.of(String.valueOf(id), capName, countryNameCap, districtCap, pop));
+                }
+                rsCapital.close();
+                outputTable(headersCapital, rowsCapitalCities, "Global capital cities — User Story 4.1.md");
 
 
             // Regenerate the human-friendly index in `./reports` so the web UI shows current files
