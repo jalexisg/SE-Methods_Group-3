@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class Main {
     // Database connection parameters
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String DB_URL = "jdbc:mysql://localhost:33061/world?allowPublicKeyRetrieval=true&useSSL=false"; //found the reason why i couldnt connect to database, database was using port 33061!
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "example";
 
@@ -539,6 +539,37 @@ public class Main {
                 }
                 rsCapital.close();
                 outputTable(headersCapital, rowsCapitalCities, "Global capital cities — User Story 4.1.md");
+
+            //Capitals in specific regions ranked by population (User story 4.3)
+            String regionName2 = "Western Europe"; // Hardcoded for now; could be parameterized
+            String sqlTopCityRegion2 = "SELECT city.ID, city.Name, country.Region AS RegionName2, city.District, city.Population "
+                    + "FROM city JOIN country ON city.CountryCode = country.Code "
+                    + "WHERE country.Region='" + regionName2.replace("'", "''") + "' "
+                    + "ORDER BY city.Population DESC LIMIT " + topN;
+
+            ResultSet rsTopCityRegion2 = stmt.executeQuery(sqlTopCityRegion2);
+            System.out.println("\nTop N Cities by Population by Region\n");
+            System.out.println("\nTop " + topN + " Cities by Population in " + regionName2 + "\n");
+            System.out.println("Rank | ID | Name | Region | District | Population");
+
+            int cityRankR2 = 1;
+            List<List<String>> rowsTopCitiesRegion2 = new ArrayList<>();
+            List<String> headersTopCitiesRegion2 = List.of("Rank", "ID", "Name", "Region", "District", "Population");
+
+            while (rsTopCityRegion2.next()) {
+                String id = String.valueOf(rsTopCityRegion2.getInt("ID"));
+                String name = safe(rsTopCityRegion2.getString("Name"));
+                String rname2 = safe(rsTopCityRegion2.getString("RegionName2"));
+                String dist = safe(rsTopCityRegion2.getString("District"));
+                String pop = String.format("%,d", rsTopCityRegion2.getLong("Population"));
+
+                System.out.println(cityRankR2 + " | " + id + " | " + name + " | " + rname2 + " | " + dist + " | " + pop);
+                rowsTopCitiesRegion2.add(List.of(String.valueOf(cityRankR2), id, name, rname2, dist, pop));
+                cityRankR2++;
+            }
+
+            rsTopCityRegion2.close();
+            outputTable(headersTopCitiesRegion2, rowsTopCitiesRegion2, "Top N cities by region — User Story 4.3.md");
 
                 // --- Top N Capital Cities Globally (User Story 4.4) ---
                 // Show the top N most populated capital cities in the world.
