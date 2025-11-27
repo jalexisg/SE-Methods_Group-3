@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class Main {
     // Database connection parameters
-    private static final String DB_URL = "jdbc:mysql://localhost:33061/world?allowPublicKeyRetrieval=true&useSSL=false"; //found the reason why i couldnt connect to database, database was using port 33061!
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "example";
 
