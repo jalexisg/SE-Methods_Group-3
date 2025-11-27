@@ -32,3 +32,6 @@ tmp/reports/
 
 # Do not track the generated reports index (it is regenerated at runtime)
 /reports/index.html
+
+# Do not track generated Markdown reports
+/reports/*.md
