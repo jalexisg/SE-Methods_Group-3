@@ -695,26 +695,28 @@ public class Main {
                 capitalRank++;
             }
 
-            // User input
-            String countryNameInput = "Canada"; // replace with your input
+            // Population of a specific region
+            // The `country` table has a `Region` column
+            String sqlRegionPop = "SELECT SUM(population) AS total_population "
+                    + "FROM country "
+                    + "WHERE Region='" + regionName.replace("'", "''") + "'";
+            ResultSet rsRegionPop = stmt.executeQuery(sqlRegionPop);
 
-            // Construct SQL safely
-            String sqlCountryPopulation = "SELECT Code, Name AS CountryName, Population " +
-                    "FROM country " +
-                    "WHERE Name = '" + countryNameInput.replace("'", "''") + "'";
+            System.out.println("\nPopulation by Region\n");
+            System.out.println("Region | Total Population");
 
-            ResultSet rsCountryPopulation = stmt.executeQuery(sqlCountryPopulation);
+            List<List<String>> rowsRegionPop = new ArrayList<>();
+            List<String> headersRegionPop = List.of("Region", "Total Population");
 
-            System.out.println("\nCountry Population\n");
-            System.out.println("Code | Country | Population");
-
-            while (rsCountryPopulation.next()) {
-                String code = safe(rsCountryPopulation.getString("Code")); // Country code
-                String countriesName = safe(rsCountryPopulation.getString("CountryName")); // Country name
-                String population = String.format("%,d", rsCountryPopulation.getInt("Population")); // format with commas
-
-                System.out.println(code + " | " + countryName + " | " + population);
+            if (rsRegionPop.next()) {
+                long totalPop = rsRegionPop.getLong("total_population");
+                System.out.println(regionName + " | " + String.format("%,d", totalPop));
+                rowsRegionPop.add(List.of(regionName, String.format("%,d", totalPop)));
             }
+
+            rsRegionPop.close();
+            outputTable(headersRegionPop, rowsRegionPop, "Population_Region_" + regionName.replaceAll("\\s+", "_") + ".md");
+
 
 
 
