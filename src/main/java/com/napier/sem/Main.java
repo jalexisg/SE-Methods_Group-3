@@ -695,42 +695,46 @@ public class Main {
                 capitalRank++;
             }
 
-            String sqlRegionBreakdown =
-                    "SELECT Region, " +
-                            "SUM(Population_Total) AS TotalPopulation, " +
-                            "SUM(Population_Urban) AS UrbanPopulation, " +
-                            "SUM(Population_Rural) AS RuralPopulation " +
-                            "FROM population " +
-                            "WHERE Region = '" + regionName.replace("'", "''") + "' " +
-                            "GROUP BY Region";
+            String sqlPopByRegion =
+                    "SELECT country.Region, " +
+                            "SUM(country.Population) AS TotalPopulation, " +
+                            "COUNT(*) AS CountryCount, " +
+                            "AVG(country.Population) AS AvgPopulation " +
+                            "FROM country " +
+                            "WHERE country.Region = '" + regionName.replace("'", "''") + "' " +
+                            "GROUP BY country.Region " +
+                            "ORDER BY TotalPopulation DESC;";
 
-            ResultSet rsRegionBreakdown = stmt.executeQuery(sqlRegionBreakdown);
+            ResultSet rsPopByRegion = stmt.executeQuery(sqlPopByRegion);
 
-            System.out.println("\nPopulation Breakdown by Region\n");
-            System.out.println("Region | Total Population | Urban Population | Rural Population");
+            System.out.println("\nPopulation Breakdown for Region: " + regionName + "\n");
+            System.out.println("Region | Total Population | Country Count | Avg Population");
 
-            List<List<String>> rowsRegionBreakdown = new ArrayList<>();
-            List<String> headersRegionBreakdown = List.of(
-                    "Region", "Total Population", "Urban Population", "Rural Population"
+            List<List<String>> rowsPopByRegion = new ArrayList<>();
+            List<String> headersPopByRegion = List.of(
+                    "Region", "Total Population", "Country Count", "Avg Population"
             );
 
-            while (rsRegionBreakdown.next()) {
-                String region = safe(rsRegionBreakdown.getString("Region"));
-                String total = String.format("%,d", rsRegionBreakdown.getLong("TotalPopulation"));
-                String urban = String.format("%,d", rsRegionBreakdown.getLong("UrbanPopulation"));
-                String rural = String.format("%,d", rsRegionBreakdown.getLong("RuralPopulation"));
+            while (rsPopByRegion.next()) {
+                String region = safe(rsPopByRegion.getString("Region"));
+                long total = rsPopByRegion.getLong("TotalPopulation");
+                int count = rsPopByRegion.getInt("CountryCount");
+                double avg = rsPopByRegion.getDouble("AvgPopulation");
 
-                System.out.println(region + " | " + total + " | " + urban + " | " + rural);
+                System.out.println(
+                        region + " | " +
+                                String.format("%,d", total) + " | " +
+                                count + " | " +
+                                String.format("%,.0f", avg)
+                );
 
-                rowsRegionBreakdown.add(List.of(region, total, urban, rural));
+                rowsPopByRegion.add(List.of(
+                        region,
+                        String.format("%,d", total),
+                        String.valueOf(count),
+                        String.format("%,.0f", avg)
+                ));
             }
-
-            rsRegionBreakdown.close();
-            outputTable(
-                    headersRegionBreakdown,
-                    rowsRegionBreakdown,
-                    "PopulationBreakdown_Region_" + regionName.replaceAll("\\s+", "_") + ".md"
-            );
 
 
 
