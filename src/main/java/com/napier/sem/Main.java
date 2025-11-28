@@ -695,42 +695,35 @@ public class Main {
                 capitalRank++;
             }
 
-            String sqlRegionBreakdown =
-                    "SELECT Region, " +
-                            "SUM(Population_Total) AS TotalPopulation, " +
-                            "SUM(Population_Urban) AS UrbanPopulation, " +
-                            "SUM(Population_Rural) AS RuralPopulation " +
-                            "FROM population " +
-                            "WHERE Region = '" + regionName.replace("'", "''") + "' " +
-                            "GROUP BY Region";
+            String sqlTopCapitalCitiesContinent =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, " +
+                            "country.Continent, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Capital = city.ID " +
+                            "AND country.Continent = '" + continentName.replace("'", "''") + "' " +
+                            "ORDER BY city.Population DESC LIMIT " + topN;
 
-            ResultSet rsRegionBreakdown = stmt.executeQuery(sqlRegionBreakdown);
+            ResultSet rsTopCapitalCitiesContinent = stmt.executeQuery(sqlTopCapitalCitiesContinent);
 
-            System.out.println("\nPopulation Breakdown by Region\n");
-            System.out.println("Region | Total Population | Urban Population | Rural Population");
+            System.out.println("\nTop " + topN + " Populated Capital Cities in " + continentName + "\n");
+            System.out.println("Rank | ID | City | Country | Continent | Population");
 
-            List<List<String>> rowsRegionBreakdown = new ArrayList<>();
-            List<String> headersRegionBreakdown = List.of(
-                    "Region", "Total Population", "Urban Population", "Rural Population"
-            );
+            int capitalsRank = 1;
+            List<List<String>> rowsTopCapitalCitiesContinent = new ArrayList<>();
+            List<String> headersTopCapitalCitiesContinent = List.of("Rank", "ID", "City", "Country", "Continent", "Population");
 
-            while (rsRegionBreakdown.next()) {
-                String region = safe(rsRegionBreakdown.getString("Region"));
-                String total = String.format("%,d", rsRegionBreakdown.getLong("TotalPopulation"));
-                String urban = String.format("%,d", rsRegionBreakdown.getLong("UrbanPopulation"));
-                String rural = String.format("%,d", rsRegionBreakdown.getLong("RuralPopulation"));
+            while (rsTopCapitalCitiesContinent.next()) {
+                String id = String.valueOf(rsTopCapitalCitiesContinent.getInt("ID"));
+                String cityName = safe(rsTopCapitalCitiesContinent.getString("CityName"));
+                String countriesNames = safe(rsTopCapitalCitiesContinent.getString("CountryName"));
+                String continent = safe(rsTopCapitalCitiesContinent.getString("Continent"));
+                String pop = String.format("%,d", rsTopCapitalCitiesContinent.getLong("Population"));
 
-                System.out.println(region + " | " + total + " | " + urban + " | " + rural);
-
-                rowsRegionBreakdown.add(List.of(region, total, urban, rural));
+                System.out.println(capitalsRank + " | " + id + " | " + cityName + " | " + countryName + " | " + continent + " | " + pop);
+                rowsTopCapitalCitiesContinent.add(List.of(String.valueOf(capitalsRank), id, cityName, countryName, continent, pop));
+                capitalsRank++;
             }
-
-            rsRegionBreakdown.close();
-            outputTable(
-                    headersRegionBreakdown,
-                    rowsRegionBreakdown,
-                    "PopulationBreakdown_Region_" + regionName.replaceAll("\\s+", "_") + ".md"
-            );
 
 
 
