@@ -310,7 +310,7 @@ public class Main {
             rsTopDistrict.close();
             outputTable(headersTopDistrict, rowsTopDistrict, "Top N cities by district — User Story 3.10.md");
 
-         
+
             // Top N query (global)
             String sqlTop = "SELECT Code, Name, Continent, Region, Population, Capital FROM country ORDER BY Population DESC LIMIT " + topN;
             ResultSet rsTop = stmt.executeQuery(sqlTop);
@@ -695,46 +695,44 @@ public class Main {
                 capitalRank++;
             }
 
-            //User Story 3.4
+            String sqlRegionBreakdown =
+                    "SELECT Region, " +
+                            "SUM(Population_Total) AS TotalPopulation, " +
+                            "SUM(Population_Urban) AS UrbanPopulation, " +
+                            "SUM(Population_Rural) AS RuralPopulation " +
+                            "FROM population " +
+                            "WHERE Region = '" + regionName.replace("'", "''") + "' " +
+                            "GROUP BY Region";
 
-            String sqlRankCitiesInCountry =
-                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, "
-                            + "country.Code AS CountryCode, city.Population "
-                            + "FROM city "
-                            + "JOIN country ON city.CountryCode = country.Code "
-                            + "WHERE country.Name = '" + countryName.replace("'", "''") + "' "
-                            + "ORDER BY city.Population DESC";
+            ResultSet rsRegionBreakdown = stmt.executeQuery(sqlRegionBreakdown);
 
-            ResultSet rsRankCitiesInCountry = stmt.executeQuery(sqlRankCitiesInCountry);
+            System.out.println("\nPopulation Breakdown by Region\n");
+            System.out.println("Region | Total Population | Urban Population | Rural Population");
 
-            System.out.println("\nCities Ranked by Population Within a Country\n");
-            System.out.println("Country: " + countryName + "\n");
-            System.out.println("Rank | ID | City | Country | Population");
+            List<List<String>> rowsRegionBreakdown = new ArrayList<>();
+            List<String> headersRegionBreakdown = List.of(
+                    "Region", "Total Population", "Urban Population", "Rural Population"
+            );
 
-            int cityRanks = 1;
+            while (rsRegionBreakdown.next()) {
+                String region = safe(rsRegionBreakdown.getString("Region"));
+                String total = String.format("%,d", rsRegionBreakdown.getLong("TotalPopulation"));
+                String urban = String.format("%,d", rsRegionBreakdown.getLong("UrbanPopulation"));
+                String rural = String.format("%,d", rsRegionBreakdown.getLong("RuralPopulation"));
 
-            List<List<String>> rowsRankCitiesInCountry = new ArrayList<>();
-            List<String> headersRankCitiesInCountry = List.of("Rank", "ID", "City", "Country", "Population");
+                System.out.println(region + " | " + total + " | " + urban + " | " + rural);
 
-            while (rsRankCitiesInCountry.next()) {
-                String id = String.valueOf(rsRankCitiesInCountry.getInt("ID"));
-                String cityName = safe(rsRankCitiesInCountry.getString("CityName"));
-                String acountryName = safe(rsRankCitiesInCountry.getString("CountryName"));
-                String pop = String.format("%,d", rsRankCitiesInCountry.getLong("Population"));
-
-                System.out.println(cityRanks + " | " + id + " | " + cityName + " | "
-                        + acountryName + " | " + pop);
-
-                rowsRankCitiesInCountry.add(List.of(
-                        String.valueOf(cityRanks),
-                        id,
-                        cityName,
-                        acountryName,
-                        pop
-                ));
-
-                cityRanks++;
+                rowsRegionBreakdown.add(List.of(region, total, urban, rural));
             }
+
+            rsRegionBreakdown.close();
+            outputTable(
+                    headersRegionBreakdown,
+                    rowsRegionBreakdown,
+                    "PopulationBreakdown_Region_" + regionName.replaceAll("\\s+", "_") + ".md"
+            );
+
+
 
 
             try {
