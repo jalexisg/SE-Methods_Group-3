@@ -455,6 +455,37 @@ public class Main {
                 rsTopCitiesGlobal.close();
                 outputTable(headersTopCities, rowsTopCities, "Top N cities globally — User Story 3.6.md");
 
+                //Userstory 3.3
+
+            String sqlCitiesByRegion =
+                    "SELECT city.ID, city.Name, country.Name AS CountryName, country.Region, " +
+                            "city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Region = '" + regionName.replace("'", "''") + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT " + topN + ";";
+
+            ResultSet rsCitiesByRegion = stmt.executeQuery(sqlCitiesByRegion);
+
+            System.out.println("\nTop " + topN + " Cities by Population in Region: " + regionName + "\n");
+            System.out.println("Rank | ID | City | Country | District | Population");
+
+            int crrank = 1;
+            List<List<String>> rowsCitiesByRegion = new ArrayList<>();
+            List<String> headersCitiesByRegion = List.of("Rank", "ID", "City", "Country", "District", "Population");
+
+            while (rsCitiesByRegion.next()) {
+                String id = String.valueOf(rsCitiesByRegion.getInt("ID"));
+                String cityName = safe(rsCitiesByRegion.getString("Name"));
+                String countryNames = safe(rsCitiesByRegion.getString("CountryName"));
+                String district = safe(rsCitiesByRegion.getString("District"));
+                String population = String.format("%,d", rsCitiesByRegion.getLong("Population"));
+
+                System.out.println(crrank + " | " + id + " | " + cityName + " | " + countryNames + " | " + district + " | " + population);
+                rowsCitiesByRegion.add(List.of(String.valueOf(crrank), id, cityName, countryNames, district, population));
+                crrank++;
+            }
 //Top N cities by Region
         // The `city` table does not have a `Region` column. Join with `country` and filter by
         // `country.Region` instead.
@@ -597,6 +628,36 @@ public class Main {
                 rsTopCapitals.close();
                 outputTable(headersTopCapitals, rowsTopCapitals, "Top N capital cities globally — User Story 4.4.md");
 
+                //Userstory 4.6
+            String sqlTopCapitalCitiesRegion =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, "
+                            + "country.Region, city.Population "
+                            + "FROM city "
+                            + "JOIN country ON city.CountryCode = country.Code "
+                            + "WHERE country.Capital = city.ID "
+                            + "AND country.Region = '" + regionName.replace("'", "''") + "' "
+                            + "ORDER BY city.Population DESC LIMIT " + topN;
+
+            ResultSet rsTopCapitalCitiesRegion = stmt.executeQuery(sqlTopCapitalCitiesRegion);
+            System.out.println("\nTop N Populated Capital Cities in a Region\n");
+            System.out.println("\nTop " + topN + " Capital Cities by Population in " + regionName + "\n");
+            System.out.println("Rank | ID | City | Country | Region | Population");
+
+            int capitalRank = 1;
+            List<List<String>> rowsTopCapitalCitiesRegion = new ArrayList<>();
+            List<String> headersTopCapitalCitiesRegion = List.of("Rank", "ID", "City", "Country", "Region", "Population");
+
+            while (rsTopCapitalCitiesRegion.next()) {
+                String id = String.valueOf(rsTopCapitalCitiesRegion.getInt("ID"));
+                String cityName = safe(rsTopCapitalCitiesRegion.getString("CityName"));
+                String acountryName = safe(rsTopCapitalCitiesRegion.getString("CountryName"));
+                String region = safe(rsTopCapitalCitiesRegion.getString("Region"));
+                String pop = String.format("%,d", rsTopCapitalCitiesRegion.getLong("Population"));
+
+                System.out.println(capitalRank + " | " + id + " | " + cityName + " | " + acountryName + " | " + region + " | " + pop);
+                rowsTopCapitalCitiesRegion.add(List.of(String.valueOf(capitalRank), id, cityName, acountryName, region, pop));
+                capitalRank++;
+            }
 // --- Population Breakdown by Country (User Story 5.3) ---
 // Show population breakdown by country (total, urban, rural) for urbanization analysis.
             String sqlPopulationBreakdown = "SELECT country.Code, country.Name AS Country, country.Population AS TotalPopulation, "
