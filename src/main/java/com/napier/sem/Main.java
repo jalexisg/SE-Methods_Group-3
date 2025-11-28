@@ -634,6 +634,109 @@ public class Main {
                     rowsContinentalPop.add(List.of(contName, totalFmt, cityFmt, notCityFmt, pctFmt));
                 }
                 outputTable(headersContinentalPop, rowsContinentalPop, "Continental population report — User Story 6.2.md");
+
+            String sqlCitiesByRegion =
+                    "SELECT city.ID, city.Name, country.Name AS CountryName, country.Region, " +
+                            "city.District, city.Population " +
+                            "FROM city " +
+                            "JOIN country ON city.CountryCode = country.Code " +
+                            "WHERE country.Region = '" + regionName.replace("'", "''") + "' " +
+                            "ORDER BY city.Population DESC " +
+                            "LIMIT " + topN + ";";
+
+            ResultSet rsCitiesByRegion = stmt.executeQuery(sqlCitiesByRegion);
+
+            System.out.println("\nTop " + topN + " Cities by Population in Region: " + regionName + "\n");
+            System.out.println("Rank | ID | City | Country | District | Population");
+
+            int crrank = 1;
+            List<List<String>> rowsCitiesByRegion = new ArrayList<>();
+            List<String> headersCitiesByRegion = List.of("Rank", "ID", "City", "Country", "District", "Population");
+
+            while (rsCitiesByRegion.next()) {
+                String id = String.valueOf(rsCitiesByRegion.getInt("ID"));
+                String cityName = safe(rsCitiesByRegion.getString("Name"));
+                String countryNames = safe(rsCitiesByRegion.getString("CountryName"));
+                String district = safe(rsCitiesByRegion.getString("District"));
+                String population = String.format("%,d", rsCitiesByRegion.getLong("Population"));
+
+                System.out.println(crrank + " | " + id + " | " + cityName + " | " + countryNames + " | " + district + " | " + population);
+                rowsCitiesByRegion.add(List.of(String.valueOf(crrank), id, cityName, countryNames, district, population));
+                crrank++;
+            }
+
+            String sqlTopCapitalCitiesRegion =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, "
+                            + "country.Region, city.Population "
+                            + "FROM city "
+                            + "JOIN country ON city.CountryCode = country.Code "
+                            + "WHERE country.Capital = city.ID "
+                            + "AND country.Region = '" + regionName.replace("'", "''") + "' "
+                            + "ORDER BY city.Population DESC LIMIT " + topN;
+
+            ResultSet rsTopCapitalCitiesRegion = stmt.executeQuery(sqlTopCapitalCitiesRegion);
+            System.out.println("\nTop N Populated Capital Cities in a Region\n");
+            System.out.println("\nTop " + topN + " Capital Cities by Population in " + regionName + "\n");
+            System.out.println("Rank | ID | City | Country | Region | Population");
+
+            int capitalRank = 1;
+            List<List<String>> rowsTopCapitalCitiesRegion = new ArrayList<>();
+            List<String> headersTopCapitalCitiesRegion = List.of("Rank", "ID", "City", "Country", "Region", "Population");
+
+            while (rsTopCapitalCitiesRegion.next()) {
+                String id = String.valueOf(rsTopCapitalCitiesRegion.getInt("ID"));
+                String cityName = safe(rsTopCapitalCitiesRegion.getString("CityName"));
+                String acountryName = safe(rsTopCapitalCitiesRegion.getString("CountryName"));
+                String region = safe(rsTopCapitalCitiesRegion.getString("Region"));
+                String pop = String.format("%,d", rsTopCapitalCitiesRegion.getLong("Population"));
+
+                System.out.println(capitalRank + " | " + id + " | " + cityName + " | " + acountryName + " | " + region + " | " + pop);
+                rowsTopCapitalCitiesRegion.add(List.of(String.valueOf(capitalRank), id, cityName, acountryName, region, pop));
+                capitalRank++;
+            }
+
+            //User Story 3.4
+
+            String sqlRankCitiesInCountry =
+                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, "
+                            + "country.Code AS CountryCode, city.Population "
+                            + "FROM city "
+                            + "JOIN country ON city.CountryCode = country.Code "
+                            + "WHERE country.Name = '" + countryName.replace("'", "''") + "' "
+                            + "ORDER BY city.Population DESC";
+
+            ResultSet rsRankCitiesInCountry = stmt.executeQuery(sqlRankCitiesInCountry);
+
+            System.out.println("\nCities Ranked by Population Within a Country\n");
+            System.out.println("Country: " + countryName + "\n");
+            System.out.println("Rank | ID | City | Country | Population");
+
+            int cityRanks = 1;
+
+            List<List<String>> rowsRankCitiesInCountry = new ArrayList<>();
+            List<String> headersRankCitiesInCountry = List.of("Rank", "ID", "City", "Country", "Population");
+
+            while (rsRankCitiesInCountry.next()) {
+                String id = String.valueOf(rsRankCitiesInCountry.getInt("ID"));
+                String cityName = safe(rsRankCitiesInCountry.getString("CityName"));
+                String acountryName = safe(rsRankCitiesInCountry.getString("CountryName"));
+                String pop = String.format("%,d", rsRankCitiesInCountry.getLong("Population"));
+
+                System.out.println(cityRanks + " | " + id + " | " + cityName + " | "
+                        + acountryName + " | " + pop);
+
+                rowsRankCitiesInCountry.add(List.of(
+                        String.valueOf(cityRanks),
+                        id,
+                        cityName,
+                        acountryName,
+                        pop
+                ));
+
+                cityRanks++;
+            }
+
+
             try {
                 regenerateReportsIndex();
             } catch (IOException e) {
@@ -647,6 +750,7 @@ public class Main {
             // Handle and report any SQL/database errors
             System.out.println("Error connecting or querying the database: " + e.getMessage());
         }
+
     }
 
     /**
