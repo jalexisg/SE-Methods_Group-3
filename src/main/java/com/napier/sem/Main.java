@@ -695,34 +695,25 @@ public class Main {
                 capitalRank++;
             }
 
-            String sqlTopCapitalCitiesContinent =
-                    "SELECT city.ID, city.Name AS CityName, country.Name AS CountryName, " +
-                            "country.Continent, city.Population " +
-                            "FROM city " +
-                            "JOIN country ON city.CountryCode = country.Code " +
-                            "WHERE country.Capital = city.ID " +
-                            "AND country.Continent = '" + continentName.replace("'", "''") + "' " +
-                            "ORDER BY city.Population DESC LIMIT " + topN;
+            // User input
+            String countryNameInput = "Canada"; // replace with your input
 
-            ResultSet rsTopCapitalCitiesContinent = stmt.executeQuery(sqlTopCapitalCitiesContinent);
+            // Construct SQL safely
+            String sqlCountryPopulation = "SELECT Code, Name AS CountryName, Population " +
+                    "FROM country " +
+                    "WHERE Name = '" + countryNameInput.replace("'", "''") + "'";
 
-            System.out.println("\nTop " + topN + " Populated Capital Cities in " + continentName + "\n");
-            System.out.println("Rank | ID | City | Country | Continent | Population");
+            ResultSet rsCountryPopulation = stmt.executeQuery(sqlCountryPopulation);
 
-            int capitalsRank = 1;
-            List<List<String>> rowsTopCapitalCitiesContinent = new ArrayList<>();
-            List<String> headersTopCapitalCitiesContinent = List.of("Rank", "ID", "City", "Country", "Continent", "Population");
+            System.out.println("\nCountry Population\n");
+            System.out.println("Code | Country | Population");
 
-            while (rsTopCapitalCitiesContinent.next()) {
-                String id = String.valueOf(rsTopCapitalCitiesContinent.getInt("ID"));
-                String cityName = safe(rsTopCapitalCitiesContinent.getString("CityName"));
-                String countriesNames = safe(rsTopCapitalCitiesContinent.getString("CountryName"));
-                String continent = safe(rsTopCapitalCitiesContinent.getString("Continent"));
-                String pop = String.format("%,d", rsTopCapitalCitiesContinent.getLong("Population"));
+            while (rsCountryPopulation.next()) {
+                String code = safe(rsCountryPopulation.getString("Code")); // Country code
+                String countriesName = safe(rsCountryPopulation.getString("CountryName")); // Country name
+                String population = String.format("%,d", rsCountryPopulation.getInt("Population")); // format with commas
 
-                System.out.println(capitalsRank + " | " + id + " | " + cityName + " | " + countryName + " | " + continent + " | " + pop);
-                rowsTopCapitalCitiesContinent.add(List.of(String.valueOf(capitalsRank), id, cityName, countryName, continent, pop));
-                capitalsRank++;
+                System.out.println(code + " | " + countryName + " | " + population);
             }
 
 
